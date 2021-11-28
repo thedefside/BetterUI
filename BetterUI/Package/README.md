@@ -3,6 +3,8 @@
 This mod updates the game UI with few subtle edits.  
 You are able to edit and select what updates you want to use. 
 
+# Support
+Join our Discord! https://discord.gg/vSEjCNF48K
 
 ## Version 2.0.0 Information
 Config file revamped, you might need to remove old config as many values have changed.
