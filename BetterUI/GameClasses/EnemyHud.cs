@@ -54,7 +54,7 @@ namespace BetterUI.GameClasses
         hudData = new EnemyHud.HudData();
         hudData.m_character = c;
         hudData.m_ai = c.GetComponent<BaseAI>();
-        hudData.m_gui = UnityEngine.Object.Instantiate<GameObject>(original, __instance.m_hudRoot.transform);
+        hudData.m_gui = Object.Instantiate<GameObject>(original, __instance.m_hudRoot.transform);
         hudData.m_gui.SetActive(true);
         hudData.m_healthFast = hudData.m_gui.transform.Find("Health/health_fast").GetComponent<GuiBar>();
         hudData.m_healthSlow = hudData.m_gui.transform.Find("Health/health_slow").GetComponent<GuiBar>();

@@ -1,14 +1,8 @@
 
-# BetterUI for Valheim
-![HotBar](https://i.nyah.moe/R6KUG.png)  
+# BetterUI: Reforged for Valheim
 This mod updates the game UI with few subtle edits.  
 You are able to edit and select what updates you want to use. 
 
-[![Version](https://img.shields.io/endpoint?color=success&label=Version&style=flat-square&url=https%3A%2F%2Fvalheim-modtracker.vercel.app%2Fnexusmods%2F189%2Fversion)](https://github.com/matias-kovero/BetterUI)
-
-Feel free to check my other mod as well [First-Person Mod](https://valheim.thunderstore.io/package/Masa/FirstPerson/)  
-
-[![](https://i.nyah.moe/Rb5tv.png)](https://zap-hosting.com/BetterUI)
 
 ## Version 2.0.0 Information
 Config file revamped, you might need to remove old config as many values have changed.
@@ -45,15 +39,15 @@ If you are installing this manually, do the following _(You will need Bepinex in
 
 ## FAQ
 __Can I hide the Yellow XP Bar at the bottom of the screen?__  
-Yes you can. Check config for _showCharacterXP_ and set it to __false__  
+Yes you can. Check config for _showCharacterXPBar_ and set it to __false__  
 
-__Why are the star icons not showing on enemies anymore?__  
-This mod defaults for an prefix: _Lv.1 Boar_  
+~~Why are the star icons not showing on enemies anymore?~~  
+~~This mod defaults for an prefix: _Lv.1 Boar_~~ 
 
 If you want the stars back, edit _enemyLvlStyle_ in the config.  
 0 = stars  
-1 = prefix  
-2 = stars & prefix  
+~~1 = prefix~~     
+~~2 = stars & prefix~~
 
 __How to turn off a specific hover text edit?__  
 You want to set the specific hover text option to 0.  
@@ -67,6 +61,12 @@ __How to edit UI__
 `Mouse Scroll` | Edit scale  
 
 ## Changelog
+#### 2.0.3
+ - Fix cooking stations not working (nandryshak)
+ - Fix enemy health bars (nandryshak)
+ - Fix food bar timer being stuck at default value (phtnk)
+ - Add config option to hide _just_ the XP bar on the bottom of the screen
+ - Add XP level progress % to Skills dialog window
 #### 2.0.2
 - Fixed issues with QuickSlots disappearing
 - Custom elements now use game default rotations.

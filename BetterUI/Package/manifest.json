@@ -1,9 +1,9 @@
 {
-  "name": "BetterUI",
-  "description": "Adds minor edits to the UI.",
-  "version_number": "2.0.2",
+  "name": "BetterUI_Reforged",
+  "description": "Masa's BetterUI mod updated with bug fixes and new features",
+  "version_number": "2.0.3",
   "website_url": "",
   "dependencies": [
-    "denikson-BepInExPack_Valheim-5.4.800"
+    "denikson-BepInExPack_Valheim-5.4.1601"
   ]
 }
