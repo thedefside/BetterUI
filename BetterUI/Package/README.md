@@ -63,6 +63,9 @@ __How to edit UI__
 `Mouse Scroll` | Edit scale  
 
 ## Changelog
+#### 2.0.4
+ - Fix Hover text on oven (you must point to the outer shell of the oven to see it)
+ - Update most custom HUD settings to default to disabled
 #### 2.0.3
  - Fix cooking stations not working (nandryshak)
  - Fix enemy health bars (nandryshak)

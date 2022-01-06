@@ -16,7 +16,7 @@ namespace BetterUI
           MODNAME = "BetterUI",
           AUTHOR = "MK",
           GUID = AUTHOR + "_" + MODNAME,
-          VERSION = "2.0.3";
+          VERSION = "2.0.4";
 
         internal static ManualLogSource log;
         internal readonly Harmony harmony;
@@ -87,7 +87,7 @@ namespace BetterUI
              */
             useCustomHud = Config.Bind("Settings",
               nameof(useCustomHud),
-              true,
+              false,
               "Toggle whether to use custom huds or not."
             );
 
@@ -159,8 +159,8 @@ namespace BetterUI
 
             customSkillUI = Config.Bind("Settings",
               nameof(customSkillUI),
-              true,
-              "Toggle the use of custom skills UI"
+              false,
+              "Toggle the use of custom skills UI (BROKEN)"
             );
 
             showCustomCharInfo = Config.Bind("Settings",
@@ -211,7 +211,7 @@ namespace BetterUI
 
             enemyLvlStyle = Config.Bind("UI Edits",
               nameof(enemyLvlStyle),
-              1,
+              0,
               "Choose how enemy lvl is shown. 0 = Default(stars) | 1 = Prefix before name (Lv. 1) | 2 = Both"
             );
 
@@ -247,7 +247,7 @@ namespace BetterUI
 
             foodBarRotation = Config.Bind("UI Edits",
               nameof(foodBarRotation),
-              0,
+              90,
               "Rotate foodbar in degrees"
             );
 
@@ -286,17 +286,17 @@ namespace BetterUI
              */
             useCustomHealthBar = Config.Bind("CustomElements",
               nameof(useCustomHealthBar),
-              true,
+              false,
               "Select if you want to use an custom HP Bar."
             );
             useCustomStaminaBar = Config.Bind("CustomElements",
               nameof(useCustomStaminaBar),
-              true,
+              false,
               "Select if you want to use an custom Stamina Bar."
             );
             useCustomFoodBar = Config.Bind("CustomElements",
               nameof(useCustomFoodBar),
-              true,
+              false,
               "Select if you want to use an custom Food Bar."
             );
 

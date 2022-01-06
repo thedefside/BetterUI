@@ -87,7 +87,7 @@ namespace BetterUI.Patches
 
     public static bool PatchCookingStation(CookingStation cookingStation, ref string hoverText)
     {
-      if (cookingStation.m_nview.IsOwner() && cookingStation.IsFireLit())
+      if (cookingStation.m_nview.IsOwner())
       {
         string cookingItems = "";
         int items = 0;
