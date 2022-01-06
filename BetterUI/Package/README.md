@@ -15,8 +15,9 @@ Defaults:
 `F7` to toggle editing mode  
 `Mouse Left` to drag elements  
 `Mouse Right` to toggle editing layer  
-`Left Ctrl` to allow scale editing  
-`Mouse Scroll` edit scale  
+`Left Ctrl` (hold key + click left and hold + use mouse scroll at the same time) to allow y-axis-scale editing
+`Right Ctrl` (hold key + click left and hold + use mouse scroll at the same time) to allow both-axis-scale (x- and y-axis) editing
+`Mouse Scroll` edit scale (you will need to click left mouse on the item and hold this while scrolling)
   
 
 ## Table of Contents
