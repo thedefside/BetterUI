@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-
-  <PropertyGroup>
-    <GameDir>C:\Program Files (x86)\Steam\steamapps\common\Valheim</GameDir>
-  </PropertyGroup>
+  <Choose>
+    <When Condition="($(OS) == 'Unix' OR $(OS) == 'OSX') AND $(GameDir) == ''">
+      <PropertyGroup>
+        <GameDir Condition="!Exists('$(GameDir)')">$(HOME)/.steam/steam/steamapps/common/Valheim</GameDir>
+        <GameDir Condition="!Exists('$(GameDir)')">$(HOME)/Library/Application Support/Steam/steamapps/common/Valheim/Contents/MacOS</GameDir>
+      </PropertyGroup>
+    </When>
+    <When Condition="($(OS) == 'Windows_NT') AND $(GameDir) == ''">
+      <PropertyGroup>
+        <GameDir Condition="!Exists('$(GameDir)')">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam App 892970', 'InstallLocation', null, RegistryView.Registry64, RegistryView.Registry32))</GameDir>
+        <_SteamLibraryPath>$([MSBuild]::GetRegistryValueFromView('HKEY_CURRENT_USER\SOFTWARE\Valve\Steam', 'SteamPath', null, RegistryView.Registry32))</_SteamLibraryPath>
+        <GameDir Condition="!Exists('$(GameDir)') AND '$(_SteamLibraryPath)' != ''">$(_SteamLibraryPath)\steamapps\common\Valheim</GameDir>
+        <GameDir Condition="!Exists('$(GameDir)')">C:\Program Files\Steam\steamapps\common\Valheim</GameDir>
+        <GameDir Condition="!Exists('$(GameDir)')">C:\Program Files (x86)\Steam\steamapps\common\Valheim</GameDir>
+      </PropertyGroup>
+    </When>
+  </Choose>
 </Project>

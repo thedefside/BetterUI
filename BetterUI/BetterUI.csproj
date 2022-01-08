@@ -364,7 +364,7 @@
     <Folder Include="Package\plugins\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>xcopy "$(TargetDir)" "$(GameDir)\Bepinex\plugins\$(ProjectName)\" /q /s /y /i</PostBuildEvent>
-  </PropertyGroup>
+  <Target Name="Copy" AfterTargets="Build">
+    <Exec Command="copy /Y &quot;$(TargetDir)$(AssemblyName).dll&quot; &quot;$(GameDir)\BepInEx\plugins\$(AssemblyName).dll&quot;" />
+  </Target>
 </Project>
