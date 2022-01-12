@@ -16,7 +16,7 @@ namespace BetterUI
           MODNAME = "BetterUI",
           AUTHOR = "MK",
           GUID = AUTHOR + "_" + MODNAME,
-          VERSION = "2.0.4";
+          VERSION = "2.0.5";
 
         internal static ManualLogSource log;
         internal readonly Harmony harmony;
@@ -130,8 +130,10 @@ namespace BetterUI
             showCharacterXpBar = Config.Bind("Settings",
               nameof(showCharacterXpBar),
               true,
-              "Show Character XP Bar on the ottom of the screen."
+              "Show Character XP Bar on the bottom of the screen."
             );
+
+            showCharacterXpBar.Value = showCharacterXP.Value && showCharacterXpBar.Value;
 
             showItemStars = Config.Bind("Settings",
         nameof(showItemStars),

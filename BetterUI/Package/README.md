@@ -41,22 +41,27 @@ If you are installing this manually, do the following _(You will need Bepinex in
 ![EnemyHud](https://i.nyah.moe/RwNht.png)
 
 ## FAQ
+__How can I see the Epic Loot info when I hover over an item in my iventory?__
+In the config file, set `showCustomTooltips = false`
+
+__When I use the config manager to change the config values, nothing happens. Why not?__
+The config values are not loaded in real time. You must quit the game and restart to see the changes.
+
 __Can I hide the Yellow XP Bar at the bottom of the screen?__  
-Yes you can. Check config for _showCharacterXPBar_ and set it to __false__  
+Yes you can. Check config for `showCharacterXPBar` and set it to `false`  
 
-~~Why are the star icons not showing on enemies anymore?~~  
-~~This mod defaults for an prefix: _Lv.1 Boar_~~ 
-
+__Why are the star icons not showing on enemies anymore?__
 If you want the stars back, edit _enemyLvlStyle_ in the config.  
 0 = stars  
-~~1 = prefix~~     
-~~2 = stars & prefix~~
+1 = prefix (NOT WORKING FOR SOME PEOPLE)
+2 = stars & prefix
 
 __How to turn off a specific hover text edit?__  
 You want to set the specific hover text option to 0.  
 Example: _timeLeftStyleFermenter = 0_
 
 __How to edit UI__  
+Press `ESC` to unlock cursor
 `F7` | Toggle editing mode  
 `Mouse Left` | Drag elements  
 `Mouse Right` | Toggle editing layer  
@@ -64,6 +69,8 @@ __How to edit UI__
 `Mouse Scroll` | Edit scale  
 
 ## Changelog
+#### 2.0.5
+ - Fixed an issue where Player couldn't jump after turning Character XP off and XP bar on (thanks to Varek!)
 #### 2.0.4
  - Fix Hover text on oven (you must point to the outer shell of the oven to see it)
  - Update most custom HUD settings to default to disabled

@@ -24,7 +24,8 @@ namespace BetterUI.GameClasses
         [HarmonyPatch(typeof(Hud), "Awake")]
         private static void Awake(ref Hud __instance)
         {
-            if (Main.showCharacterXP.Value && Main.showCharacterXpBar.Value && _bar == null) _bar = XPBar.Awake(__instance);
+            
+            if (Main.showCharacterXpBar.Value && _bar == null) _bar = XPBar.Awake(__instance);
 
             if (useCustomHud)
             {
