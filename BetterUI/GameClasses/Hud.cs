@@ -18,7 +18,7 @@ namespace BetterUI.GameClasses
         private static bool isEditing = false;
         private static int activeLayer = 0;
 
-        private static readonly bool useCustomHud = Main.useCustomHud.Value;
+        private static readonly bool useCustomHud = Main.enablePlayerHudEditing.Value;
 
         [HarmonyPostfix]
         [HarmonyPatch(typeof(Hud), "Awake")]
@@ -56,7 +56,7 @@ namespace BetterUI.GameClasses
 
             if (!useCustomHud || localPlayer == null) return;
 
-            if (Input.GetKeyDown(Main.toggleEditMode.Value))
+            if (Input.GetKeyDown(Main.togglePlayerHudEditModeKey.Value))
             {
                 isEditing = !isEditing;
                 CustomHud.ShowTemplates(isEditing, activeLayer);

@@ -11,14 +11,14 @@ namespace BetterUI.Patches
 {
   static class DurabilityBar
   {
-    private static Color[] normal = new Color[]
+    private static readonly Color[] normal = new Color[]
     {
       new Color(0.11765f, 0.72941f, 0.03529f, 1f), // Green
       new Color(0.72941f, 0.72941f, 0.03529f, 1f), // Yellow
       new Color(0.72941f, 0.34902f, 0.03529f, 1f), // Orange
       new Color(0.72941f, 0.03529f, 0.03529f, 1f)  // Red
     };
-    private static Color[] protanopia = new Color[]
+    private static readonly Color[] protanopia = new Color[]
     {
       new Color(1f, 1f, 1f, 1f), // Green -> White
       new Color(0.878f, 1f, 0f, 1f), // Yellow -> Light Yellow
@@ -26,13 +26,13 @@ namespace BetterUI.Patches
       new Color(0.11f, 0.435f, 0.973f, 1f)  // Red -> Blue
     };
 
-    private static Array[] colorArray = new Array[]
+    private static readonly Array[] colorArray = new Array[]
     {
       normal,
       protanopia
     };
 
-    private static Color[] activeColor = colorArray[Main.colorMode.Value] as Color[];
+    private static readonly Color[] activeColor = colorArray[Main.durabilityColorPalette.Value] as Color[];
 
     public static void UpdateColor(InventoryGrid.Element element, float durability)
     {

@@ -22,7 +22,7 @@ namespace BetterUI.Patches
       }
 
       string str = Localization.instance.Localize(notif_str);
-      MessageHud.instance.ShowMessage(MessageHud.MessageType.TopLeft, $"<size={Main.notificationTextSize.Value}>{str}</size>");
+      MessageHud.instance.ShowMessage(MessageHud.MessageType.TopLeft, $"<size={Main.notificationTextSizeXP.Value}>{str}</size>");
     }
   }
 

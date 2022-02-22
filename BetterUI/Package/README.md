@@ -6,25 +6,29 @@ You are able to edit and select what updates you want to use.
 # Support
 Join our Discord! https://discord.gg/vSEjCNF48K
 
-## Version 2.0.0 Information
+## Version 2.1.0 Information
+[![Youtube Preview](https://img.youtube.com/vi/XxKUcteBNHo/0.jpg)](https://youtu.be/XxKUcteBNHo)
+
 Config file revamped, you might need to remove old config as many values have changed.
 
-Small showcase on editing UI: https://imgur.com/a/w6bRkWs 
+ - Re-organized the config file. Renamed some options and updated the descriptions.
+ - Add config setting to enable writing debug messages to the bepinex log
+ - Enemy HUD changes:
+	- Add config option to show other player's current and max health numbers in multiplayer
+	- Add config options to adjust the font size of Enemy, Boss, and Player health
+	- Add config option to change the health bar color for tamed creatures from red to green
+	- Add config option to change enemy name color based on alerted status. If disabled vanilla alerted icons show
+	- Fixed enemy level number not showing when enemyLvlStyle set to 1 or 2
 
-Defaults:  
-`F7` to toggle editing mode  
-`Mouse Left` to drag elements  
-`Mouse Right` to toggle editing layer  
-`Left Ctrl` (hold key + click left and hold + use mouse scroll at the same time) to allow y-axis-scale editing
-`Right Ctrl` (hold key + click left and hold + use mouse scroll at the same time) to allow both-axis-scale (x- and y-axis) editing
-`Mouse Scroll` edit scale (you will need to click left mouse on the item and hold this while scrolling)
-  
+
+
+Small showcase on editing UI: https://imgur.com/a/w6bRkWs 
+ 
 
 ## Table of Contents
 1. [Installation](#Installation-(manual))
-2. [Preview](#Preview)
-3. [FAQ](#FAQ)
-4. [Changelog](#Changelog)  
+2. [FAQ](#FAQ)
+3. [Changelog](#Changelog)  
 
 ## Installation (manual)
 
@@ -34,41 +38,44 @@ If you are installing this manually, do the following _(You will need Bepinex in
 2. Move the contents of `plugins` folder into `<GameDirectory>\Bepinex\plugins`.
 3. Run the game, it will generate automatically an configuration file into `<GameDirectory>\Bepinex\config`
 
-## Preview
-![HoverInfo](https://i.nyah.moe/Rbb2l.png)
-![Tooltips](https://i.nyah.moe/Rwitl.png)
-![Charlevels](https://i.nyah.moe/Rwk8I.png)
-![EnemyHud](https://i.nyah.moe/RwNht.png)
-
 ## FAQ
 __How can I see the Epic Loot info when I hover over an item in my iventory?__
-In the config file, set `showCustomTooltips = false`
+ - In the config file, set `showCustomTooltips = false`
 
 __When I use the config manager to change the config values, nothing happens. Why not?__
-The config values are not loaded in real time. You must quit the game and restart to see the changes.
+ - The config values are not loaded in real time. You must quit the game and restart to see the changes.
 
 __Can I hide the Yellow XP Bar at the bottom of the screen?__  
-Yes you can. Check config for `showCharacterXPBar` and set it to `false`  
+ - Yes you can. Check config for `showCharacterXPBar` and set it to `false`  
 
 __Why are the star icons not showing on enemies anymore?__
-If you want the stars back, edit _enemyLvlStyle_ in the config.  
-0 = stars  
-1 = prefix (NOT WORKING FOR SOME PEOPLE)
-2 = stars & prefix
+ - If you want the stars back, edit _enemyLvlStyle_ in the config.  
+    - 0 = stars  
+    - 1 = prefix
+    - 2 = stars & prefix
 
 __How to turn off a specific hover text edit?__  
-You want to set the specific hover text option to 0.  
-Example: _timeLeftStyleFermenter = 0_
+ - You want to set the specific hover text option to 0.  
+ - Example: _timeLeftStyleFermenter = 0_
 
-__How to edit UI__  
-Press `ESC` to unlock cursor
-`F7` | Toggle editing mode  
-`Mouse Left` | Drag elements  
-`Mouse Right` | Toggle editing layer  
-`Left Ctrl` | Hold to allow scale editing  
-`Mouse Scroll` | Edit scale  
+__How do I edit the player HUD?__  
+ - Press `ESC` to unlock cursor
+ - `F7` | Toggle editing mode  
+ - `Mouse Left` | Drag elements  
+ - `Mouse Right` | Toggle editing layer  
+ - `Left Ctrl` | Hold to allow scale editing  
+ - `Mouse Scroll` | Edit scale  
 
 ## Changelog
+#### 2.1.0
+ - Re-organized the config file. Renamed some options and updated the descriptions. It is recommended that you back up your existing file, then remove it so a new one is generated
+ - Add config setting to enable writing debug messages to the bepinex log
+ - Enemy HUD changes:
+	- Add config option to show other player's current and max health numbers in multiplayer
+	- Add config options to adjust the font size of Enemy, Boss, and Player health
+	- Add config option to change the health bar color for tamed creatures from red to green
+	- Add config option to change enemy name color based on alerted status. If disabled vanilla alerted icons show
+	- Fixed enemy level number not showing when enemyLvlStyle set to 1 or 2
 #### 2.0.5
  - Fixed an issue where Player couldn't jump after turning Character XP off and XP bar on (thanks to Varek!)
 #### 2.0.4

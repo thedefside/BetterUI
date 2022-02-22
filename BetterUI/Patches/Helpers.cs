@@ -104,10 +104,10 @@ namespace BetterUI.Patches
 
     public static void DebugLine(string str = "", bool pref = true, bool warn = false)
     {
-      if (Main.isDebug)
+      if (Main.isDebug.Value)
       {
-        if (warn) Debug.LogWarning($"{(pref ? $"[{typeof(Main).Namespace}] " : "")}{str}");
-        else Debug.Log($"{(pref ? $"[{typeof(Main).Namespace}] " : "")}{str}");
+        if (warn) Main.log.LogWarning($"{(pref ? $"[{typeof(Main).Namespace}] " : "")}{str}");
+        else Main.log.LogInfo($"{(pref ? $"[{typeof(Main).Namespace}] " : "")}{str}");
       }
     }
 
