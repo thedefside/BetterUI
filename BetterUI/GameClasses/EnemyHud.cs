@@ -1,11 +1,16 @@
 ﻿using HarmonyLib;
+
+using System;
 using System.Collections.Generic;
+using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
+
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace BetterUI.GameClasses
 {
-    [HarmonyPatch]
+    [HarmonyPatch(typeof(EnemyHud))]
     public static class BetterEnemyHud
     {
         
@@ -16,74 +21,43 @@ namespace BetterUI.GameClasses
         public static readonly float maxDrawDistance = 3f;
 
         [HarmonyPostfix]
-        [HarmonyPatch(typeof(EnemyHud), "Awake")]
-        private static void PatchDefaults(ref EnemyHud __instance)
+        [HarmonyPatch(nameof(EnemyHud.Awake))]
+        private static void AwakePostfix(ref EnemyHud __instance)
         {
             float limiter = Mathf.Min(Mathf.Abs(Main.maxShowDistance.Value), maxDrawDistance);
             __instance.m_maxShowDistance *= limiter;
         }
 
-        [HarmonyPrefix]
-        [HarmonyPatch(typeof(EnemyHud), "ShowHud")]
-        private static void PatchName(ref EnemyHud __instance, ref Character c, bool isMount)
-        {
-            if (!Main.customEnemyHud.Value) return;
+        static readonly ConditionalWeakTable<EnemyHud.HudData, Text> _hpTextCache = new();
 
-            EnemyHud.HudData hudData;
-            if (__instance.m_huds.TryGetValue(c, out hudData))
-            {
-                return;
+        [HarmonyPrefix]
+        [HarmonyPatch(nameof(EnemyHud.ShowHud))]
+        static void ShowHudPrefix(ref EnemyHud __instance, ref Character c, ref bool __state) {
+          __state = __instance.m_huds.ContainsKey(c);
+        }
+
+        [HarmonyPostfix]
+        [HarmonyPatch(nameof(EnemyHud.ShowHud))]
+        static void ShowHudPostfix(ref EnemyHud __instance, ref Character c, ref bool __state)
+        {
+            if (!Main.customEnemyHud.Value
+                || __state
+                || !__instance.m_huds.TryGetValue(c, out EnemyHud.HudData hudData)) {
+              return;
             }
-            GameObject original;
-            if (isMount)
-            {
-                original = __instance.m_baseHudMount;
-            }
-            else if (c.IsPlayer())
-            {
-                original = __instance.m_baseHudPlayer;
-            }
-            else if (c.IsBoss())
-            {
-                original = __instance.m_baseHudBoss;
-            }
-            else
-            {
-                original = __instance.m_baseHud;
-            }
-            hudData = new EnemyHud.HudData
-            {
-                m_character = c,
-                m_ai = c.GetComponent<BaseAI>(),
-                m_gui = Object.Instantiate(original, __instance.m_hudRoot.transform)
-            };
-            hudData.m_gui.SetActive(true);
-            hudData.m_healthFast = hudData.m_gui.transform.Find("Health/health_fast").GetComponent<GuiBar>();
-            hudData.m_healthSlow = hudData.m_gui.transform.Find("Health/health_slow").GetComponent<GuiBar>();
-            if (isMount)
-            {
-                hudData.m_stamina = hudData.m_gui.transform.Find("Stamina/stamina_fast").GetComponent<GuiBar>();
-                hudData.m_staminaText = hudData.m_gui.transform.Find("Stamina/StaminaText").GetComponent<Text>();
-                hudData.m_healthText = hudData.m_gui.transform.Find("Health/HealthText").GetComponent<Text>();
-            }
-            hudData.m_level2 = (hudData.m_gui.transform.Find("level_2") as RectTransform);
-            hudData.m_level3 = (hudData.m_gui.transform.Find("level_3") as RectTransform);
-            hudData.m_alerted = (hudData.m_gui.transform.Find("Alerted") as RectTransform);
-            hudData.m_aware = (hudData.m_gui.transform.Find("Aware") as RectTransform);
-            hudData.m_name = hudData.m_gui.transform.Find("Name").GetComponent<Text>();
-            hudData.m_name.text = Localization.instance.Localize(c.GetHoverName());
-            hudData.m_isMount = isMount;
 
             if (c.IsPlayer())
             {
                 if (Main.showPlayerHPText.Value)
                 {
-                    var hpText = Object.Instantiate(hudData.m_name, hudData.m_name.transform.parent);
+                    var hpText = UnityEngine.Object.Instantiate(hudData.m_name, hudData.m_name.transform.parent);
                     hpText.name = PlayerHpPrefix;
                     hpText.rectTransform.anchoredPosition = new Vector2(hpText.rectTransform.anchoredPosition.x, 3.5f);
                     hpText.text = $"<size={Main.playerHPTextSize.Value}>{hudData.m_character.GetHealth():0}/{hudData.m_character.GetMaxHealth():0}</size>";
                     hpText.color = Color.white;
-                    Object.Destroy(hpText.GetComponent<Outline>());
+                    UnityEngine.Object.Destroy(hpText.GetComponent<Outline>());
+
+                    _hpTextCache.Add(hudData, hpText);
 
                     var rectTransform = hudData.m_gui.transform.Find("Health") as RectTransform;
                     rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, rectTransform.sizeDelta.y * 3f);
@@ -93,15 +67,17 @@ namespace BetterUI.GameClasses
             }
             else if (c.IsBoss())
             {
-                if (!Main.showEnemyHPText.Value)
+                if (Main.showEnemyHPText.Value)
                 {
                     // Edits to Boss HP Bar
-                    Text hpText = Object.Instantiate(hudData.m_name, hudData.m_name.transform.parent);
+                    Text hpText = UnityEngine.Object.Instantiate(hudData.m_name, hudData.m_name.transform.parent);
                     hpText.name = BossHpPrefix;
                     hpText.rectTransform.anchoredPosition = new Vector2(hpText.rectTransform.anchoredPosition.x, 0.0f); // orig.y = 21f
                     hpText.text = $"<size={Main.bossHPTextSize.Value}>{hudData.m_character.GetHealth():0} / {hudData.m_character.GetMaxHealth():0}</size>";
                     hpText.color = Color.white;
-                    Object.Destroy(hpText.GetComponent<Outline>());
+                    UnityEngine.Object.Destroy(hpText.GetComponent<Outline>());
+
+                    _hpTextCache.Add(hudData, hpText);
                 }
             }
             else
@@ -113,12 +89,14 @@ namespace BetterUI.GameClasses
                 }
                 if (Main.showEnemyHPText.Value)
                 {
-                    Text hpText = Object.Instantiate(hudData.m_name, hudData.m_name.transform.parent);
+                    Text hpText = UnityEngine.Object.Instantiate(hudData.m_name, hudData.m_name.transform.parent);
                     hpText.name = EnemyHpPrefix;
                     hpText.rectTransform.anchoredPosition = new Vector2(hpText.rectTransform.anchoredPosition.x, 7.0f); // orig.y = 21f
                     hpText.text = $"<size={Main.enemyHPTextSize.Value}>{hudData.m_character.GetHealth():0}/{hudData.m_character.GetMaxHealth():0}</size>";
                     hpText.color = Color.white;
-                    Object.Destroy(hpText.GetComponent<Outline>());
+                    UnityEngine.Object.Destroy(hpText.GetComponent<Outline>());
+
+                    _hpTextCache.Add(hudData, hpText);
                 }
                 
                 if (c.IsTamed() && Main.makeTamedHPGreen.Value)
@@ -144,12 +122,11 @@ namespace BetterUI.GameClasses
                     hudData.m_level3.gameObject.SetActive(false);
                 }
             }
-            __instance.m_huds.Add(c, hudData);
         }
 
         [HarmonyPostfix]
-        [HarmonyPatch(typeof(EnemyHud), "UpdateHuds")]
-        private static void UpdateHP(ref EnemyHud __instance, Player player, Sadle sadle, float dt)
+        [HarmonyPatch(nameof(EnemyHud.UpdateHuds))]
+        static void UpdateHudsPostfix(ref EnemyHud __instance)
         {
             
             if (!Main.customEnemyHud.Value) return;
@@ -164,21 +141,21 @@ namespace BetterUI.GameClasses
                     if (character == null)
                     {
                         character = value.m_character;
-                        Object.Destroy(value.m_gui);
+                        UnityEngine.Object.Destroy(value.m_gui);
                     }
                 }
                 else
                 {
                     if (value.m_character.IsPlayer())
                     {
-                        if (Main.showPlayerHPText.Value)
-                            Utils.FindChild(value.m_name.transform.parent, PlayerHpPrefix).GetComponent<Text>().text = $"<size={Main.playerHPTextSize.Value}>{Mathf.CeilToInt(value.m_character.GetHealth())}/{value.m_character.GetMaxHealth():0}</size>";
+                        if (Main.showPlayerHPText.Value && _hpTextCache.TryGetValue(value, out Text hpText)) {
+                          hpText.text = $"<size={Main.playerHPTextSize.Value}>{value.m_character.GetHealth():0}/{value.m_character.GetMaxHealth():0}</size>";
+                        }
                     }
                     else if (value.m_character.IsBoss())
                     {
-                        if (Main.showEnemyHPText.Value)
-                        {
-                            Utils.FindChild(value.m_name.transform.parent, BossHpPrefix).GetComponent<Text>().text = $"<size={Main.bossHPTextSize.Value}>{Mathf.CeilToInt(value.m_character.GetHealth())} / {value.m_character.GetMaxHealth():0}</size>";
+                        if (Main.showEnemyHPText.Value && _hpTextCache.TryGetValue(value, out Text hpText)) {
+                          hpText.text = $"<size={Main.bossHPTextSize.Value}>{value.m_character.GetHealth():0} / {value.m_character.GetMaxHealth():0}</size>";
                         }
                     }
                     else
@@ -193,9 +170,8 @@ namespace BetterUI.GameClasses
                         }
                                    
 
-                        if (Main.showEnemyHPText.Value)
-                        {
-                            Utils.FindChild(value.m_name.transform.parent, EnemyHpPrefix).GetComponent<Text>().text = $"<size={Main.enemyHPTextSize.Value}>{Mathf.CeilToInt(value.m_character.GetHealth())}/{value.m_character.GetMaxHealth():0}</size>";
+                        if (Main.showEnemyHPText.Value && _hpTextCache.TryGetValue(value, out Text hpText)) {
+                          hpText.text = $"<size={Main.enemyHPTextSize.Value}>{value.m_character.GetHealth():0}/{value.m_character.GetMaxHealth():0}</size>";
                         }
 
                         if (Main.enemyLvlStyle.Value != 0)
@@ -219,6 +195,29 @@ namespace BetterUI.GameClasses
              
         }
 
-    }
+        [HarmonyTranspiler]
+        [HarmonyPatch(nameof(EnemyHud.LateUpdate))]
+        static IEnumerable<CodeInstruction> LateUpdateTranspiler(IEnumerable<CodeInstruction> instructions) {
+          return new CodeMatcher(instructions)
+              .MatchForward(
+                  useEnd: false,
+                  new CodeMatch(OpCodes.Stloc_3),
+                  new CodeMatch(OpCodes.Ldloc_3),
+                  new CodeMatch(OpCodes.Ldloc_1),
+                  new CodeMatch(OpCodes.Call))
+              .Advance(offset: 3)
+              .SetInstructionAndAdvance(
+                  Transpilers.EmitDelegate<Func<Character, Player, bool>>(CharacterLocalPlayerEqualityDelegate))
+              .InstructionEnumeration();
+        }
+
+        static bool CharacterLocalPlayerEqualityDelegate(Character character, Player player) {
+          if (Main.showPlayerHPText.Value) {
+            return false;
+          }
+
+          return character == player;
+        }
+  }
 
 }
