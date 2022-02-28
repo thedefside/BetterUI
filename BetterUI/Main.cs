@@ -115,7 +115,9 @@ namespace BetterUI
 
             staminaBarRotation = Config.Bind("1 - Player HUD", nameof(staminaBarRotation), 90, "Rotate staminabar in degrees  (REQUIRES RESTART)");
 
-            foodBarRotation = Config.Bind("1 - Player HUD", nameof(foodBarRotation), 90, "Rotate foodbar in degrees  (REQUIRES RESTART)");
+            foodBarRotation = Config.Bind("1 - Player HUD", nameof(foodBarRotation), 90, "Rotate foodbar in degrees  (REQUIRES RESTART)" +
+                "" +
+                "");
             
 
             // Character Inventory
