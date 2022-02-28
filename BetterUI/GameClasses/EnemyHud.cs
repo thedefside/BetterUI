@@ -73,6 +73,7 @@ namespace BetterUI.GameClasses
             hudData.m_name = hudData.m_gui.transform.Find("Name").GetComponent<Text>();
             hudData.m_name.text = Localization.instance.Localize(c.GetHoverName());
             hudData.m_isMount = isMount;
+            var hpRoot = (hudData.m_gui.transform.Find("Health") as RectTransform);
 
             if (c.IsPlayer())
             {
@@ -85,15 +86,14 @@ namespace BetterUI.GameClasses
                     hpText.color = Color.white;
                     Object.Destroy(hpText.GetComponent<Outline>());
 
-                    var rectTransform = hudData.m_gui.transform.Find("Health") as RectTransform;
-                    rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, rectTransform.sizeDelta.y * 3f);
-                    hudData.m_healthFast.m_bar.sizeDelta = new Vector2(hudData.m_healthFast.m_width, rectTransform.sizeDelta.y);
-                    hudData.m_healthSlow.m_bar.sizeDelta = new Vector2(hudData.m_healthSlow.m_width, rectTransform.sizeDelta.y);
+                    hpRoot.sizeDelta = new Vector2(hpRoot.sizeDelta.x, hpRoot.sizeDelta.y * 3f);
+                    hudData.m_healthFast.m_bar.sizeDelta = new Vector2(hudData.m_healthFast.m_width, hpRoot.sizeDelta.y);
+                    hudData.m_healthSlow.m_bar.sizeDelta = new Vector2(hudData.m_healthSlow.m_width, hpRoot.sizeDelta.y);
                 }
             }
             else if (c.IsBoss())
             {
-                if (!Main.showEnemyHPText.Value)
+                if (Main.showEnemyHPText.Value)
                 {
                     // Edits to Boss HP Bar
                     Text hpText = Object.Instantiate(hudData.m_name, hudData.m_name.transform.parent);
@@ -113,6 +113,7 @@ namespace BetterUI.GameClasses
                 }
                 if (Main.showEnemyHPText.Value)
                 {
+                    hpRoot.sizeDelta = new Vector2(hpRoot.sizeDelta.x, hpRoot.sizeDelta.y * 3f);
                     Text hpText = Object.Instantiate(hudData.m_name, hudData.m_name.transform.parent);
                     hpText.name = EnemyHpPrefix;
                     hpText.rectTransform.anchoredPosition = new Vector2(hpText.rectTransform.anchoredPosition.x, 7.0f); // orig.y = 21f
@@ -128,8 +129,6 @@ namespace BetterUI.GameClasses
                 }
 
                 // Resize and position everything
-                RectTransform hpRoot = (hudData.m_gui.transform.Find("Health") as RectTransform);
-                hpRoot.sizeDelta = new Vector2(hpRoot.sizeDelta.x, hpRoot.sizeDelta.y * 3f); ;
                 if (Main.useCustomAlertedStatus.Value)
                 {
                     hudData.m_alerted.gameObject.SetActive(false);
