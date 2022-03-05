@@ -16,7 +16,7 @@ namespace BetterUI
           MODNAME = "BetterUI",
           AUTHOR = "MK",
           GUID = AUTHOR + "_" + MODNAME,
-          VERSION = "2.1.0";
+          VERSION = "2.1.1";
 
         internal static ManualLogSource log;
         internal readonly Harmony harmony;
