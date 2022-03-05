@@ -1,6 +1,8 @@
 ﻿using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
+using BetterUI.GameClasses;
+
 using HarmonyLib;
 using System.Reflection;
 using UnityEngine;
@@ -16,7 +18,7 @@ namespace BetterUI
           MODNAME = "BetterUI",
           AUTHOR = "MK",
           GUID = AUTHOR + "_" + MODNAME,
-          VERSION = "2.2.0";
+          VERSION = "2.2.1";
 
 
         internal static ManualLogSource log;
@@ -70,6 +72,7 @@ namespace BetterUI
         public static ConfigEntry<int> enemyHPTextSize;
         public static ConfigEntry<int> playerHPTextSize;
         public static ConfigEntry<bool> showPlayerHPText;
+        public static ConfigEntry<bool> showLocalPlayerEnemyHud;
         public static ConfigEntry<int> bossHPTextSize;
         public static ConfigEntry<bool> makeTamedHPGreen;
         public static ConfigEntry<float> maxShowDistance;
@@ -181,6 +184,9 @@ namespace BetterUI
             enemyHPTextSize = Config.Bind("6 - Enemy HUD", nameof(enemyHPTextSize), 10, "Font size of the HP text on the enemy health bar.");
 
             showPlayerHPText = Config.Bind("6 - Enemy HUD", nameof(showPlayerHPText), true, "Show the health numbers on other player's health bar in Multiplayer.");
+
+            showLocalPlayerEnemyHud = Config.Bind("6 - Enemy HUD", nameof(showLocalPlayerEnemyHud), false, "Show the EnemyHud/HealthBar for your player.");
+            showLocalPlayerEnemyHud.SettingChanged += (_, _) => BetterEnemyHud.ShowLocalPlayerEnemyHudConfigChanged();
 
             playerHPTextSize = Config.Bind("6 - Enemy HUD", nameof(playerHPTextSize), 10, "The size of the font to display on other player's health bar in Multiplayer.");
 

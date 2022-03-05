@@ -213,11 +213,20 @@ namespace BetterUI.GameClasses
         }
 
         static bool CharacterLocalPlayerEqualityDelegate(Character character, Player player) {
-          if (Main.showPlayerHPText.Value) {
+          if (Main.showLocalPlayerEnemyHud.Value) {
             return false;
           }
 
           return character == player;
+        }
+
+        public static void ShowLocalPlayerEnemyHudConfigChanged() {
+          if (Player.m_localPlayer
+              && EnemyHud.m_instance
+              && EnemyHud.m_instance.m_huds.TryGetValue(Player.m_localPlayer, out EnemyHud.HudData hudData)) {
+            UnityEngine.Object.Destroy(hudData.m_gui);
+            EnemyHud.m_instance.m_huds.Remove(Player.m_localPlayer);
+          }
         }
   }
 
