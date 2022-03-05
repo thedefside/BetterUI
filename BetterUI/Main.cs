@@ -137,7 +137,7 @@ namespace BetterUI
 
 
             // Skills UI
-            customSkillUI = Config.Bind("3 - Character Skills", nameof(customSkillUI), false, "Toggle the use of custom skills UI (BROKEN)");
+            customSkillUI = Config.Bind("3 - Character Skills", nameof(customSkillUI), false, "Toggle the use of custom skills UI");
 
             skillUITextSize = Config.Bind("3 - Character Skills", nameof(skillUITextSize), 14, "Select text size on skills UI");
 
