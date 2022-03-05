@@ -18,6 +18,7 @@ namespace BetterUI
           GUID = AUTHOR + "_" + MODNAME,
           VERSION = "2.2.0";
 
+
         internal static ManualLogSource log;
         internal readonly Harmony harmony;
         internal readonly Assembly assembly;
@@ -95,7 +96,7 @@ namespace BetterUI
         public void Awake()
         {
             // Player HUD
-            enablePlayerHudEditing = Config.Bind("1 - Player HUD", nameof(enablePlayerHudEditing), true, "Enable the ability to edit the Player HUD by pressing a hotkey.");
+            enablePlayerHudEditing = Config.Bind("1 - Player HUD", nameof(enablePlayerHudEditing), true, "Enable the ability to edit the Player HUD by pressing a hotkey. (REQUIRES RESTART)");
 
             togglePlayerHudEditModeKey = Config.Bind("1 - Player HUD", nameof(togglePlayerHudEditModeKey), KeyCode.F7, "Key used to toggle Player HUD editing mode.");
 
@@ -105,17 +106,19 @@ namespace BetterUI
             modKeySecondary = Config.Bind("1 - Player HUD", nameof(modKeySecondary), KeyCode.LeftControl,
               "Button needed to hold down to change element dimensions. Accepted Values: https://docs.unity3d.com/ScriptReference/KeyCode.html");
 
-            useCustomHealthBar = Config.Bind("1 - Player HUD", nameof(useCustomHealthBar), false, "Resizable, rotatable HP bar. This bar will always be the same size and will not scale when you eat.");
+            useCustomHealthBar = Config.Bind("1 - Player HUD", nameof(useCustomHealthBar), false, "Resizable, rotatable HP bar. This bar will always be the same size and will not scale when you eat. (REQUIRES RESTART)");
             
-            useCustomStaminaBar = Config.Bind("1 - Player HUD", nameof(useCustomStaminaBar), false, "Resizable, rotatable Stamina bar. This bar will always be visible and will not scale when you eat.");
+            useCustomStaminaBar = Config.Bind("1 - Player HUD", nameof(useCustomStaminaBar), false, "Resizable, rotatable Stamina bar. This bar will always be visible and will not scale when you eat. (REQUIRES RESTART)");
             
-            useCustomFoodBar = Config.Bind("1 - Player HUD", nameof(useCustomFoodBar), false, "Resizable, rotatable Food Bar.");
+            useCustomFoodBar = Config.Bind("1 - Player HUD", nameof(useCustomFoodBar), false, "Resizable, rotatable Food Bar. (REQUIRES RESTART)");
 
-            healthBarRotation = Config.Bind("1 - Player HUD", nameof(healthBarRotation), 0, "Rotate healthbar in degrees");
+            healthBarRotation = Config.Bind("1 - Player HUD", nameof(healthBarRotation), 0, "Rotate healthbar in degrees  (REQUIRES RESTART)");
 
-            staminaBarRotation = Config.Bind("1 - Player HUD", nameof(staminaBarRotation), 90, "Rotate staminabar in degrees");
+            staminaBarRotation = Config.Bind("1 - Player HUD", nameof(staminaBarRotation), 90, "Rotate staminabar in degrees  (REQUIRES RESTART)");
 
-            foodBarRotation = Config.Bind("1 - Player HUD", nameof(foodBarRotation), 90, "Rotate foodbar in degrees");
+            foodBarRotation = Config.Bind("1 - Player HUD", nameof(foodBarRotation), 90, "Rotate foodbar in degrees  (REQUIRES RESTART)" +
+                "" +
+                "");
             
 
             // Character Inventory
@@ -135,7 +138,7 @@ namespace BetterUI
 
 
             // Skills UI
-            customSkillUI = Config.Bind("3 - Character Skills", nameof(customSkillUI), false, "Toggle the use of custom skills UI (BROKEN)");
+            customSkillUI = Config.Bind("3 - Character Skills", nameof(customSkillUI), false, "Toggle the use of custom skills UI");
 
             skillUITextSize = Config.Bind("3 - Character Skills", nameof(skillUITextSize), 14, "Select text size on skills UI");
 
