@@ -205,7 +205,7 @@ namespace BetterUI.Patches
         {
           if (e.group == Groups.Inventory)
           {
-            float gameScale = GameObject.Find("GUI").GetComponent<CanvasScaler>().scaleFactor;
+            float gameScale = GameObject.Find("LoadingGUI").GetComponent<CanvasScaler>().scaleFactor;
             //Helpers.DebugLine($"\n{e.GetPosition()}\n{gameScale}\n{Camera.main.ViewportToScreenPoint(e.GetAnchorMin())}\n{tt.position}");
             //Helpers.DebugLine($"\n{e.GetPosition() / gameScale}");
             // Original object are moved by anchors

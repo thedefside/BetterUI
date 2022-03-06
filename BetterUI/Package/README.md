@@ -6,19 +6,14 @@ You are able to edit and select what updates you want to use.
 # Support
 Join our Discord! https://discord.gg/vSEjCNF48K
 
-## Version 2.1.0 Information
-[![Youtube Preview](https://img.youtube.com/vi/XxKUcteBNHo/0.jpg)](https://youtu.be/XxKUcteBNHo)
+## Version 2.2.1 Information
 
-Config file revamped, you might need to remove old config as many values have changed.
+ - Added config option to enble showing your own player name/health bar/hp text above your player (redseiko)
+ - Performance improvements to the EnemyHud (redseiko)
+ - Fixed Custom HUD editing (thedefside)
+ - Fixed Custom Skills dialog (thedefside)
+ - Don't resize enemy hud heatlh bar if hp text is disabled (thedefside)
 
- - Re-organized the config file. Renamed some options and updated the descriptions.
- - Add config setting to enable writing debug messages to the bepinex log
- - Enemy HUD changes:
-	- Add config option to show other player's current and max health numbers in multiplayer
-	- Add config options to adjust the font size of Enemy, Boss, and Player health
-	- Add config option to change the health bar color for tamed creatures from red to green
-	- Add config option to change enemy name color based on alerted status. If disabled vanilla alerted icons show
-	- Fixed enemy level number not showing when enemyLvlStyle set to 1 or 2
 
 
 
