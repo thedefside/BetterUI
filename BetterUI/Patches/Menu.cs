@@ -20,7 +20,7 @@ namespace BetterUI.Patches
 
   static class CharacterStats
   {
-    private static readonly float padding = 130f;
+    private static readonly float padding = 150f;
     private static readonly int fontSize = 20; // Beware, padding isn't tied to this! Might break layout
 
     public static void Show(FejdStartup menu)
