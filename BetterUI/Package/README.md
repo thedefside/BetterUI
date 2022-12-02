@@ -1,3 +1,5 @@
+[<p align="center"><img width="600" src="https://i.imgur.com/TvcCtRJ.png"></p>](https://valheim.thunderstore.io/package/thedefside/BetterUI_Reforged)
+
 
 # BetterUI: Reforged for Valheim
 This mod updates the game UI with few subtle edits.  
@@ -6,14 +8,10 @@ You are able to edit and select what updates you want to use.
 # Support
 Join our Discord! https://discord.gg/vSEjCNF48K
 
-## Version 2.2.1 Information
+## Version 2.2.2 Information
 
- - Added config option to enble showing your own player name/health bar/hp text above your player (redseiko)
- - Performance improvements to the EnemyHud (redseiko)
- - Fixed Custom HUD editing (thedefside)
- - Fixed Custom Skills dialog (thedefside)
- - Don't resize enemy hud heatlh bar if hp text is disabled (thedefside)
-
+ - Fixed ability to move QuickSlotsHotkeyBar from Equipment and Quickslots (Dalayeth)
+ - Fixed character stats overlapping with "Cloud Save" (Dalayeth)
 
 
 
@@ -62,6 +60,12 @@ __How do I edit the player HUD?__
  - `Mouse Scroll` | Edit scale  
 
 ## Changelog
+#### 2.2.1
+ - Added config option to enble showing your own player name/health bar/hp text above your player (redseiko)
+ - Performance improvements to the EnemyHud (redseiko)
+ - Fixed Custom HUD editing (thedefside)
+ - Fixed Custom Skills dialog (thedefside)
+ - Don't resize enemy hud heatlh bar if hp text is disabled (thedefside)
 #### 2.1.0
  - Re-organized the config file. Renamed some options and updated the descriptions. It is recommended that you back up your existing file, then remove it so a new one is generated
  - Add config setting to enable writing debug messages to the bepinex log
