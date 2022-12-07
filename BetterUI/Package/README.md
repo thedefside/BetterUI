@@ -8,10 +8,10 @@ You are able to edit and select what updates you want to use.
 # Support
 Join our Discord! https://discord.gg/vSEjCNF48K
 
-## Version 2.2.2 Information
 
- - Fixed ability to move QuickSlotsHotkeyBar from Equipment and Quickslots (Dalayeth)
- - Fixed character stats overlapping with "Cloud Save" (Dalayeth)
+## Version 2.2.3 Information
+
+ - Mistlands Compatibility (thedefside)
 
 
 
@@ -60,6 +60,11 @@ __How do I edit the player HUD?__
  - `Mouse Scroll` | Edit scale  
 
 ## Changelog
+#### 2.2.3
+ - Mistlands Compatibility (thedefside)
+#### 2.2.2
+ - Fixed ability to move QuickSlotsHotkeyBar from Equipment and Quickslots (Dalayeth)
+ - Fixed character stats overlapping with "Cloud Save" (Dalayeth)
 #### 2.2.1
  - Added config option to enble showing your own player name/health bar/hp text above your player (redseiko)
  - Performance improvements to the EnemyHud (redseiko)
