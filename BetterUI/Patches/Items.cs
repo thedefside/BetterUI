@@ -420,7 +420,7 @@ namespace BetterUI.Patches
       }
     }
 
-    private static void ItemType(int qualityLevel)
+    private static void ItemType(int qualityLevel, float skillLevel)
     {
       switch (_item.m_shared.m_itemType)
       {
@@ -433,7 +433,7 @@ namespace BetterUI.Patches
               _sb.AppendFormat("\n$item_food_duration: <color=orange>{0}s</color>", _item.m_shared.m_foodBurnTime);
               _sb.AppendFormat("\n$item_food_regen: <color=orange>{0} hp/tick</color>", _item.m_shared.m_foodRegen);
             }
-            string statusEffectTooltip = _item.GetStatusEffectTooltip();
+            string statusEffectTooltip = _item.GetStatusEffectTooltip(qualityLevel, skillLevel);
             if (statusEffectTooltip.Length > 0)
             {
               _sb.Append("\n\n");
@@ -462,7 +462,7 @@ namespace BetterUI.Patches
               _sb.Append("\n\n");
               _sb.Append(projectileTooltip);
             }
-            string statusEffectTooltip2 = _item.GetStatusEffectTooltip();
+            string statusEffectTooltip2 = _item.GetStatusEffectTooltip(qualityLevel, skillLevel);
             if (statusEffectTooltip2.Length > 0)
             {
               _sb.Append("\n\n");
@@ -493,7 +493,7 @@ namespace BetterUI.Patches
               _sb.Append(damageModifiersTooltipString);
             }
             */
-            string statusEffectTooltip3 = _item.GetStatusEffectTooltip();
+            string statusEffectTooltip3 = _item.GetStatusEffectTooltip(qualityLevel, skillLevel);
             if (statusEffectTooltip3.Length > 0)
             {
               _sb.Append("\n\n");
@@ -555,7 +555,7 @@ namespace BetterUI.Patches
       _sb.Append("\n<color=red>$item_noteleport</color>");
     }
 
-    private static void UpgradeStats()
+    private static void UpgradeStats(Player localPlayer)
     {
       int newQuality = _quality;
       int oldQuality = _quality - 1;
@@ -603,7 +603,7 @@ namespace BetterUI.Patches
               _sb.Append("\n\n");
               _sb.Append(projectileTooltip);
             }
-            string statusEffectTooltip2 = _item.GetStatusEffectTooltip();
+            string statusEffectTooltip2 = _item.GetStatusEffectTooltip(newQuality, localPlayer.GetSkillLevel(_item.m_shared.m_skillType));
             if (statusEffectTooltip2.Length > 0)
             {
               _sb.Append("\n\n");
@@ -652,7 +652,7 @@ namespace BetterUI.Patches
               _sb.Append(damageModifiersTooltipString);
             }
             */
-            string statusEffectTooltip3 = _item.GetStatusEffectTooltip();
+            string statusEffectTooltip3 = _item.GetStatusEffectTooltip(newQuality, localPlayer.GetSkillLevel(_item.m_shared.m_skillType));
             if (statusEffectTooltip3.Length > 0)
             {
               _sb.Append("\n\n");
@@ -738,7 +738,7 @@ namespace BetterUI.Patches
       if (!_item.m_shared.m_teleportable) Teleport();
       if (_item.m_shared.m_value > 0) Value();
 
-      ItemType(_quality);
+      ItemType(_quality, localPlayer.m_skills.GetSkillLevel(_item.m_shared.m_skillType));
 
       if (_item.m_shared.m_useDurability)
       {
@@ -753,7 +753,7 @@ namespace BetterUI.Patches
 
       DamageModifiers();
 
-      string setStatusEffectTooltip = _item.GetSetStatusEffectTooltip();
+      string setStatusEffectTooltip = _item.GetSetStatusEffectTooltip(_quality, localPlayer.GetSkillLevel(_item.m_shared.m_skillType));
       if (setStatusEffectTooltip.Length > 0) StatusEffect(setStatusEffectTooltip);
     }
 
@@ -775,7 +775,7 @@ namespace BetterUI.Patches
         if (_item.m_shared.m_value > 0) Value();
 
         // Your fantastic logic to parse stats.
-        UpgradeStats();
+        UpgradeStats(localPlayer);
 
         if (_item.m_shared.m_useDurability)
         {
@@ -788,7 +788,7 @@ namespace BetterUI.Patches
 
         DamageModifiers();
 
-        string setStatusEffectTooltip = _item.GetSetStatusEffectTooltip();
+        string setStatusEffectTooltip = _item.GetSetStatusEffectTooltip(_quality, localPlayer.GetSkillLevel(_item.m_shared.m_skillType));
         if (setStatusEffectTooltip.Length > 0) StatusEffect(setStatusEffectTooltip);
       }
 

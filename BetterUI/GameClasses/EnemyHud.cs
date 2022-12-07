@@ -137,7 +137,7 @@ namespace BetterUI.GameClasses
             {
                 var value = keyValuePair.Value;
                 
-                if (!value.m_character || !__instance.TestShow(value.m_character))
+                if (!value.m_character || !__instance.TestShow(value.m_character, true))
                 {
                     if (character == null)
                     {
