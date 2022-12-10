@@ -201,7 +201,7 @@ namespace BetterUI.Patches
       sb.Append("\n" + new string('\u2500', 10) + "  Buffs  " + new string('\u2500', 10));
       if (player.m_equipmentMovementModifier != 0f)
       {
-        string color = player.m_equipmentMovementModifier > 0 ? "green" : "red";
+        string color = player.m_equipmentMovementModifier >= 0 ? "green" : "red";
         sb.AppendFormat("\nMovement: <color={0}>{1}%</color>", color, player.m_equipmentMovementModifier * 100f);
       }
 
@@ -510,8 +510,7 @@ namespace BetterUI.Patches
 
     private static void Movement(Player localPlayer)
     {
-      //float equipmentMovementModifier = localPlayer.GetEquipmentMovementModifier();
-      string color = localPlayer.m_equipmentMovementModifier > 0 ? "green" : "red";
+      string color = _item.m_shared.m_movementModifier >= 0 ? "green" : "red";
       _sb.AppendFormat("\n$item_movement_modifier: <color={0}>{1}%</color>", color, (_item.m_shared.m_movementModifier * 100f).ToString("+0;-0"));
     }
 
