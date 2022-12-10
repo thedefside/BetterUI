@@ -508,7 +508,7 @@ namespace BetterUI.Patches
       }
     }
 
-    private static void Movement(Player localPlayer)
+    private static void Movement()
     {
       string color = _item.m_shared.m_movementModifier >= 0 ? "green" : "red";
       _sb.AppendFormat("\n$item_movement_modifier: <color={0}>{1}%</color>", color, (_item.m_shared.m_movementModifier * 100f).ToString("+0;-0"));
@@ -748,7 +748,7 @@ namespace BetterUI.Patches
         _sb.Append("\n");
       }
 
-      if (_item.m_shared.m_movementModifier != 0f && localPlayer != null) Movement(localPlayer);
+      if (_item.m_shared.m_movementModifier != 0f) Movement();
 
       DamageModifiers();
 
@@ -783,7 +783,7 @@ namespace BetterUI.Patches
           _sb.Append("\n");
         }
 
-        if (_item.m_shared.m_movementModifier != 0f && localPlayer != null) Movement(localPlayer);
+        if (_item.m_shared.m_movementModifier != 0f) Movement();
 
         DamageModifiers();
 
