@@ -17,11 +17,14 @@ I'll add slowly new additions to the mod - and fix bugs that users report.
 [/Package](/BetterUI/Package) - Package for Thunderstore upload.  
 
 ## Developing environment
+#### Game Directory
+- If your valheim game directory is not the standard windows location `C:\Program Files (x86)\Steam\steamapps\common\Valheim`, edit [GameDir.targets](/BetterUI/GameDir.targets) accordingly
+- Remember to not stage and commit any changes to `GameDir.targets`
 #### BepInEx
  - Download and install [BepInEx](https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/) *(this is an Valheim specific pack)*
  - Follow the information under manual install
 #### BepInEx Publicizer
- - To get access on games private functions, you need the publicized assembly files.
+ - To get access on games private functions, you need the publicized assembly files
  - Install an assembly publicizer for BepInEx from:  https://github.com/MrPurple6411/Bepinex-Tools/releases/tag/1.0.0-Publicizer
  - The `Bepinex-Publicizer` folder from the `.zip` should be placed under `<ValheimGameDirectory>\BepInEx\plugins`
  - Run the game once, BepInEx console should pop-up. At the background, BepInEx Publicizer will create assemblies  
