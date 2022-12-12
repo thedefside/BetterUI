@@ -160,6 +160,7 @@ namespace BetterUI.Patches
       InventoryElement.transform.Find("quality").GetComponent<Text>().enabled = false;
       InventoryElement.transform.Find("selected").gameObject.SetActive(false);
       InventoryElement.transform.Find("noteleport").GetComponent<Image>().enabled = false;
+      InventoryElement.transform.Find("foodicon").GetComponent<Image>().enabled = false;
 
       // Delete components
       UnityEngine.Object.Destroy(InventoryElement.GetComponent<UIInputHandler>());
@@ -181,13 +182,13 @@ namespace BetterUI.Patches
       background.GetComponent<Image>().enabled = false;
 
       UITooltip bkgTooltip = InventoryElement.GetComponent<UITooltip>();
-      bkgTooltip.m_topic = $"Lv.{XP.level} {Player.m_localPlayer.GetPlayerName()}";
+      bkgTooltip.m_topic = $"{DisplayXpLevel()}{Player.m_localPlayer.GetPlayerName()}";
 
       tooltip = bkgTooltip;
-      //m_armor = text.GetComponent<Text>();
       m_armor = ig.m_armor;
     }
-  
+
+
     public static void Update(Player player)
     {
       // Update UI info
@@ -218,9 +219,14 @@ namespace BetterUI.Patches
       sb.Append("\n");
 
       tooltip.m_text = sb.ToString();
-      tooltip.m_topic = $"Lv.{XP.level} {player.GetPlayerName()}";
+      tooltip.m_topic = $"{DisplayXpLevel()}{player.GetPlayerName()}";
     }
- 
+
+    private static string DisplayXpLevel()
+    {
+      return Main.showCharacterXP.Value ? $"Lv.{XP.level} " : string.Empty;
+    }
+
     private static void BlockStats(Player player, StringBuilder sb)
     {
       ItemDrop.ItemData cb = player.GetCurrentBlocker();

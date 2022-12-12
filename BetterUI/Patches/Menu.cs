@@ -36,8 +36,9 @@ namespace BetterUI.Patches
       if (menu.m_profileIndex >= 0 && menu.m_profileIndex < menu.m_profiles.Count)
       {
         PlayerProfile playerProfile = menu.m_profiles[menu.m_profileIndex];
+        string kills = playerProfile.m_playerStats.m_kills > 0 ? $"Kills: {playerProfile.m_playerStats.m_kills}   " : string.Empty;
         menu.m_csName.text = $"{playerProfile.GetName()}\n" +
-          $"<size={fontSize}>Kills: {playerProfile.m_playerStats.m_kills}   Deaths: {playerProfile.m_playerStats.m_deaths}   Crafts: {playerProfile.m_playerStats.m_crafts}   Builds: {playerProfile.m_playerStats.m_builds}</size>";
+          $"<size={fontSize}>{kills}Deaths: {playerProfile.m_playerStats.m_deaths}   Crafts: {playerProfile.m_playerStats.m_crafts}   Builds: {playerProfile.m_playerStats.m_builds}</size>";
         menu.m_csName.gameObject.SetActive(true);
         Vector2 startBtnPos = (menu.m_csStartButton.transform as RectTransform).anchoredPosition;
         menu.m_csName.rectTransform.anchoredPosition = new Vector2(menu.m_csName.rectTransform.anchoredPosition.x, startBtnPos.y + padding);
