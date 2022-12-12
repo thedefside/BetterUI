@@ -160,6 +160,7 @@ namespace BetterUI.Patches
       InventoryElement.transform.Find("quality").GetComponent<Text>().enabled = false;
       InventoryElement.transform.Find("selected").gameObject.SetActive(false);
       InventoryElement.transform.Find("noteleport").GetComponent<Image>().enabled = false;
+      InventoryElement.transform.Find("foodicon").GetComponent<Image>().enabled = false;
 
       // Delete components
       UnityEngine.Object.Destroy(InventoryElement.GetComponent<UIInputHandler>());
@@ -184,7 +185,6 @@ namespace BetterUI.Patches
       bkgTooltip.m_topic = $"{DisplayXpLevel()}{Player.m_localPlayer.GetPlayerName()}";
 
       tooltip = bkgTooltip;
-      //m_armor = text.GetComponent<Text>();
       m_armor = ig.m_armor;
     }
 
