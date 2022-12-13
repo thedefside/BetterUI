@@ -138,7 +138,7 @@ namespace BetterUI
 
             customSpoilerBarRotation = Config.Bind(sectionName, nameof(customSpoilerBarRotation), 90, "Rotate bar for the new spoiler resource in degrees.");
 
-            customFoodBarRotation = Config.Bind(sectionName, nameof(customFoodBarRotation), 90, "Rotate foodbar in degrees.");
+            customFoodBarRotation = Config.Bind(sectionName, nameof(customFoodBarRotation), 180, "Rotate foodbar in degrees.");
 
 
             // Character Inventory
