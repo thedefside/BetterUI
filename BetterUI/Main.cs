@@ -33,10 +33,12 @@ namespace BetterUI
         public static ConfigEntry<KeyCode> modKeySecondary;
         public static ConfigEntry<bool> useCustomHealthBar;
         public static ConfigEntry<bool> useCustomStaminaBar;
+        public static ConfigEntry<bool> useCustomSpoilerBar;
         public static ConfigEntry<bool> useCustomFoodBar;
-        public static ConfigEntry<int> healthBarRotation;
-        public static ConfigEntry<int> staminaBarRotation;
-        public static ConfigEntry<int> foodBarRotation;
+        public static ConfigEntry<int> customHealthBarRotation;
+        public static ConfigEntry<int> customStaminaBarRotation;
+        public static ConfigEntry<int> customSpoilerBarRotation;
+        public static ConfigEntry<int> customFoodBarRotation;
 
         // Player Inventory
         public static ConfigEntry<bool> showDurabilityColor;
@@ -98,146 +100,152 @@ namespace BetterUI
         }
         public void Awake()
         {
+            string sectionName;
+
+            // Don't be tempted to rename the sections. That resets all its config values for every user
+            // The same goes for moving items between sections
+            // That's also why there is no section number counter
+
+
             // Player HUD
-            enablePlayerHudEditing = Config.Bind("1 - Player HUD", nameof(enablePlayerHudEditing), true, "Enable the ability to edit the Player HUD by pressing a hotkey. (REQUIRES RESTART)");
+            sectionName = "1 - Player HUD";
 
-            togglePlayerHudEditModeKey = Config.Bind("1 - Player HUD", nameof(togglePlayerHudEditModeKey), KeyCode.F7, "Key used to toggle Player HUD editing mode.");
+            togglePlayerHudEditModeKey = Config.Bind(sectionName, nameof(togglePlayerHudEditModeKey), KeyCode.F7,
+                "Key used to toggle Player HUD editing mode. Accepted values: https://docs.unity3d.com/ScriptReference/KeyCode.html");
 
-            modKeyPrimary = Config.Bind("1 - Player HUD", nameof( modKeyPrimary), KeyCode.Mouse0,
-              "Button needed to hold down to change HUD position. Accepted values: https://docs.unity3d.com/ScriptReference/KeyCode.html");
+            modKeyPrimary = Config.Bind(sectionName, nameof(modKeyPrimary), KeyCode.Mouse0,
+                "Key needed to hold down to change HUD position. Accepted values: https://docs.unity3d.com/ScriptReference/KeyCode.html");
 
-            modKeySecondary = Config.Bind("1 - Player HUD", nameof(modKeySecondary), KeyCode.LeftControl,
-              "Button needed to hold down to change element dimensions. Accepted Values: https://docs.unity3d.com/ScriptReference/KeyCode.html");
+            modKeySecondary = Config.Bind(sectionName, nameof(modKeySecondary), KeyCode.LeftControl,
+                "Key needed to hold down to change element dimensions. Accepted Values: https://docs.unity3d.com/ScriptReference/KeyCode.html");
 
-            useCustomHealthBar = Config.Bind("1 - Player HUD", nameof(useCustomHealthBar), false, "Resizable, rotatable HP bar. This bar will always be the same size and will not scale when you eat. (REQUIRES RESTART)");
+            // Player HUD RESTART
+            sectionName = "1 - Player HUD (Requires Logout)";
+
+            enablePlayerHudEditing = Config.Bind(sectionName, nameof(enablePlayerHudEditing), true, "Enable the ability to edit the Player HUD by pressing a hotkey.");
+
+            useCustomHealthBar = Config.Bind(sectionName, nameof(useCustomHealthBar), false, $"Resizable, rotatable HP bar. This bar will always be the same size and will not scale when you eat. Will also disable the default food bar, so use {nameof(useCustomFoodBar)}.");
             
-            useCustomStaminaBar = Config.Bind("1 - Player HUD", nameof(useCustomStaminaBar), false, "Resizable, rotatable Stamina bar. This bar will always be visible and will not scale when you eat. (REQUIRES RESTART)");
-            
-            useCustomFoodBar = Config.Bind("1 - Player HUD", nameof(useCustomFoodBar), false, "Resizable, rotatable Food Bar. (REQUIRES RESTART)");
+            useCustomStaminaBar = Config.Bind(sectionName, nameof(useCustomStaminaBar), false, "Resizable, rotatable Stamina bar. This bar will always be visible and will not scale when you eat.");
 
-            healthBarRotation = Config.Bind("1 - Player HUD", nameof(healthBarRotation), 0, "Rotate healthbar in degrees  (REQUIRES RESTART)");
+            useCustomSpoilerBar = Config.Bind(sectionName, nameof(useCustomSpoilerBar), false, "Resizable, rotatable bar for the new spoiler resource. This bar will always be visible and will not scale when you eat.");
 
-            staminaBarRotation = Config.Bind("1 - Player HUD", nameof(staminaBarRotation), 90, "Rotate staminabar in degrees  (REQUIRES RESTART)");
+            useCustomFoodBar = Config.Bind(sectionName, nameof(useCustomFoodBar), false, $"Resizable, rotatable Food Bar. Requires {nameof(useCustomHealthBar)}.");
 
-            foodBarRotation = Config.Bind("1 - Player HUD", nameof(foodBarRotation), 90, "Rotate foodbar in degrees  (REQUIRES RESTART)" +
-                "" +
-                "");
-            
+            customHealthBarRotation = Config.Bind(sectionName, nameof(customHealthBarRotation), 90, "Rotate healthbar in degrees.");
+
+            customStaminaBarRotation = Config.Bind(sectionName, nameof(customStaminaBarRotation), 90, "Rotate staminabar in degrees.");
+
+            customSpoilerBarRotation = Config.Bind(sectionName, nameof(customSpoilerBarRotation), 90, "Rotate bar for the new spoiler resource in degrees.");
+
+            customFoodBarRotation = Config.Bind(sectionName, nameof(customFoodBarRotation), 90, "Rotate foodbar in degrees.");
+
 
             // Character Inventory
-            showDurabilityColor = Config.Bind("2 - Character Inventory", nameof(showDurabilityColor), true, "Show colored durability bars for items");
+            sectionName = "2 - Character Inventory";
 
-            durabilityColorPalette = Config.Bind("2 - Character Inventory", nameof(durabilityColorPalette), 0, "Change Durabilty bar colors. Options: 0=Green,Yellow,Orange,Red, 1=White,Light Yellow,Light Cyan,Blue. ");
+            showDurabilityColor = Config.Bind(sectionName, nameof(showDurabilityColor), true, "Show colored durability bars for items.");
 
-            showItemStars = Config.Bind("2 - Character Inventory", nameof(showItemStars), true, "Show item quality as stars");
+            durabilityColorPalette = Config.Bind(sectionName, nameof(durabilityColorPalette), 0, "Change Durabilty bar colors. Options: 0 = Green, Yellow, Orange, Red, 1 = White, Light Yellow, Light Cyan, Blue.");
 
-            showCustomCharInfo = Config.Bind("2 - Character Inventory", nameof(showCustomCharInfo), true, "Show Kills, Deaths, Builds, and Crafts stats on character selection screen");
+            showItemStars = Config.Bind(sectionName, nameof(showItemStars), true, "Show item quality as stars.");
 
-            showCustomTooltips = Config.Bind("2 - Character Inventory", nameof(showCustomTooltips), true, "Show more info on inventory item tooltips. Disable this is using Epic Loot.");
+            showCustomCharInfo = Config.Bind(sectionName, nameof(showCustomCharInfo), true, "Show Deaths, Builds, and Crafts stats on character selection screen. Also shows the Kills stat if something increases it.");
 
-            showCombinedItemStats = Config.Bind("2 - Character Inventory", nameof(showCombinedItemStats), true, "Show all item stats when mouse is hovered over armor amount.");
+            showCustomTooltips = Config.Bind(sectionName, nameof(showCustomTooltips), true, "Show more info on inventory item tooltips. Disable this is using Epic Loot.");
 
-            iconScaleSize = Config.Bind("2 - Character Inventory", nameof(iconScaleSize), 0.75f, "Scale item icon by this factor. Ex. 0.75 makes them 75% of original size");
+            showCombinedItemStats = Config.Bind(sectionName, nameof(showCombinedItemStats), true, "Show all item stats when mouse is hovered over armor amount.");
+
+            iconScaleSize = Config.Bind(sectionName, nameof(iconScaleSize), 0.75f, "Scale item icon by this factor. Ex. 0.75 makes them 75% of original size.");
 
 
             // Skills UI
-            customSkillUI = Config.Bind("3 - Character Skills", nameof(customSkillUI), false, "Toggle the use of custom skills UI");
+            sectionName = "3 - Character Skills";
 
-            skillUITextSize = Config.Bind("3 - Character Skills", nameof(skillUITextSize), 14, "Select text size on skills UI");
+            customSkillUI = Config.Bind(sectionName, nameof(customSkillUI), false, "Toggle the use of custom skills UI.");
+
+            skillUITextSize = Config.Bind(sectionName, nameof(skillUITextSize), 14, "Select text size on skills UI.");
 
 
             // Hover Text
-            timeLeftStyleFermenter = Config.Bind("4 - Hover Text", nameof(timeLeftStyleFermenter), 2, "Select duration display. 0 = Default, 1 = % Done, 2 = min:sec left");
+            sectionName = "4 - Hover Text";
 
-            timeLeftStylePlant = Config.Bind("4 - Hover Text", nameof(timeLeftStylePlant), 2, "Select duration display. 0 = Default, 1 = % Done, 2 = min:sec left");
+            timeLeftStyleFermenter = Config.Bind(sectionName, nameof(timeLeftStyleFermenter), 2, "Select duration display. 0 = Default, 1 = % Done, 2 = min:sec left.");
 
-            timeLeftStyleCookingStation = Config.Bind("4 - Hover Text", nameof(timeLeftStyleCookingStation), 2, "Select duration display. 0 = Default, 1= % Done, 2 = min:sec left");
+            timeLeftStylePlant = Config.Bind(sectionName, nameof(timeLeftStylePlant), 2, "Select duration display. 0 = Default, 1 = % Done, 2 = min:sec left.");
 
-            chestHasRoomStyle = Config.Bind("4 - Hover Text", nameof(chestHasRoomStyle), 2, "Select how chest emptyness is displayed. 0 = Default | 1 = % | 2 = items / max_room. | 3 = free slots ");
+            timeLeftStyleCookingStation = Config.Bind(sectionName, nameof(timeLeftStyleCookingStation), 2, "Select duration display. 0 = Default, 1= % Done, 2 = min:sec left.");
+
+            chestHasRoomStyle = Config.Bind(sectionName, nameof(chestHasRoomStyle), 2, "Select how chest emptyness is displayed. 0 = Default | 1 = % | 2 = items / max_room. | 3 = free slots.");
 
 
             // Character XP
-            showCharacterXP = Config.Bind("5 - Character XP", nameof(showCharacterXP), true, "Enable Character XP. This combines all skill levels to show overall character progress.");
+            sectionName = "5 - Character XP";
 
-            showCharacterXpBar = Config.Bind("5 - Character XP", nameof(showCharacterXpBar), true, "Show Character XP Bar on the bottom of the screen. Character XP must be enabled.");
+            showCharacterXP = Config.Bind(sectionName, nameof(showCharacterXP), true, "Enable Character XP. This combines all skill levels to show overall character progress.");
 
-            showCharacterXpBar.Value = showCharacterXP.Value && showCharacterXpBar.Value;
+            showXPNotifications = Config.Bind(sectionName, nameof(showXPNotifications), true, "Show whenever you gain xp from actions.");
 
-            showXPNotifications = Config.Bind("5 - Character XP", nameof(showXPNotifications), true, "Show whenever you gain xp from actions.");
+            notificationTextSizeXP = Config.Bind(sectionName, nameof(notificationTextSizeXP), 14, "XP notification font size.");
 
-            notificationTextSizeXP = Config.Bind("5 - Character XP", nameof(notificationTextSizeXP), 14, "XP notification font size.");
+            extendedXPNotification = Config.Bind(sectionName, nameof(extendedXPNotification), true, "Extend notification with: (xp gained) [current/overall xp].");
 
-            extendedXPNotification = Config.Bind("5 - Character XP", nameof(extendedXPNotification), true, "Extend notification with: (xp gained) [current/overall xp]");
+            // Character XP RESTART
+            sectionName = "5 - Character XP (Requires Logout)";
+
+            showCharacterXpBar = Config.Bind(sectionName, nameof(showCharacterXpBar), true, "Show Character XP Bar on the bottom of the screen. Character XP must be enabled.");
 
 
             // Enemy HUD
-            customEnemyHud = Config.Bind("6 - Enemy HUD", nameof(customEnemyHud), true, "Enable custom enemy HUD changes. If this is set to false, all options in this section will be disabled.");
+            sectionName = "6 - Enemy HUD";
 
-            useCustomAlertedStatus = Config.Bind("6 - Enemy HUD", nameof(useCustomAlertedStatus), true, "Hide the vanilla alerted icons above the enemy health bar and instead change the color of the name based on the alerted status.");
+            customEnemyHud = Config.Bind(sectionName, nameof(customEnemyHud), true, "Enable custom enemy HUD changes. If this is set to false, all options in this section will be disabled.");
 
-            showEnemyHPText = Config.Bind("6 - Enemy HUD", nameof(showEnemyHPText), true, "Show the text with HP amount on enemies health bar.");
+            useCustomAlertedStatus = Config.Bind(sectionName, nameof(useCustomAlertedStatus), true, "Hide the vanilla alerted icons above the enemy health bar and instead change the color of the name based on the alerted status.");
 
-            enemyLvlStyle = Config.Bind("6 - Enemy HUD", nameof(enemyLvlStyle), 0, "Choose how enemy lvl is shown. 0 = Default(stars) | 1 = Prefix before name (Lv. 1) | 2 = Both");
+            showEnemyHPText = Config.Bind(sectionName, nameof(showEnemyHPText), true, "Show the text with HP amount on enemies health bar.");
 
-            enemyNameTextSize = Config.Bind("6 - Enemy HUD", nameof(enemyNameTextSize), 14, "Font Size of the Name on the enemy");
+            enemyLvlStyle = Config.Bind(sectionName, nameof(enemyLvlStyle), 0, "Choose how enemy lvl is shown. 0 = Default (stars) | 1 = Prefix before name (Lv. 1) | 2 = Both.");
 
-            enemyHPTextSize = Config.Bind("6 - Enemy HUD", nameof(enemyHPTextSize), 10, "Font size of the HP text on the enemy health bar.");
+            enemyNameTextSize = Config.Bind(sectionName, nameof(enemyNameTextSize), 14, "Font size of the name on the enemy.");
 
-            showPlayerHPText = Config.Bind("6 - Enemy HUD", nameof(showPlayerHPText), true, "Show the health numbers on other player's health bar in Multiplayer.");
+            enemyHPTextSize = Config.Bind(sectionName, nameof(enemyHPTextSize), 10, "Font size of the HP text on the enemy health bar.");
 
-            showLocalPlayerEnemyHud = Config.Bind("6 - Enemy HUD", nameof(showLocalPlayerEnemyHud), false, "Show the EnemyHud/HealthBar for your player.");
+            showPlayerHPText = Config.Bind(sectionName, nameof(showPlayerHPText), true, "Show the health numbers on other player's health bar in Multiplayer.");
+
+            showLocalPlayerEnemyHud = Config.Bind(sectionName, nameof(showLocalPlayerEnemyHud), false, "Show the EnemyHud/HealthBar for your player.");
             showLocalPlayerEnemyHud.SettingChanged += (_, _) => BetterEnemyHud.ShowLocalPlayerEnemyHudConfigChanged();
 
-            playerHPTextSize = Config.Bind("6 - Enemy HUD", nameof(playerHPTextSize), 10, "The size of the font to display on other player's health bar in Multiplayer.");
+            playerHPTextSize = Config.Bind(sectionName, nameof(playerHPTextSize), 10, "The size of the font to display on other player's health bar in Multiplayer.");
 
-            bossHPTextSize = Config.Bind("6 - Enemy HUD", nameof(bossHPTextSize), 14, "The size of the font To display on the Boss's health bar.");
+            bossHPTextSize = Config.Bind(sectionName, nameof(bossHPTextSize), 14, "The size of the font to display on the Boss's health bar.");
 
-            makeTamedHPGreen = Config.Bind("6 - Enemy HUD", nameof(makeTamedHPGreen), true, "Make the health bar for tamed creatures green instead of red.");
+            makeTamedHPGreen = Config.Bind(sectionName, nameof(makeTamedHPGreen), true, "Make the health bar for tamed creatures green instead of red.");
 
-            maxShowDistance = Config.Bind("6 - Enemy HUD", nameof(maxShowDistance), 1f, "How far you will see enemy HP Bar. This is an multiplier, 1 = game default. 2 = 2x default");
+            maxShowDistance = Config.Bind(sectionName, nameof(maxShowDistance), 1f, "How far you will see enemy HP Bar. This is an multiplier, 1 = game default, 2 = 2x default.");
 
 
             // Map
-            mapPinScaleSize = Config.Bind("7 - Map", nameof(mapPinScaleSize), 1f, "Scale map pins by this factor. Ex. 1.5 makes the 150% of original size.");
+            sectionName = "7 - Map";
+
+            mapPinScaleSize = Config.Bind(sectionName, nameof(mapPinScaleSize), 1f, "Scale map pins by this factor. Ex. 1.5 makes the 150% of original size.");
+
 
             // Debug
-            isDebug = Config.Bind("8 - Debug", nameof(isDebug), false, "Enable debug logging");
+            sectionName = "8 - Debug";
 
-            /* =======================
-             *         xDataUI
-             * =======================
-             */
-            uiData = Config.Bind("9 - xDataUI", nameof(uiData), "none", "This is your customized UI info. (Edit to none, if having issues with UI)");
-            /*
-            showXPNotifications = Config.Bind("UI", "ShowXPNotifications", true, "Show when you gain xp from actions.");
-            extendedXPNotification = Config.Bind("UI", "extendedXPNotification", true, "Extend notification with: (xp gained) [current/overall xp]");
-            notificationTextSize = Config.Bind("UI", "notificationTextSize", 14, "Edit XP notification font size.");
-            customSkillUI = Config.Bind("UI", "useCustomSkillUI", true, "Toggle the use of custom skills UI");
-            skillUITextSize = Config.Bind("UI", "skillUITextSize", 14, "Select text size on skills UI");
-            showCustomCharInfo = Config.Bind("UI", "showCustomCharInfo", true, "Toggle the visibility of custom info on character selection");
-            showCombinedItemStats = Config.Bind("UI", "showCombinedItemStats", true, "Show all item stats when mouse is hovered over armour amount.");
-            timeLeftStyleFermenter = Config.Bind("UI", "timeLeftStyleFermenter", 2, "Select duration display. 0 = Default, 1 = % Done, 2 = min:sec left");
-            timeLeftStylePlant = Config.Bind("UI", "timeLeftStylePlant", 2, "Select duration display. 0 = Default, 1 = % Done, 2 = min:sec left");
-            timeLeftStyleCookingStation = Config.Bind("UI", "timeLeftStyleCookingStation", 2, "Select duration display. 0 = Default, 1= % Done, 2 = min:sec left");
-            chestHasRoomStyle = Config.Bind("UI", "chestHasRoomStyle", 2, "Select how chest emptyness is displayed. 0 = Default | 1 = % | 2 = items / max_room. | 3 = free slots ");
+            isDebug = Config.Bind(sectionName, nameof(isDebug), false, "Enable debug logging.");
 
-            showDurabilityColor = Config.Bind("Item", "ShowDurabilityColor", true, "Show colored durability bars");
-            showItemStars = Config.Bind("Item", "showItemStars", true, "Show item quality as stars");
-            showCustomTooltips = Config.Bind("Item", "showCustomTooltips", true, "Show customized tooltips.");
-            iconScaleSize = Config.Bind("Item", "ScaleSize", 0.75f, "Scale item icon by this factor. Ex. 0.75 makes them 75% of original size");
 
-            customEnemyHud = Config.Bind("HUD", "useCustomEnemyHud", true, "Toggle the use of custom enemy hud");
-            hideEnemyHPText = Config.Bind("HUD", "hideEnemyHPText", false, "Toggle if you want to hide the text with HP amount");
-            enemyLvlStyle = Config.Bind("HUD", "enemyLvlStyle", 1, "Choose how enemy lvl is shown. 0 = Default(stars) | 1 = Prefix before name (Lv. 1) | 2 = Both");
-            enemyHudTextSize = Config.Bind("HUD", "enemyHudTextSize", 14, "Select Text size on enemyHud");
-            maxShowDistance = Config.Bind("HUD", "MaxShowDistance", 1f, "How far you will see enemy HP Bar. This is an multiplier, 1 = game default. 2 = 2x default");
-            mapPinScaleSize = Config.Bind("HUD", "mapPinSize", 1f, "Scale map pins by this factor. Ex. 1.5 makes the 150% of original size.");
-            */
+            // xDataUI
+            sectionName = "9 - xDataUI";
+            uiData = Config.Bind(sectionName, nameof(uiData), "none", "This is your customized UI info. Edit to none, if having issues or wanting to reset positions.");
         }
         public void Start()
         {
             harmony.PatchAll(assembly);
         }
+
         /*
         public void OnDestroy()
         {
