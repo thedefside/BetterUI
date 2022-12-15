@@ -329,6 +329,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameClasses\BeeHive.cs" />
     <Compile Include="GameClasses\Container.cs" />
     <Compile Include="GameClasses\CookingStation.cs" />
     <Compile Include="GameClasses\EnemyHud.cs" />
@@ -346,14 +347,17 @@
     <Compile Include="GameClasses\Smelter.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Patches\Compatibility.cs" />
-    <Compile Include="Patches\CustomElements.cs" />
+    <Compile Include="Patches\CustomBars.cs" />
     <Compile Include="Patches\CustomHud.cs" />
     <Compile Include="Patches\Helpers.cs" />
     <Compile Include="Patches\HoverText.cs" />
+    <Compile Include="Patches\HudElement.cs" />
     <Compile Include="Patches\Items.cs" />
     <Compile Include="Patches\Menu.cs" />
+    <Compile Include="Patches\ItemIconUpdater.cs" />
     <Compile Include="Patches\RPG.cs" />
     <Compile Include="Patches\Skill.cs" />
+    <Compile Include="Patches\TextScaler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Package\icon.png" />
     <None Include="GameDir.targets" />

@@ -1,47 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BetterUI.Patches;
 using HarmonyLib;
-using UnityEngine;
 
 namespace BetterUI.GameClasses
 {
-  [HarmonyPatch]
-  public static class BetterHotkeyBar
-  {
-    [HarmonyPostfix]
-    [HarmonyPatch(typeof(HotkeyBar), "UpdateIcons")]
-    private static void PatchHotkeyBar(ref HotkeyBar __instance, ref Player player)
+    [HarmonyPatch]
+    public static class BetterHotkeyBar
     {
-      if (!player || player.IsDead())
-      {
-        return;
-      }
-
-      if (!Main.showDurabilityColor.Value) return;
-
-      foreach (ItemDrop.ItemData itemData in __instance.m_items)
-      {
-        HotkeyBar.ElementData element = __instance.m_elements[itemData.m_gridPos.x];
-
-        if (element.m_icon.transform.localScale == Vector3.one) element.m_icon.transform.localScale *= Mathf.Max(Main.iconScaleSize.Value, 0.1f);
-
-        if (itemData.m_shared.m_useDurability)
+        [HarmonyPostfix]
+        [HarmonyPatch(typeof(HotkeyBar), "UpdateIcons")]
+        private static void PatchHotkeyBar(ref HotkeyBar __instance, ref Player player)
         {
-          if (itemData.m_durability <= 0f) // Item has no durability, original code should do this
-          {
-            //element.m_durability.SetValue(1f);
-            //element.m_durability.SetColor((Mathf.Sin(Time.time * 10f) > 0f) ? Color.red : new Color(0f, 0f, 0f, 0f));
+            if (!player || player.IsDead())
+            {
+                return;
+            }
 
-          }
-          else // Item has durability left
-          {
-            Patches.DurabilityBar.UpdateColor(element, itemData.GetDurabilityPercentage());
-          }
+            foreach (ItemDrop.ItemData itemData in __instance.m_items)
+            {
+                HotkeyBar.ElementData element = __instance.m_elements[itemData.m_gridPos.x];
+
+                // would be better if this could be done reliably in an Awake/ Start, but I'm not in the mood to look for one
+                if (element.m_icon.gameObject.GetComponent<ItemIconUpdater>() == null)
+                {
+                    var origScaleComp = element.m_icon.gameObject.AddComponent<ItemIconUpdater>();
+                    origScaleComp.Setup(element.m_icon);
+                }
+
+                ElementHelper.UpdateElement(element.m_durability, element.m_icon, itemData);
+            }
         }
-      }
     }
-  }
 }
