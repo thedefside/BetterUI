@@ -10,7 +10,6 @@ namespace BetterUI.GameClasses
     public static class BetterHud
     {
         private static Player _player = null;
-        public static GuiBar _bar = null;
         private static Vector3 lastMousePos = Vector3.zero;
         private static float lastScrollPos = 0f;
 
@@ -18,24 +17,45 @@ namespace BetterUI.GameClasses
         private static bool isEditing = false;
         private static int activeLayer = 0;
 
-        private static readonly bool useCustomHud = Main.enablePlayerHudEditing.Value;
-
         [HarmonyPostfix]
         [HarmonyPatch(typeof(Hud), "Awake")]
         private static void Awake(ref Hud __instance)
         {
-            
-            if (Main.showCharacterXpBar.Value && _bar == null) _bar = XPBar.Awake(__instance);
+            if (Main.showCharacterXP.Value && Main.showCharacterXpBar.Value)
+            {
+                XPBar.Create(__instance);
+            }
 
-            if (useCustomHud)
+            if (Main.enablePlayerHudEditing.Value)
             {
                 // Try to support QuickSlots
+                // TODO this could also be done after creating the custom elements right?
                 Compatibility.QuickSlotsHotkeyBar.Unanchor(__instance);
-                // Load custom elements, before getting positions.
-                if (Main.useCustomHealthBar.Value) CustomElements.HealthBar.Create();
-                if (Main.useCustomStaminaBar.Value) CustomElements.StaminaBar.Create();
-                if (Main.useCustomFoodBar.Value) CustomElements.FoodBar.Create();
+            }
 
+            // Load custom elements, before getting positions
+            if (Main.useCustomHealthBar.Value)
+            {
+                CustomElements.HealthBar.Create();
+            }
+
+            if (Main.useCustomStaminaBar.Value)
+            {
+                CustomElements.StaminaBar.Create();
+            }
+
+            if (Main.useCustomSpoilerBar.Value)
+            {
+                CustomElements.EitrBar.Create();
+            }
+
+            if (Main.useCustomFoodBar.Value)
+            {
+                CustomElements.FoodBar.Create();
+            }
+
+            if (Main.enablePlayerHudEditing.Value)
+            {
                 CustomHud.Load(__instance);
                 CustomHud.PositionTemplates();
             }
@@ -51,10 +71,13 @@ namespace BetterUI.GameClasses
             {
                 _player = localPlayer;
                 XP.Awake(localPlayer);
-                if (Main.showCharacterXpBar.Value) _bar.SetValue(XP.LevelProgressPercentage);
+                XPBar.UpdateLevelProgressPercentage();
             }
 
-            if (!useCustomHud || localPlayer == null) return;
+            if (!Main.enablePlayerHudEditing.Value || localPlayer == null)
+            {
+                return;
+            }
 
             if (Input.GetKeyDown(Main.togglePlayerHudEditModeKey.Value))
             {
@@ -62,7 +85,11 @@ namespace BetterUI.GameClasses
                 CustomHud.ShowTemplates(isEditing, activeLayer);
                 Player.m_localPlayer.Message(MessageHud.MessageType.Center, $"HUD editing is turned {(isEditing ? "ON" : $"OFF")}");
             }
-            if (!isEditing) return;
+
+            if (!isEditing)
+            {
+                return;
+            }
             else if (Input.GetKeyDown(KeyCode.Mouse1))
             {
                 activeLayer = activeLayer == CustomHud.roots.Count ? 0 : activeLayer + 1;
@@ -70,17 +97,12 @@ namespace BetterUI.GameClasses
                 CustomHud.ShowTemplates(isEditing, activeLayer);
                 Player.m_localPlayer.Message(MessageHud.MessageType.Center, $"Now editing: {(Groups)activeLayer}");
             }
+
             float gameScale = GameObject.Find("LoadingGUI").GetComponent<CanvasScaler>().scaleFactor;
 
             Vector3 mousePos = Input.mousePosition; // Select element / move element
             float scrollPos = Input.GetAxis("Mouse ScrollWheel"); // Change scale
 
-            // Could maybe rremove this
-            if (!useCustomHud)
-            {
-                lastMousePos = mousePos;
-                return;
-            }
             if (lastMousePos == Vector3.zero) lastMousePos = mousePos;
             if (lastScrollPos == 0f) lastScrollPos = scrollPos;
 
@@ -94,9 +116,13 @@ namespace BetterUI.GameClasses
                 try
                 {
                     // Get elements only from active layer.
-                    RectTransform rt = CustomHud.LocateTemplateRect(e.group, e.name); // Will get every template from different layers..
-                                                                                      // Add only rects from active layer
-                    if (rt && e.group == (Groups)activeLayer) rectList.Add(new KeyValuePair<string, RectTransform>(e.name, rt));
+                    RectTransform rt = CustomHud.LocateTemplateRect(e.group, e.name);
+                    // 'rt' will get every template from different layers
+                    // Add only rects from active layer
+                    if (rt && e.group == (Groups)activeLayer)
+                    {
+                        rectList.Add(new KeyValuePair<string, RectTransform>(e.name, rt));
+                    }
                 }
                 catch
                 {
@@ -139,7 +165,6 @@ namespace BetterUI.GameClasses
             /*
             if (_bar != null)
             {
-
               if (_bar.m_value >= 1f) _bar.m_value = 0f;
               _bar.SetValue(_bar.m_value + 0.001f);
             }
@@ -150,27 +175,32 @@ namespace BetterUI.GameClasses
         [HarmonyPatch(typeof(Hud), "UpdateHealth")]
         private static void UpdateHealth(Player player)
         {
-            if (useCustomHud && Main.useCustomHealthBar.Value)
-            {
-                CustomElements.HealthBar.Update(player.GetMaxHealth(), player.GetHealth());
-            }
+            // the class will decide if it should do something, ignore config values here
+            CustomElements.HealthBar.Update(player.GetMaxHealth(), player.GetHealth());
         }
 
         [HarmonyPostfix]
         [HarmonyPatch(typeof(Hud), "UpdateStamina")]
         private static void UpdateStamina(Player player)
         {
-            if (useCustomHud && Main.useCustomStaminaBar.Value)
-            {
-                CustomElements.StaminaBar.Update(player.GetMaxStamina(), player.GetStamina());
-            }
+            // the class will decide if it should do something, ignore config values here
+            CustomElements.StaminaBar.Update(player.GetMaxStamina(), player.GetStamina());
+        }
+
+        [HarmonyPostfix]
+        [HarmonyPatch(typeof(Hud), "UpdateEitr")]
+        private static void UpdateEitr(Player player)
+        {
+            // the class will decide if it should do something, ignore config values here
+            CustomElements.EitrBar.Update(player.GetMaxEitr(), player.GetEitr());
         }
 
         [HarmonyPostfix]
         [HarmonyPatch(typeof(Hud), "UpdateFood")]
         private static void UpdateFood(Player player)
         {
-            if (useCustomHud && Main.useCustomFoodBar.Value) CustomElements.FoodBar.Update(player);
+            // the class will decide if it should do something, ignore config values here
+            CustomElements.FoodBar.Update(player);
         }
     }
 }

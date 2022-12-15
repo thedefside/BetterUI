@@ -13,8 +13,22 @@ namespace BetterUI.Patches
         private static Color barColor = Color.yellow;
         private static GuiBar _xp_bar = null;
 
-        public static GuiBar Awake(Hud __instance)
+        public static void UpdateLevelProgressPercentage()
         {
+            if(_xp_bar != null)
+            {
+                _xp_bar.SetValue(XP.LevelProgressPercentage);
+            }
+        }
+
+        public static void Create(Hud __instance)
+        {
+            // we've obviously already done this before if it's not null
+            if (_xp_bar != null)
+            {
+                return;
+            }
+
             Transform hudroot = Utils.FindChild(__instance.gameObject.transform, "hudroot");
             GuiBar xp_bar = UnityEngine.Object.Instantiate(Hud.instance.m_stealthBar, hudroot, true);
             xp_bar.m_barImage = Hud.instance.m_stealthBar.m_bar.GetComponent<Image>();
@@ -48,16 +62,20 @@ namespace BetterUI.Patches
             // Render the XP Bar 
             xp_bar.gameObject.SetActive(true);
             _xp_bar = xp_bar;
-
-            return xp_bar;
         }
 
         public static void UpdatePosition()
         {
-            if (_xp_bar == null) return;
-            RectTransform xpRect = (_xp_bar.transform as RectTransform);
-            if (xpRect == null) return;
-            _xp_bar.m_bar.sizeDelta = xpRect.rect.size;
+            if (_xp_bar != null)
+            {
+                // maybe use 'is' syntax, but may not reliable be for unity components (just like ?. doesn't work on monobehaviours)
+                var xpRect = _xp_bar.transform as RectTransform;
+
+                if(xpRect != null)
+                {
+                    _xp_bar.m_bar.sizeDelta = xpRect.rect.size;
+                }
+            }
         }
     }
 
@@ -79,6 +97,7 @@ namespace BetterUI.Patches
                 Debug.LogWarning("Didn't get a player");
                 return;
             }
+
             RPG_Player = player;
 
             UpdatePlayerXP();

@@ -25,10 +25,8 @@ namespace BetterUI.GameClasses
             [HarmonyPatch(typeof(Skills.Skill), "Raise")]
             private static void CalculateXP(ref Skills __instance, float factor)
             {
-                //if (BetterHud._bar == null) return;
-
                 Patches.XP.RaiseXP();
-                if (Main.showCharacterXpBar.Value) BetterHud._bar.SetValue(Patches.XP.LevelProgressPercentage);
+                Patches.XPBar.UpdateLevelProgressPercentage();
             }
         }
     }
