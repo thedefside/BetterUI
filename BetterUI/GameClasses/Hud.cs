@@ -44,7 +44,7 @@ namespace BetterUI.GameClasses
                 CustomElements.StaminaBar.Create();
             }
 
-            if (Main.useCustomSpoilerBar.Value)
+            if (Main.useCustomEitrBar.Value)
             {
                 CustomElements.EitrBar.Create();
             }

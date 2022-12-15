@@ -9,14 +9,17 @@ You are able to edit and select what updates you want to use.
 Join our Discord! https://discord.gg/vSEjCNF48K
 
 
-## Version 2.2.3 Information
+## Version 2.3.0 Information
 
- - Mistlands Compatibility (thedefside)
+ - Color of the item movement speed tooltip is now set correctly (Goldenrevolver)
+ - The main menu player stats no longer display the kill count if it's zero (Goldenrevolver)
+ - The mod no longer always displays 'Lv.0' when the user has character XP disabled (Goldenrevolver)
+ - Removed floating food icon next to armor icon (Goldenrevolver)
+ - Add Custom Eitr Bar (Goldenrevolver)
+ - Enable user to enable or disable the custom health/food/stamina/xp bars without errors (still requires logout/restart) (Goldenrevolver)
+ - Change the default position of custom UI bars so they don't overlap (Goldenrevolver)
+ - Fix duplicate Food bar when custom health bar disabled (Goldenrevolver)
 
-
-
-Small showcase on editing UI: https://imgur.com/a/w6bRkWs 
- 
 
 ## Table of Contents
 1. [Installation](#Installation-(manual))
@@ -57,7 +60,11 @@ __How do I edit the player HUD?__
  - `Mouse Left` | Drag elements  
  - `Mouse Right` | Toggle editing layer  
  - `Left Ctrl` | Hold to allow scale editing  
- - `Mouse Scroll` | Edit scale  
+ - `Mouse Scroll` | Edit scale
+
+ Small showcase on editing UI: https://imgur.com/a/w6bRkWs 
+ 
+
 
 ## Changelog
 #### 2.2.3
