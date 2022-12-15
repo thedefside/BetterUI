@@ -18,7 +18,7 @@ namespace BetterUI
           MODNAME = "BetterUI",
           AUTHOR = "MK",
           GUID = AUTHOR + "_" + MODNAME,
-          VERSION = "2.2.3";
+          VERSION = "2.3.0";
 
 
         internal static ManualLogSource log;
@@ -33,7 +33,7 @@ namespace BetterUI
         public static ConfigEntry<KeyCode> modKeySecondary;
         public static ConfigEntry<bool> useCustomHealthBar;
         public static ConfigEntry<bool> useCustomStaminaBar;
-        public static ConfigEntry<bool> useCustomSpoilerBar;
+        public static ConfigEntry<bool> useCustomEitrBar;
         public static ConfigEntry<bool> useCustomFoodBar;
         public static ConfigEntry<int> customHealthBarRotation;
         public static ConfigEntry<int> customStaminaBarRotation;
@@ -128,7 +128,7 @@ namespace BetterUI
             
             useCustomStaminaBar = Config.Bind(sectionName, nameof(useCustomStaminaBar), false, "Resizable, rotatable Stamina bar. This bar will always be visible and will not scale when you eat.");
 
-            useCustomSpoilerBar = Config.Bind(sectionName, nameof(useCustomSpoilerBar), false, "Resizable, rotatable bar for the new spoiler resource. This bar will always be visible and will not scale when you eat.");
+            useCustomEitrBar = Config.Bind(sectionName, nameof(useCustomEitrBar), false, "Resizable, rotatable bar for the new Eitr resource. This bar will always be visible and will not scale when you eat.");
 
             useCustomFoodBar = Config.Bind(sectionName, nameof(useCustomFoodBar), false, $"Resizable, rotatable Food Bar. Requires {nameof(useCustomHealthBar)}.");
 
