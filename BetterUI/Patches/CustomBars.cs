@@ -435,6 +435,7 @@ namespace BetterUI.Patches
                                 }
 
                                 foodTime.gameObject.SetActive(true);
+                                foodTime.fontSize = customFoodBarTextSize.Value;
 
                                 if (food.m_time >= 60f)
                                 {

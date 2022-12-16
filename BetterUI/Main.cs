@@ -38,9 +38,11 @@ namespace BetterUI
         public static ConfigEntry<CustomBarState> customEitrBar;
         public static ConfigEntry<CustomBarState> customFoodBar;
         public static ConfigEntry<int> customBarTextSize;
+        public static ConfigEntry<int> customFoodBarTextSize;
 
         // Player Inventory
         public static ConfigEntry<DurabilityBarStyle> durabilityBarColorPalette;
+
         public static ConfigEntry<bool> showItemStars;
         public static ConfigEntry<bool> showCustomCharInfo;
         public static ConfigEntry<bool> showCustomTooltips;
@@ -123,6 +125,9 @@ namespace BetterUI
             modKeySecondary = Config.Bind(sectionName, nameof(modKeySecondary), KeyCode.LeftControl,
                 "Key needed to be held down to change an elements scale with the mouse wheel, as well as its X and Y dimensions by moving the mouse. Accepted Values: https://docs.unity3d.com/ScriptReference/KeyCode.html");
 
+            customBarTextSize = Config.Bind(sectionName, nameof(customBarTextSize), 15, "Font size of the text on the custom bars.");
+            customFoodBarTextSize = Config.Bind(sectionName, nameof(customFoodBarTextSize), 15, "Font size of the duration text of food items in the custom food bar.");
+
             // Player HUD RESTART
             sectionName = "1 - Player HUD (Requires Logout)";
 
@@ -154,8 +159,6 @@ namespace BetterUI
             customEitrBar = Config.Bind(sectionName, nameof(customEitrBar), eitrDefault ? CustomBarState.on0Degrees : CustomBarState.off, "Resizable, rotatable eitr bar. If you don't know what this is yet, just keep it disabled. This bar will always be visible and will not scale when you eat.");
             customEitrBar.SettingChanged += (_, _) => CustomEitrBar_SettingChanged();
             RemoveOldConfigValue<int>(new ConfigDefinition(sectionName, "customSpoilerBarRotation"));
-
-            customBarTextSize = Config.Bind(sectionName, nameof(customBarTextSize), 14, "Font size of the text on the custom bars.");
 
             //
             // Character Inventory
