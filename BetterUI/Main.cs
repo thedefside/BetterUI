@@ -132,7 +132,7 @@ namespace BetterUI
             sectionName = "1 - Player HUD (Requires Logout)";
 
             var editingDefault = GetOldOrDefaultConfigValue(new ConfigDefinition("1 - Player HUD", nameof(enablePlayerHudEditing)), true);
-            enablePlayerHudEditing = Config.Bind(sectionName, nameof(enablePlayerHudEditing), editingDefault, "Enable the ability to edit the Player HUD by pressing a hotkey.");
+            enablePlayerHudEditing = Config.Bind(sectionName, nameof(enablePlayerHudEditing), editingDefault, "Enable the ability to edit the player HUD by pressing a hotkey.");
 
             var healthDefault = GetOldOrDefaultConfigValue(new ConfigDefinition("1 - Player HUD", "useCustomHealthBar"), false);
             healthDefault |= GetOldOrDefaultConfigValue(new ConfigDefinition("1 - Player HUD (Requires Logout)", "useCustomHealthBar"), false);
@@ -166,25 +166,25 @@ namespace BetterUI
 
             var wasColorOnDefault = GetOldOrDefaultConfigValue(new ConfigDefinition(sectionName, "showDurabilityColor"), true);
             var colorDefault = GetOldOrDefaultConfigValue(new ConfigDefinition(sectionName, "durabilityColorPalette"), 0);
-            durabilityBarColorPalette = Config.Bind(sectionName, nameof(durabilityBarColorPalette), IntToDurabilityBarStyle(wasColorOnDefault, colorDefault), "Change durabilty bar colors. Options: 0 = Green, Yellow, Orange, Red, 1 = White, Light Yellow, Light Cyan, Blue.");
+            durabilityBarColorPalette = Config.Bind(sectionName, nameof(durabilityBarColorPalette), IntToDurabilityBarStyle(wasColorOnDefault, colorDefault), "Change durability bar colors. Options: 0 = Green, Yellow, Orange, Red, 1 = White, Light Yellow, Light Cyan, Blue.");
 
             showItemStars = Config.Bind(sectionName, nameof(showItemStars), true, "Show item quality as stars.");
 
-            showCustomCharInfo = Config.Bind(sectionName, nameof(showCustomCharInfo), true, "Show Deaths, Builds, and Crafts stats on character selection screen. Also shows the Kills stat if something increases it.");
+            showCustomCharInfo = Config.Bind(sectionName, nameof(showCustomCharInfo), true, "Show Deaths, Builds, and Crafts stats on character selection screen. Also shows the Kills stat if something increases it (the base game doesn't).");
 
             showCustomTooltips = Config.Bind(sectionName, nameof(showCustomTooltips), true, "Show more info on inventory item tooltips. Disable this if using Epic Loot.");
 
             showCombinedItemStats = Config.Bind(sectionName, nameof(showCombinedItemStats), true, "Show all item stats when mouse is hovered over armor amount.");
 
-            iconScaleSize = Config.Bind(sectionName, nameof(iconScaleSize), 0.75f, "Scale item icon by this factor. Ex. 0.75 makes them 75% of original size.");
+            iconScaleSize = Config.Bind(sectionName, nameof(iconScaleSize), 1f, "Scale item icon by this factor. Ex. 0.75 makes them 75% of their original size.");
 
             //
             // Skills UI
             sectionName = "3 - Character Skills";
 
-            customSkillUI = Config.Bind(sectionName, nameof(customSkillUI), false, "Toggle the use of custom skills UI.");
+            customSkillUI = Config.Bind(sectionName, nameof(customSkillUI), false, "Toggle the use of the custom skills UI.");
 
-            skillUITextSize = Config.Bind(sectionName, nameof(skillUITextSize), 14, "Select text size on skills UI.");
+            skillUITextSize = Config.Bind(sectionName, nameof(skillUITextSize), 14, "Select text size of the skills UI.");
 
             //
             // Hover Text
@@ -209,13 +209,13 @@ namespace BetterUI
             // Character XP
             sectionName = "5 - Character XP";
 
-            showCharacterXP = Config.Bind(sectionName, nameof(showCharacterXP), true, "Enable Character XP. This combines all skill levels to show overall character progress.");
+            showCharacterXP = Config.Bind(sectionName, nameof(showCharacterXP), true, "Enable character XP. This combines all skill levels to show overall character progress.");
 
             showXPNotifications = Config.Bind(sectionName, nameof(showXPNotifications), true, "Show whenever you gain xp from actions.");
 
             notificationTextSizeXP = Config.Bind(sectionName, nameof(notificationTextSizeXP), 14, "XP notification font size.");
 
-            extendedXPNotification = Config.Bind(sectionName, nameof(extendedXPNotification), true, "Extend notification with: (xp gained) [current/overall xp].");
+            extendedXPNotification = Config.Bind(sectionName, nameof(extendedXPNotification), false, "Extend notification with: (xp gained) [current/overall xp].");
 
             skipRunningSkillNotifications = Config.Bind(sectionName, nameof(skipRunningSkillNotifications), true, "Whether to ignore xp gain notifications for the running skill.");
 
@@ -223,7 +223,7 @@ namespace BetterUI
             sectionName = "5 - Character XP (Requires Logout)";
 
             var expBarDefault = GetOldOrDefaultConfigValue(new ConfigDefinition("5 - Character XP", nameof(showCharacterXpBar)), true);
-            showCharacterXpBar = Config.Bind(sectionName, nameof(showCharacterXpBar), expBarDefault, "Show Character XP Bar on the bottom of the screen. Character XP must be enabled.");
+            showCharacterXpBar = Config.Bind(sectionName, nameof(showCharacterXpBar), expBarDefault, "Show Character XP bar on the bottom of the screen. Character XP must be enabled.");
 
             //
             // Enemy HUD
@@ -233,33 +233,33 @@ namespace BetterUI
 
             useCustomAlertedStatus = Config.Bind(sectionName, nameof(useCustomAlertedStatus), true, "Hide the vanilla alerted icons above the enemy health bar and instead change the color of the name based on the alerted status.");
 
-            showEnemyHPText = Config.Bind(sectionName, nameof(showEnemyHPText), true, "Show the text with HP amount on enemies health bar.");
+            showEnemyHPText = Config.Bind(sectionName, nameof(showEnemyHPText), true, "Show the text with HP amount on enemy health bars.");
 
             var enemyLevelStyleDefault = GetOldOrDefaultConfigValue(new ConfigDefinition(sectionName, "enemyLvlStyle"), 0);
-            enemyLevelStyle = Config.Bind(sectionName, nameof(enemyLevelStyle), IntToEnemyLevelStyle(enemyLevelStyleDefault), "Choose how enemy lvl is shown. 0 = Default (stars) | 1 = Prefix before name (Lv. 1) | 2 = Both.");
+            enemyLevelStyle = Config.Bind(sectionName, nameof(enemyLevelStyle), IntToEnemyLevelStyle(enemyLevelStyleDefault), "Choose how enemy level is shown. 0 = Default (stars) | 1 = Prefix before name (Lv. 1) | 2 = Both.");
 
             enemyNameTextSize = Config.Bind(sectionName, nameof(enemyNameTextSize), 14, "Font size of the name on the enemy.");
 
             enemyHPTextSize = Config.Bind(sectionName, nameof(enemyHPTextSize), 10, "Font size of the HP text on the enemy health bar.");
 
-            showPlayerHPText = Config.Bind(sectionName, nameof(showPlayerHPText), true, "Show the health numbers on other player's health bar in Multiplayer.");
+            showPlayerHPText = Config.Bind(sectionName, nameof(showPlayerHPText), true, "Show the health numbers on other player's health bar in multiplayer.");
 
-            showLocalPlayerEnemyHud = Config.Bind(sectionName, nameof(showLocalPlayerEnemyHud), false, "Show the EnemyHud/HealthBar for your player.");
+            showLocalPlayerEnemyHud = Config.Bind(sectionName, nameof(showLocalPlayerEnemyHud), false, "Show the enemy HUD/ health Bar for your player.");
             showLocalPlayerEnemyHud.SettingChanged += (_, _) => BetterEnemyHud.ShowLocalPlayerEnemyHudConfigChanged();
 
-            playerHPTextSize = Config.Bind(sectionName, nameof(playerHPTextSize), 10, "The size of the font to display on other player's health bar in Multiplayer.");
+            playerHPTextSize = Config.Bind(sectionName, nameof(playerHPTextSize), 10, "The size of the font to display on other player's health bar in multiplayer.");
 
-            bossHPTextSize = Config.Bind(sectionName, nameof(bossHPTextSize), 14, "The size of the font to display on the Boss's health bar.");
+            bossHPTextSize = Config.Bind(sectionName, nameof(bossHPTextSize), 14, "The size of the font to display on the boss's health bar.");
 
             makeTamedHPGreen = Config.Bind(sectionName, nameof(makeTamedHPGreen), true, "Make the health bar for tamed creatures green instead of red.");
 
-            maxShowDistance = Config.Bind(sectionName, nameof(maxShowDistance), 1f, "How far you will see enemy HP Bar. This is an multiplier, 1 = game default, 2 = 2x default.");
+            maxShowDistance = Config.Bind(sectionName, nameof(maxShowDistance), 1f, "How far you will see enemy HP Bar. This is a multiplier, 1 is game default, 2 is twice as far (valid range: 0 to 3).");
 
             //
             // Map
             sectionName = "7 - Map";
 
-            mapPinScaleSize = Config.Bind(sectionName, nameof(mapPinScaleSize), 1f, "Scale map pins by this factor. Ex. 1.5 makes the 150% of original size.");
+            mapPinScaleSize = Config.Bind(sectionName, nameof(mapPinScaleSize), 1f, "Scale map pins by this factor. Ex. 1.5 makes them 150% of their original size.");
 
             //
             // Debug
