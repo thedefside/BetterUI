@@ -10,9 +10,24 @@ namespace BetterUI.GameClasses
         [HarmonyPatch(typeof(InventoryGrid), "UpdateGui")]
         private static void PatchInventory(ref InventoryGrid __instance, ref Player player, ItemDrop.ItemData dragItem)
         {
+            var width = __instance.m_inventory.GetWidth();
+            InventoryGrid.Element element;
+            int index;
+
             foreach (ItemDrop.ItemData itemData in __instance.m_inventory.GetAllItems())
             {
-                InventoryGrid.Element element = __instance.GetElement(itemData.m_gridPos.x, itemData.m_gridPos.y, __instance.m_inventory.GetWidth());
+                index = itemData.m_gridPos.y * width + itemData.m_gridPos.x;
+                element = null;
+
+                if (index >= 0 && index < __instance.m_elements.Count)
+                {
+                    element = __instance.m_elements[index];
+                }
+
+                if (element == null)
+                {
+                    return;
+                }
 
                 // would be better if this could be done reliably in an Awake/ Start, but I'm not in the mood to look for one
                 if (element.m_icon.gameObject.GetComponent<ItemIconUpdater>() == null)
