@@ -15,7 +15,8 @@ namespace BetterUI.GameClasses
     [HarmonyPatch(typeof(InventoryGrid), "UpdateGui")]
     private static void PatchInventory(ref InventoryGrid __instance, ref Player player, ItemDrop.ItemData dragItem)
     {
-      if (!Main.showDurabilityColor.Value && !Main.showItemStars.Value) return;
+      // doing this would prevent icon scaling when both of these features are disabled. there will be a better fix in the next version
+      //if (!Main.showDurabilityColor.Value && !Main.showItemStars.Value) return;
 
       foreach (ItemDrop.ItemData itemData in __instance.m_inventory.GetAllItems())
       {
