@@ -20,7 +20,8 @@ namespace BetterUI.GameClasses
         return;
       }
 
-      if (!Main.showDurabilityColor.Value) return;
+      // doing this would prevent icon scaling when this feature is disabled. there will be a better fix in the next version
+      //if (!Main.showDurabilityColor.Value) return;
 
       foreach (ItemDrop.ItemData itemData in __instance.m_items)
       {

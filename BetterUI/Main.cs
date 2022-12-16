@@ -4,6 +4,9 @@ using BepInEx.Logging;
 using BetterUI.GameClasses;
 
 using HarmonyLib;
+using System.Collections.Generic;
+using System.Linq;
+using System;
 using System.Reflection;
 using UnityEngine;
 
@@ -18,7 +21,7 @@ namespace BetterUI
           MODNAME = "BetterUI",
           AUTHOR = "MK",
           GUID = AUTHOR + "_" + MODNAME,
-          VERSION = "2.3.0";
+          VERSION = "2.3.2";
 
 
         internal static ManualLogSource log;
@@ -37,7 +40,7 @@ namespace BetterUI
         public static ConfigEntry<bool> useCustomFoodBar;
         public static ConfigEntry<int> customHealthBarRotation;
         public static ConfigEntry<int> customStaminaBarRotation;
-        public static ConfigEntry<int> customSpoilerBarRotation;
+        public static ConfigEntry<int> customEitrBarRotation;
         public static ConfigEntry<int> customFoodBarRotation;
 
         // Player Inventory
@@ -122,24 +125,31 @@ namespace BetterUI
             // Player HUD RESTART
             sectionName = "1 - Player HUD (Requires Logout)";
 
-            enablePlayerHudEditing = Config.Bind(sectionName, nameof(enablePlayerHudEditing), true, "Enable the ability to edit the Player HUD by pressing a hotkey.");
+            var editingDefault = GetOldOrDefaultConfigValue(new ConfigDefinition("1 - Player HUD", nameof(enablePlayerHudEditing)), true);
+            enablePlayerHudEditing = Config.Bind(sectionName, nameof(enablePlayerHudEditing), editingDefault, "Enable the ability to edit the Player HUD by pressing a hotkey.");
 
-            useCustomHealthBar = Config.Bind(sectionName, nameof(useCustomHealthBar), false, $"Resizable, rotatable HP bar. This bar will always be the same size and will not scale when you eat. Will also disable the default food bar, so use {nameof(useCustomFoodBar)}.");
-            
-            useCustomStaminaBar = Config.Bind(sectionName, nameof(useCustomStaminaBar), false, "Resizable, rotatable Stamina bar. This bar will always be visible and will not scale when you eat.");
+            var healthDefault = GetOldOrDefaultConfigValue(new ConfigDefinition("1 - Player HUD", "useCustomHealthBar"), false);
+            useCustomHealthBar = Config.Bind(sectionName, nameof(useCustomHealthBar), healthDefault, $"Resizable, rotatable HP bar. This bar will always be the same size and will not scale when you eat. Will also disable the default food bar, so use {nameof(useCustomFoodBar)}.");
 
-            useCustomEitrBar = Config.Bind(sectionName, nameof(useCustomEitrBar), false, "Resizable, rotatable bar for the new Eitr resource. This bar will always be visible and will not scale when you eat.");
+            var staminaDefault = GetOldOrDefaultConfigValue(new ConfigDefinition("1 - Player HUD", "useCustomStaminaBar"), false);
+            useCustomStaminaBar = Config.Bind(sectionName, nameof(useCustomStaminaBar), staminaDefault, "Resizable, rotatable stamina bar. This bar will always be visible and will not scale when you eat.");
 
-            useCustomFoodBar = Config.Bind(sectionName, nameof(useCustomFoodBar), false, $"Resizable, rotatable Food Bar. Requires {nameof(useCustomHealthBar)}.");
+            var foodDefault = GetOldOrDefaultConfigValue(new ConfigDefinition("1 - Player HUD", "useCustomFoodBar"), false);
+            useCustomFoodBar = Config.Bind(sectionName, nameof(useCustomFoodBar), foodDefault, $"Resizable, rotatable food Bar. Requires {nameof(useCustomHealthBar)}.");
 
-            customHealthBarRotation = Config.Bind(sectionName, nameof(customHealthBarRotation), 90, "Rotate healthbar in degrees.");
+            useCustomEitrBar = Config.Bind(sectionName, nameof(useCustomEitrBar), false, "Resizable, rotatable eitr bar. If you don't know what this is yet, just keep it disabled. This bar will always be visible and will not scale when you eat.");
 
-            customStaminaBarRotation = Config.Bind(sectionName, nameof(customStaminaBarRotation), 90, "Rotate staminabar in degrees.");
+            var healthRotDefault = GetOldOrDefaultConfigValue(new ConfigDefinition("1 - Player HUD", "healthBarRotation"), 90);
+            customHealthBarRotation = Config.Bind(sectionName, nameof(customHealthBarRotation), healthRotDefault, "Rotate health bar in degrees.");
 
-            customSpoilerBarRotation = Config.Bind(sectionName, nameof(customSpoilerBarRotation), 90, "Rotate bar for the new spoiler resource in degrees.");
+            var staminaRotDefault = GetOldOrDefaultConfigValue(new ConfigDefinition("1 - Player HUD", "staminaBarRotation"), 90);
+            customStaminaBarRotation = Config.Bind(sectionName, nameof(customStaminaBarRotation), staminaRotDefault, "Rotate stamina bar in degrees.");
 
-            customFoodBarRotation = Config.Bind(sectionName, nameof(customFoodBarRotation), 180, "Rotate foodbar in degrees.");
+            var foodRotDefault = GetOldOrDefaultConfigValue(new ConfigDefinition("1 - Player HUD", "foodBarRotation"), 180);
+            customFoodBarRotation = Config.Bind(sectionName, nameof(customFoodBarRotation), foodRotDefault, "Rotate food bar in degrees.");
 
+            var eitrRotDefault = GetOldOrDefaultConfigValue(new ConfigDefinition(sectionName, "customSpoilerBarRotation"), 90);
+            customEitrBarRotation = Config.Bind(sectionName, nameof(customEitrBarRotation), eitrRotDefault, "Rotate eitr bar in degrees.");
 
             // Character Inventory
             sectionName = "2 - Character Inventory";
@@ -193,7 +203,8 @@ namespace BetterUI
             // Character XP RESTART
             sectionName = "5 - Character XP (Requires Logout)";
 
-            showCharacterXpBar = Config.Bind(sectionName, nameof(showCharacterXpBar), true, "Show Character XP Bar on the bottom of the screen. Character XP must be enabled.");
+            var expBarDefault = GetOldOrDefaultConfigValue(new ConfigDefinition("5 - Character XP", nameof(showCharacterXpBar)), true);
+            showCharacterXpBar = Config.Bind(sectionName, nameof(showCharacterXpBar), expBarDefault, "Show Character XP Bar on the bottom of the screen. Character XP must be enabled.");
 
 
             // Enemy HUD
@@ -240,17 +251,100 @@ namespace BetterUI
             // xDataUI
             sectionName = "9 - xDataUI";
             uiData = Config.Bind(sectionName, nameof(uiData), "none", "This is your customized UI info. Edit to none, if having issues or wanting to reset positions.");
+
+            if (isDebug.Value)
+            {
+                PrintOrphanedEntries();
+            }
         }
         public void Start()
         {
             harmony.PatchAll(assembly);
         }
 
-        /*
-        public void OnDestroy()
+        public void RemoveOldConfigValue<T>(ConfigDefinition configDefinition)
         {
-          harmony?.UpatchSelf();
+            GetOldOrDefaultConfigValue(configDefinition, default(T));
         }
-        */
+
+        /// <summary>
+        /// Rebinds the old orphan config definition and then immediately removes it again, and returns its last value
+        /// This properly deletes an old config value
+        /// </summary>
+        public T GetOldOrDefaultConfigValue<T>(ConfigDefinition configDefinition, T defaultValue)
+        {
+            T oldOrDefaultValue = Config.Bind(configDefinition, defaultValue).Value;
+            Config.Remove(configDefinition);
+
+            if (Config.SaveOnConfigSet)
+            {
+                Config.Save();
+            }
+
+            return oldOrDefaultValue;
+        }
+
+        public bool TryGetOldConfigValue<T>(ConfigDefinition configDefinition, ref T oldValue, bool removeIfFound = true)
+        {
+            if (!TomlTypeConverter.CanConvert(typeof(T)))
+            {
+                throw new ArgumentException(string.Format("Type {0} is not supported by the config system. Supported types: {1}", typeof(T), string.Join(", ", (from x in TomlTypeConverter.GetSupportedTypes() select x.Name).ToArray())));
+            }
+
+            try
+            {
+                var iolock = AccessTools.FieldRefAccess<ConfigFile, object>("_ioLock").Invoke(Config);
+                var orphanedEntries = (Dictionary<ConfigDefinition, string>)AccessTools.PropertyGetter(typeof(ConfigFile), "OrphanedEntries").Invoke(Config, new object[0]);
+
+                lock (iolock)
+                {
+                    if (orphanedEntries.TryGetValue(configDefinition, out string oldValueString))
+                    {
+                        oldValue = (T)TomlTypeConverter.ConvertToValue(oldValueString, typeof(T));
+
+                        if (removeIfFound)
+                        {
+                            orphanedEntries.Remove(configDefinition);
+                        }
+
+                        return true;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning($"Error getting orphaned entry: {e.StackTrace}");
+            }
+
+            return false;
+        }
+
+        public void PrintOrphanedEntries()
+        {
+            try
+            {
+                var iolock = AccessTools.FieldRefAccess<ConfigFile, object>("_ioLock").Invoke(Config);
+                var orphanedEntries = (Dictionary<ConfigDefinition, string>)AccessTools.PropertyGetter(typeof(ConfigFile), "OrphanedEntries").Invoke(Config, new object[0]);
+
+                if (orphanedEntries.Count == 0)
+                {
+                    return;
+                }
+
+                lock (iolock)
+                {
+                    Debug.Log("printing orphaned config values");
+
+                    foreach (var item in orphanedEntries)
+                    {
+                        Debug.Log($"{item.Key.Section},{item.Key.Key}: {item.Value}");
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning($"Error logging orphaned entries: {e.StackTrace}");
+            }
+        }
     }
 }

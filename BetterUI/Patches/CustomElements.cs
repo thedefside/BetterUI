@@ -181,7 +181,7 @@ namespace BetterUI.Patches
             {
                 try
                 {
-                    BarHelper.BaseCreate("BetterUI_EitrBar", "eitrpanel", Main.customSpoilerBarRotation.Value, ref root, ref slowBar, ref fastBar, ref barText);
+                    BarHelper.BaseCreate("BetterUI_EitrBar", "eitrpanel", Main.customEitrBarRotation.Value, ref root, ref slowBar, ref fastBar, ref barText);
 
                     fastBar.m_originalColor = Hud.instance.m_eitrBarFast.m_bar.GetComponent<Image>().color;
                     slowBar.m_originalColor = Hud.instance.m_eitrBarSlow.m_bar.GetComponent<Image>().color;

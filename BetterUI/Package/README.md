@@ -9,6 +9,11 @@ You are able to edit and select what updates you want to use.
 Join our Discord! https://discord.gg/vSEjCNF48K
 
 
+## Version 2.3.2 Information
+
+- Added backwards compatibility to older config versions (Goldenrevolver)
+- Fixed having durability color disabled also disabling icon size rescaling (Goldenrevolver)
+
 ## Version 2.3.0 Information
 
  - Color of the item movement speed tooltip is now set correctly (Goldenrevolver)
@@ -17,8 +22,8 @@ Join our Discord! https://discord.gg/vSEjCNF48K
  - Removed floating food icon next to armor icon (Goldenrevolver)
  - Add Custom Eitr Bar (Goldenrevolver)
  - Enable user to enable or disable the custom health/food/stamina/xp bars without errors (still requires logout/restart) (Goldenrevolver)
- - Change the default position of custom UI bars so they don't overlap (Goldenrevolver)
- - Fix duplicate Food bar when custom health bar disabled (Goldenrevolver)
+ - Change the default position and rotation of custom UI bars so they don't overlap (Goldenrevolver)
+ - Fix duplicate food bar when custom health bar disabled (Goldenrevolver)
 
 
 ## Table of Contents

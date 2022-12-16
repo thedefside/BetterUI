@@ -17,20 +17,18 @@ namespace BetterUI.GameClasses
         private static bool isEditing = false;
         private static int activeLayer = 0;
 
+        // cache the value, so you need to relog to toggle it
+        private static bool enablePlayerHudEditing;
+
         [HarmonyPostfix]
         [HarmonyPatch(typeof(Hud), "Awake")]
         private static void Awake(ref Hud __instance)
         {
+            enablePlayerHudEditing = Main.enablePlayerHudEditing.Value;
+
             if (Main.showCharacterXP.Value && Main.showCharacterXpBar.Value)
             {
                 XPBar.Create(__instance);
-            }
-
-            if (Main.enablePlayerHudEditing.Value)
-            {
-                // Try to support QuickSlots
-                // TODO this could also be done after creating the custom elements right?
-                Compatibility.QuickSlotsHotkeyBar.Unanchor(__instance);
             }
 
             // Load custom elements, before getting positions
@@ -54,8 +52,11 @@ namespace BetterUI.GameClasses
                 CustomElements.FoodBar.Create();
             }
 
-            if (Main.enablePlayerHudEditing.Value)
+            if (enablePlayerHudEditing)
             {
+                // Try to support QuickSlots
+                Compatibility.QuickSlotsHotkeyBar.Unanchor(__instance);
+
                 CustomHud.Load(__instance);
                 CustomHud.PositionTemplates();
             }
@@ -74,7 +75,7 @@ namespace BetterUI.GameClasses
                 XPBar.UpdateLevelProgressPercentage();
             }
 
-            if (!Main.enablePlayerHudEditing.Value || localPlayer == null)
+            if (!enablePlayerHudEditing || localPlayer == null)
             {
                 return;
             }
