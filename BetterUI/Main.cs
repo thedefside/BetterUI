@@ -21,7 +21,7 @@ namespace BetterUI
           MODNAME = "BetterUI",
           AUTHOR = "MK",
           GUID = AUTHOR + "_" + MODNAME,
-          VERSION = "2.2.3";
+          VERSION = "2.3.2";
 
         internal static ManualLogSource log;
         internal readonly Harmony harmony;
@@ -134,27 +134,26 @@ namespace BetterUI
             customHealthBar = Config.Bind(sectionName, nameof(customHealthBar), healthDefault ? CustomBarState.on0Degrees : CustomBarState.off, $"Resizable, rotatable HP bar. This bar will always be the same size and will not scale when you eat. Will also disable the default food bar, so use {nameof(customFoodBar)}.");
             customHealthBar.SettingChanged += (_, _) => CustomHealthBar_SettingChanged();
             RemoveOldConfigValue<int>(new ConfigDefinition("1 - Player HUD", "healthBarRotation"));
-            RemoveOldConfigValue<int>(new ConfigDefinition("1 - Player HUD (Requires Logout)", "customHealthBarRotation"));
+            RemoveOldConfigValue<int>(new ConfigDefinition(sectionName, "customHealthBarRotation"));
 
             var staminaDefault = GetOldOrDefaultConfigValue(new ConfigDefinition("1 - Player HUD", "useCustomStaminaBar"), false);
-            staminaDefault |= GetOldOrDefaultConfigValue(new ConfigDefinition("1 - Player HUD (Requires Logout)", "useCustomStaminaBar"), false);
+            staminaDefault |= GetOldOrDefaultConfigValue(new ConfigDefinition(sectionName, "useCustomStaminaBar"), false);
             customStaminaBar = Config.Bind(sectionName, nameof(customStaminaBar), staminaDefault ? CustomBarState.on0Degrees : CustomBarState.off, "Resizable, rotatable stamina bar. This bar will always be visible and will not scale when you eat.");
             customStaminaBar.SettingChanged += (_, _) => CustomStaminaBar_SettingChanged();
             RemoveOldConfigValue<int>(new ConfigDefinition("1 - Player HUD", "staminaBarRotation"));
-            RemoveOldConfigValue<int>(new ConfigDefinition("1 - Player HUD (Requires Logout)", "customStaminaBarRotation"));
+            RemoveOldConfigValue<int>(new ConfigDefinition(sectionName, "customStaminaBarRotation"));
 
             var foodDefault = GetOldOrDefaultConfigValue(new ConfigDefinition("1 - Player HUD", "useCustomFoodBar"), false);
-            foodDefault |= GetOldOrDefaultConfigValue(new ConfigDefinition("1 - Player HUD (Requires Logout)", "useCustomFoodBar"), false);
+            foodDefault |= GetOldOrDefaultConfigValue(new ConfigDefinition(sectionName, "useCustomFoodBar"), false);
             customFoodBar = Config.Bind(sectionName, nameof(customFoodBar), foodDefault ? CustomBarState.on0Degrees : CustomBarState.off, $"Resizable, rotatable food bar. Requires {nameof(customHealthBar)}.");
             customFoodBar.SettingChanged += (_, _) => CustomFoodBar_SettingChanged();
             RemoveOldConfigValue<int>(new ConfigDefinition("1 - Player HUD", "foodBarRotation"));
-            RemoveOldConfigValue<int>(new ConfigDefinition("1 - Player HUD (Requires Logout)", "customFoodBarRotation"));
+            RemoveOldConfigValue<int>(new ConfigDefinition(sectionName, "customFoodBarRotation"));
 
             var eitrDefault = GetOldOrDefaultConfigValue(new ConfigDefinition("1 - Player HUD", "useCustomEitrBar"), false);
             customEitrBar = Config.Bind(sectionName, nameof(customEitrBar), eitrDefault ? CustomBarState.on0Degrees : CustomBarState.off, "Resizable, rotatable eitr bar. If you don't know what this is yet, just keep it disabled. This bar will always be visible and will not scale when you eat.");
             customEitrBar.SettingChanged += (_, _) => CustomEitrBar_SettingChanged();
-            RemoveOldConfigValue<int>(new ConfigDefinition("1 - Player HUD", "foodBarRotation"));
-            RemoveOldConfigValue<int>(new ConfigDefinition("1 - Player HUD (Requires Logout)", "customFoodBarRotation"));
+            RemoveOldConfigValue<int>(new ConfigDefinition(sectionName, "customSpoilerBarRotation"));
 
             customBarTextSize = Config.Bind(sectionName, nameof(customBarTextSize), 14, "Font size of the text on the custom bars.");
 
