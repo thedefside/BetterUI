@@ -13,15 +13,16 @@ namespace BetterUI.Patches
     {
         public static void UpdateElement(GuiBar durabilityBar, Image icon, ItemDrop.ItemData item)
         {
-            if (Main.durabilityBarColorPalette.Value != Main.DurabilityBarStyle.Disabled && item.m_shared.m_useDurability)
+            if (Main.durabilityBarColorPalette.Value != Main.DurabilityBarStyle.Disabled && durabilityBar )
             {
-                if (item.m_durability <= 0f)
+                // DurabilityBar.m_value is set to 1 so red flashing bar shows entire length of the icon. Check if color is set to retain value.
+                if (durabilityBar.m_barImage.color.Equals((Mathf.Sin(Time.time * 10f) > 0f) ? Color.red : new Color(0f, 0f, 0f, 0f)))
                 {
                     // Item has no durability, original code will handle this
                 }
                 else // Item has durability left
                 {
-                    DurabilityBar.UpdateColor(durabilityBar, item.GetDurabilityPercentage());
+                    DurabilityBar.UpdateColor(durabilityBar, durabilityBar.m_value / durabilityBar.m_maxValue);
                 }
             }
         }
