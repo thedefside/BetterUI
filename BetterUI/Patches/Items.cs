@@ -9,6 +9,24 @@ using UnityEngine.UI;
 
 namespace BetterUI.Patches
 {
+    public static class ElementHelper
+    {
+        public static void UpdateElement(GuiBar durabilityBar, Image icon, ItemDrop.ItemData item)
+        {
+            if (Main.durabilityBarColorPalette.Value != Main.DurabilityBarStyle.Disabled && item.m_shared.m_useDurability)
+            {
+                if (item.m_durability <= 0f)
+                {
+                    // Item has no durability, original code will handle this
+                }
+                else // Item has durability left
+                {
+                    DurabilityBar.UpdateColor(durabilityBar, item.GetDurabilityPercentage());
+                }
+            }
+        }
+    }
+
   static class DurabilityBar
   {
     private static readonly Color[] normal = new Color[]
@@ -32,58 +50,31 @@ namespace BetterUI.Patches
       protanopia
     };
 
-    private static readonly Color[] activeColor = colorArray[Main.durabilityColorPalette.Value] as Color[];
+    private static readonly Color[] activeColor = colorArray[(int)Main.durabilityBarColorPalette.Value] as Color[];
 
-    public static void UpdateColor(InventoryGrid.Element element, float durability)
+    public static void UpdateColor(GuiBar durabilityBar, float durability)
     {
-      element.m_durability.SetValue(durability);
+      durabilityBar.SetValue(durability);
       // Might be to update items colorbar? This is from original code.
-      element.m_durability.ResetColor();
+      durabilityBar.ResetColor();
       // Between 1f - 0f
       switch (durability)
       {
         case float n when (n >= 0.75f):
           // Color green
-          element.m_durability.SetColor(activeColor[0]);
+          durabilityBar.SetColor(activeColor[0]);
           break;
         case float n when (n >= 0.50f):
           // Color yellow
-          element.m_durability.SetColor(activeColor[1]);
+          durabilityBar.SetColor(activeColor[1]);
           break;
         case float n when (n >= 0.25f):
           // Color Orange
-          element.m_durability.SetColor(activeColor[2]);
+          durabilityBar.SetColor(activeColor[2]);
           break;
         case float n when (n >= 0f):
           // Color Red
-          element.m_durability.SetColor(activeColor[3]);
-          break;
-      }
-    }
-
-    public static void UpdateColor(HotkeyBar.ElementData element, float durability)
-    {
-      element.m_durability.SetValue(durability);
-      // Might be to update items colorbar? This is from original code.
-      element.m_durability.ResetColor();
-      // Between 1f - 0f
-      switch (durability)
-      {
-        case float n when (n >= 0.75f):
-          // Color green
-          element.m_durability.SetColor(activeColor[0]);
-          break;
-        case float n when (n >= 0.50f):
-          // Color yellow
-          element.m_durability.SetColor(activeColor[1]);
-          break;
-        case float n when (n >= 0.25f):
-          // Color Orange
-          element.m_durability.SetColor(activeColor[2]);
-          break;
-        case float n when (n >= 0f):
-          // Color Red
-          element.m_durability.SetColor(activeColor[3]);
+          durabilityBar.SetColor(activeColor[3]);
           break;
       }
     }
@@ -115,7 +106,7 @@ namespace BetterUI.Patches
       // Parent size = 64x64, quality size = 20x20, top-right (0,0) -> (-4f,-10f)
       element.m_quality.rectTransform.anchoredPosition = new Vector2(-4f, -6f);
 
-      // TODO: Spawned items might brake this, as they could have 99 stars. 
+      // TODO: Spawned items might break this, as they could have 99 stars. 
       // Possible fix, after x amount switch to: ★x[amount] = ★x99
     }
     public static string HoverText(int quality_lvl)

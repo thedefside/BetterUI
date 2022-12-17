@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static BetterUI.Main;
 
 namespace BetterUI.Patches
 {
-    internal class CustomElements
+    internal class CustomBars
     {
         public static class BarHelper
         {
@@ -14,7 +15,7 @@ namespace BetterUI.Patches
             public const float scalingFactor = 0.6f;
             public const int padding = 0;
 
-            public static void BaseCreate(string objectName, string origBarName, int configRotation, ref RectTransform root, ref GuiBar slowBar, ref GuiBar fastBar, ref Text barText)
+            public static void BaseCreate(string objectName, string origBarName, ref RectTransform root, ref GuiBar slowBar, ref GuiBar fastBar, ref Text barText)
             {
                 // we've obviously already done this before if it's not null
                 if (root != null)
@@ -28,26 +29,29 @@ namespace BetterUI.Patches
                 root = UnityEngine.Object.Instantiate(Hud.instance.m_healthBarRoot, Hud.instance.transform.Find("hudroot"));
                 root.gameObject.name = objectName;
 
-                int rot = 90 - (configRotation / 90 % 4 * 90);
-                root.localEulerAngles = new Vector3(0, 0, rot);
-
                 fastBar = root.Find("fast").GetComponent<GuiBar>();
                 slowBar = root.Find("slow").GetComponent<GuiBar>();
 
-                root.Find("fast").Find("bar").Find("HealthText").gameObject.SetActive(false);
-
-                barText = UnityEngine.Object.Instantiate(root.Find("fast").Find("bar").Find("HealthText").GetComponent<Text>(), root);
-                barText.GetComponent<RectTransform>().localEulerAngles = new Vector3(0, 0, -rot);
-
-                // Resize to a more "slim" rectangle - authors preference
-                barText.GetComponent<RectTransform>().localScale = new Vector3(scalingFactor, scalingFactor, 1f);
+                var fastBarHealthText = fastBar.transform.Find("bar").Find("HealthText");
+                fastBarHealthText.gameObject.SetActive(false);
+                barText = UnityEngine.Object.Instantiate(fastBarHealthText.GetComponent<Text>(), root);
+                barText.gameObject.AddComponent<TextScaler>();
                 barText.gameObject.SetActive(true);
 
-                root.Find("border").GetComponent<RectTransform>().localScale = new Vector3(1f, scalingFactor, 1f);
-                root.Find("bkg").GetComponent<RectTransform>().localScale = new Vector3(1f, scalingFactor, 1f);
+                // Resize to a more "slim" rectangle - authors preference
+                root.Find("border").localScale = new Vector3(1f, scalingFactor, 1f);
+                root.Find("bkg").localScale = new Vector3(1f, scalingFactor, 1f);
 
-                fastBar.GetComponent<RectTransform>().localScale = new Vector3(1f, scalingFactor, 1f);
-                slowBar.GetComponent<RectTransform>().localScale = new Vector3(1f, scalingFactor, 1f);
+                fastBar.transform.localScale = new Vector3(1f, scalingFactor, 1f);
+                slowBar.transform.localScale = new Vector3(1f, scalingFactor, 1f);
+            }
+
+            public static void UpdateRotation(int configRotation, ref RectTransform root, ref Text barText)
+            {
+                //configRotation = (configRotation + 180) % 360;
+
+                root.localEulerAngles = new Vector3(0, 0, configRotation);
+                barText.transform.localEulerAngles = new Vector3(0, 0, -configRotation);
             }
 
             public static void HealthStyleUpdate(float max, float current, ref GuiBar slowBar, ref GuiBar fastBar, ref Text barText)
@@ -57,6 +61,7 @@ namespace BetterUI.Patches
                 slowBar.SetMaxValue(max);
                 slowBar.SetValue(current);
 
+                barText.fontSize = Main.customBarTextSize.Value;
                 barText.text = $"{Mathf.CeilToInt(current)}/{Mathf.CeilToInt(max)}";
             }
 
@@ -65,23 +70,77 @@ namespace BetterUI.Patches
                 fastBar.SetValue(current / max);
                 slowBar.SetValue(current / max);
 
+                barText.fontSize = Main.customBarTextSize.Value;
                 barText.text = $"{Mathf.CeilToInt(current)}/{Mathf.CeilToInt(max)}";
+            }
+
+            public static CustomBarState IncrementRotation(CustomBarState state)
+            {
+                switch (state)
+                {
+                    case CustomBarState.on0Degrees:
+                        return CustomBarState.on90Degrees;
+
+                    case CustomBarState.on90Degrees:
+                        return CustomBarState.on180Degrees;
+
+                    case CustomBarState.on180Degrees:
+                        return CustomBarState.on270Degrees;
+
+                    case CustomBarState.on270Degrees:
+                        return CustomBarState.on0Degrees;
+
+                    default:
+                        return state;
+                }
+            }
+
+            public static CustomBarState DecrementRotation(CustomBarState state)
+            {
+                switch (state)
+                {
+                    case CustomBarState.on0Degrees:
+                        return CustomBarState.on270Degrees;
+
+                    case CustomBarState.on90Degrees:
+                        return CustomBarState.on0Degrees;
+
+                    case CustomBarState.on180Degrees:
+                        return CustomBarState.on0Degrees;
+
+                    case CustomBarState.on270Degrees:
+                        return CustomBarState.on180Degrees;
+
+                    default:
+                        return state;
+                }
             }
         }
 
         public static class HealthBar
         {
-            public static readonly string objectName = "BetterUI_HPBar";
+            public const string objectName = "BetterUI_HPBar";
             internal static RectTransform root;
             internal static GuiBar slowBar;
             internal static GuiBar fastBar;
             internal static Text barText;
 
+            public static void UpdateRotation()
+            {
+                if (root == null || Main.customHealthBar.Value == Main.CustomBarState.off)
+                {
+                    return;
+                }
+
+                BarHelper.UpdateRotation((int)Main.customHealthBar.Value, ref root, ref barText);
+            }
+
             public static void Create()
             {
                 try
                 {
-                    BarHelper.BaseCreate(objectName, "healthpanel", Main.customHealthBarRotation.Value, ref root, ref slowBar, ref fastBar, ref barText);
+                    BarHelper.BaseCreate(objectName, "healthpanel", ref root, ref slowBar, ref fastBar, ref barText);
+                    UpdateRotation();
 
                     // go to a good default position that can get overriden by the editing feature if needed
                     // go up and left
@@ -89,7 +148,7 @@ namespace BetterUI.Patches
                 }
                 catch (Exception e)
                 {
-                    Debug.LogError($"{nameof(HealthBar)}.{nameof(Create)}() {e.Message}");
+                    Debug.LogError($"{nameof(HealthBar)}.{nameof(Create)}() {e.Message} {e.StackTrace}");
                 }
             }
 
@@ -104,24 +163,35 @@ namespace BetterUI.Patches
                 }
                 catch (Exception e)
                 {
-                    Debug.LogError($"{nameof(HealthBar)}.{nameof(Update)}() {e.Message}");
+                    Debug.LogError($"{nameof(HealthBar)}.{nameof(Update)}() {e.Message} {e.StackTrace}");
                 }
             }
         }
 
         public static class StaminaBar
         {
-            public static readonly string objectName = "BetterUI_StaminaBar";
+            public const string objectName = "BetterUI_StaminaBar";
             internal static RectTransform root;
             internal static GuiBar slowBar;
             internal static GuiBar fastBar;
             internal static Text barText;
 
+            public static void UpdateRotation()
+            {
+                if (root == null || Main.customStaminaBar.Value == Main.CustomBarState.off)
+                {
+                    return;
+                }
+
+                BarHelper.UpdateRotation((int)Main.customStaminaBar.Value, ref root, ref barText);
+            }
+
             public static void Create()
             {
                 try
                 {
-                    BarHelper.BaseCreate(objectName, "staminapanel", Main.customStaminaBarRotation.Value, ref root, ref slowBar, ref fastBar, ref barText);
+                    BarHelper.BaseCreate(objectName, "staminapanel", ref root, ref slowBar, ref fastBar, ref barText);
+                    UpdateRotation();
 
                     fastBar.m_originalColor = Hud.instance.m_staminaBar2Fast.m_bar.GetComponent<Image>().color;
                     slowBar.m_originalColor = Hud.instance.m_staminaBar2Slow.m_bar.GetComponent<Image>().color;
@@ -136,7 +206,7 @@ namespace BetterUI.Patches
                     // go left
                     root.position -= new Vector3(BarHelper.StepSize / 4, 0);
 
-                    if (Main.useCustomHealthBar.Value)
+                    if (Main.customHealthBar.Value != Main.CustomBarState.off)
                     {
                         // hold positon
                         root.position -= new Vector3(0, BarHelper.padding);
@@ -149,7 +219,7 @@ namespace BetterUI.Patches
                 }
                 catch (Exception e)
                 {
-                    Debug.LogError($"{nameof(StaminaBar)}.{nameof(Create)}() {e.Message}");
+                    Debug.LogError($"{nameof(StaminaBar)}.{nameof(Create)}() {e.Message} {e.StackTrace}");
                 }
             }
 
@@ -164,24 +234,35 @@ namespace BetterUI.Patches
                 }
                 catch (Exception e)
                 {
-                    Debug.LogError($"{nameof(StaminaBar)}.{nameof(Update)}() {e.Message}");
+                    Debug.LogError($"{nameof(StaminaBar)}.{nameof(Update)}() {e.Message} {e.StackTrace}");
                 }
             }
         }
 
         public static class EitrBar
         {
-            public static readonly string objectName = "BetterUI_EitrBar";
+            public const string objectName = "BetterUI_EitrBar";
             internal static RectTransform root;
             internal static GuiBar slowBar;
             internal static GuiBar fastBar;
             internal static Text barText;
 
+            public static void UpdateRotation()
+            {
+                if (root == null || Main.customEitrBar.Value == Main.CustomBarState.off)
+                {
+                    return;
+                }
+
+                BarHelper.UpdateRotation((int)Main.customEitrBar.Value, ref root, ref barText);
+            }
+
             public static void Create()
             {
                 try
                 {
-                    BarHelper.BaseCreate("BetterUI_EitrBar", "eitrpanel", Main.customEitrBarRotation.Value, ref root, ref slowBar, ref fastBar, ref barText);
+                    BarHelper.BaseCreate("BetterUI_EitrBar", "eitrpanel", ref root, ref slowBar, ref fastBar, ref barText);
+                    UpdateRotation();
 
                     fastBar.m_originalColor = Hud.instance.m_eitrBarFast.m_bar.GetComponent<Image>().color;
                     slowBar.m_originalColor = Hud.instance.m_eitrBarSlow.m_bar.GetComponent<Image>().color;
@@ -196,12 +277,12 @@ namespace BetterUI.Patches
                     // go left
                     root.position -= new Vector3(BarHelper.StepSize / 4, 0);
 
-                    if (Main.useCustomHealthBar.Value)
+                    if (Main.customHealthBar.Value != Main.CustomBarState.off)
                     {
                         // hold position
                         root.position -= new Vector3(0, BarHelper.padding);
 
-                        if (Main.useCustomStaminaBar.Value)
+                        if (Main.customStaminaBar.Value != Main.CustomBarState.off)
                         {
                             // go down
                             root.position -= new Vector3(0, BarHelper.StepSize / 4 + BarHelper.padding);
@@ -215,7 +296,7 @@ namespace BetterUI.Patches
                 }
                 catch (Exception e)
                 {
-                    Debug.LogError($"{nameof(EitrBar)}.{nameof(Create)}() {e.Message}");
+                    Debug.LogError($"{nameof(EitrBar)}.{nameof(Create)}() {e.Message} {e.StackTrace}");
                 }
             }
 
@@ -230,19 +311,38 @@ namespace BetterUI.Patches
                 }
                 catch (Exception e)
                 {
-                    Debug.LogError($"{nameof(EitrBar)}.{nameof(Update)}() {e.Message}");
+                    Debug.LogError($"{nameof(EitrBar)}.{nameof(Update)}() {e.Message} {e.StackTrace}");
                 }
             }
         }
 
         public static class FoodBar
         {
-            public static readonly string objectName = "BetterUI_FoodBar";
+            public const string objectName = "BetterUI_FoodBar";
             private static RectTransform foodPanel;
             private static RectTransform foodBarRoot;
-            public static RectTransform food0;
-            public static RectTransform food1;
-            public static RectTransform food2;
+            private static RectTransform foodBaseBar;
+
+            private static Image[] foodBars;
+            private static Image[] foodIcons;
+            private static Text[] foodTimes;
+            private static Transform[] foodTransforms;
+
+            public static void UpdateRotation()
+            {
+                if (foodPanel == null || Main.customFoodBar.Value == Main.CustomBarState.off)
+                {
+                    return;
+                }
+
+                int rot = ((int)Main.customFoodBar.Value + 270) % 360;
+                foodPanel.localEulerAngles = new Vector3(0, 0, rot);
+
+                foreach (var item in foodTransforms)
+                {
+                    item.localEulerAngles = new Vector3(0, 0, -rot);
+                }
+            }
 
             public static void Create()
             {
@@ -255,26 +355,33 @@ namespace BetterUI.Patches
                     }
 
                     // original food panel gets hidden by hiding the original health bar, so if the user doesn't use that feature, then they would have two food bars
-                    if (!Main.useCustomHealthBar.Value)
+                    if (Main.customHealthBar.Value == Main.CustomBarState.off)
                     {
-                        Debug.LogWarning($"{nameof(Main.useCustomFoodBar)} requires {nameof(Main.useCustomHealthBar)}. No custom food bar will be created. Activate {nameof(Main.useCustomHealthBar)} and log out and back in to use {nameof(Main.useCustomFoodBar)}.");
+                        Debug.LogWarning($"{nameof(Main.customFoodBar)} requires {nameof(Main.customHealthBar)}. No custom food bar will be created. Activate {nameof(Main.customHealthBar)} and log out and back in to use {nameof(Main.customFoodBar)}.");
                         return;
                     }
 
                     foodPanel = UnityEngine.Object.Instantiate(Hud.instance.m_healthPanel, Hud.instance.transform.Find("hudroot"));
                     foodPanel.gameObject.name = objectName;
                     foodPanel.gameObject.SetActive(true);
-                    int rot = 90 - (Main.customFoodBarRotation.Value / 90 % 4 * 90);
-                    foodPanel.localEulerAngles = new Vector3(0, 0, rot);
 
                     foodBarRoot = foodPanel.Find("Food").GetComponent<RectTransform>();
-                    food0 = foodPanel.Find("food0").GetComponent<RectTransform>();
-                    food1 = foodPanel.Find("food1").GetComponent<RectTransform>();
-                    food2 = foodPanel.Find("food2").GetComponent<RectTransform>();
+                    foodBaseBar = foodBarRoot.Find("baseBar").GetComponent<RectTransform>();
 
-                    food0.localEulerAngles = new Vector3(0, 0, -rot);
-                    food1.localEulerAngles = new Vector3(0, 0, -rot);
-                    food2.localEulerAngles = new Vector3(0, 0, -rot);
+                    foodBars = new Image[Hud.instance.m_foodBars.Length];
+                    foodIcons = new Image[Hud.instance.m_foodIcons.Length];
+                    foodTimes = new Text[Hud.instance.m_foodTime.Length];
+                    foodTransforms = new Transform[Hud.instance.m_foodTime.Length];
+
+                    for (int i = 0; i < Hud.instance.m_foodBars.Length; i++)
+                    {
+                        foodBars[i] = foodBarRoot.Find(Hud.instance.m_foodBars[i].name).GetComponent<Image>();
+                        foodTransforms[i] = foodPanel.Find($"food{i}");
+                        foodIcons[i] = foodTransforms[i].Find($"foodicon{i}").GetComponent<Image>();
+                        foodTimes[i] = foodTransforms[i].Find($"time").GetComponent<Text>();
+                    }
+
+                    UpdateRotation();
 
                     // Stuff to remove / hide
                     foodPanel.Find("Health").gameObject.SetActive(false);
@@ -289,7 +396,7 @@ namespace BetterUI.Patches
                 }
                 catch (Exception e)
                 {
-                    Debug.LogError($"{nameof(FoodBar)}.{nameof(Create)}() {e.Message}");
+                    Debug.LogError($"{nameof(FoodBar)}.{nameof(Create)}() {e.Message} {e.StackTrace}");
                 }
             }
 
@@ -302,49 +409,50 @@ namespace BetterUI.Patches
                     {
                         List<Player.Food> foods = player.GetFoods();
                         float baseHP = player.GetBaseFoodHP() / 25f * 32f;
-                        foodBarRoot.Find("baseBar").GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, baseHP);
+                        foodBaseBar.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, baseHP);
                         float barLength = baseHP;
 
                         for (int i = 0; i < Hud.instance.m_foodBars.Length; i++)
                         {
-                            Image image = foodBarRoot.Find(Hud.instance.m_foodBars[i].name).GetComponent<Image>();
-                            Image image2 = foodPanel.Find($"food{i}").Find($"foodicon{i}").GetComponent<Image>();
-                            Text text = foodPanel.Find($"food{i}").Find($"time").GetComponent<Text>();
+                            Image foodBar = foodBars[i];
+                            Image foodIcon = foodIcons[i];
+                            Text foodTime = foodTimes[i];
 
                             if (i < foods.Count)
                             {
-                                image.gameObject.SetActive(true);
+                                foodBar.gameObject.SetActive(true);
                                 Player.Food food = foods[i];
-                                image2.gameObject.SetActive(true);
-                                image2.sprite = food.m_item.GetIcon();
+                                foodIcon.gameObject.SetActive(true);
+                                foodIcon.sprite = food.m_item.GetIcon();
 
                                 if (food.CanEatAgain())
                                 {
-                                    image2.color = new Color(1f, 1f, 1f, 0.7f + Mathf.Sin(Time.time * 5f) * 0.3f);
+                                    foodIcon.color = new Color(1f, 1f, 1f, 0.7f + Mathf.Sin(Time.time * 5f) * 0.3f);
                                 }
                                 else
                                 {
-                                    image2.color = Color.white;
+                                    foodIcon.color = Color.white;
                                 }
 
-                                text.gameObject.SetActive(true);
+                                foodTime.gameObject.SetActive(true);
+                                foodTime.fontSize = customFoodBarTextSize.Value;
 
                                 if (food.m_time >= 60f)
                                 {
-                                    text.text = Mathf.CeilToInt(food.m_time / 60f) + "m";
-                                    text.color = Color.white;
+                                    foodTime.text = Mathf.CeilToInt(food.m_time / 60f) + "m";
+                                    foodTime.color = Color.white;
                                 }
                                 else
                                 {
-                                    text.text = Mathf.FloorToInt(food.m_time) + "s";
-                                    text.color = new Color(1f, 1f, 1f, 0.4f + Mathf.Sin(Time.time * 10f) * 0.6f);
+                                    foodTime.text = Mathf.FloorToInt(food.m_time) + "s";
+                                    foodTime.color = new Color(1f, 1f, 1f, 0.4f + Mathf.Sin(Time.time * 10f) * 0.6f);
                                 }
                             }
                             else
                             {
-                                image.gameObject.SetActive(false);
-                                image2.gameObject.SetActive(false);
-                                text.gameObject.SetActive(false);
+                                foodBar.gameObject.SetActive(false);
+                                foodIcon.gameObject.SetActive(false);
+                                foodTime.gameObject.SetActive(false);
                             }
                         }
 
@@ -354,7 +462,7 @@ namespace BetterUI.Patches
                 }
                 catch (Exception e)
                 {
-                    Debug.LogError($"{nameof(FoodBar)}.{nameof(Update)}() {e.Message}");
+                    Debug.LogError($"{nameof(FoodBar)}.{nameof(Update)}() {e.Message} {e.StackTrace}");
                 }
             }
         }

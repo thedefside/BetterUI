@@ -1,52 +1,52 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BetterUI.Patches;
 using HarmonyLib;
-using UnityEngine;
 
 namespace BetterUI.GameClasses
 {
-  [HarmonyPatch]
-  public static class BetterInventoryGrid
-  {
-    [HarmonyPostfix]
-    [HarmonyPatch(typeof(InventoryGrid), "UpdateGui")]
-    private static void PatchInventory(ref InventoryGrid __instance, ref Player player, ItemDrop.ItemData dragItem)
+    [HarmonyPatch]
+    public static class BetterInventoryGrid
     {
-      // doing this would prevent icon scaling when both of these features are disabled. there will be a better fix in the next version
-      //if (!Main.showDurabilityColor.Value && !Main.showItemStars.Value) return;
-
-      foreach (ItemDrop.ItemData itemData in __instance.m_inventory.GetAllItems())
-      {
-        InventoryGrid.Element element = __instance.GetElement(itemData.m_gridPos.x, itemData.m_gridPos.y, __instance.m_inventory.GetWidth());
-        if (element.m_icon.transform.localScale == Vector3.one) element.m_icon.transform.localScale *= Mathf.Max(Main.iconScaleSize.Value, 0.1f);
-        if (itemData.m_shared.m_useDurability)
+        [HarmonyPostfix]
+        [HarmonyPatch(typeof(InventoryGrid), "UpdateGui")]
+        private static void PatchInventory(ref InventoryGrid __instance, ref Player player, ItemDrop.ItemData dragItem)
         {
-          if (itemData.m_durability <= 0f) // Item has no durability, original code should do this
-          {
-            //element.m_durability.SetValue(1f);
-            //element.m_durability.SetColor((Mathf.Sin(Time.time * 10f) > 0f) ? Color.red : new Color(0f, 0f, 0f, 0f));
+            var width = __instance.m_inventory.GetWidth();
+            InventoryGrid.Element element;
+            int index;
 
-          }
-          else // Item has durability left
-          {
-            if (Main.showDurabilityColor.Value)
+            foreach (ItemDrop.ItemData itemData in __instance.m_inventory.GetAllItems())
             {
-              Patches.DurabilityBar.UpdateColor(element, itemData.GetDurabilityPercentage());
+                index = itemData.m_gridPos.y * width + itemData.m_gridPos.x;
+                element = null;
+
+                if (index >= 0 && index < __instance.m_elements.Count)
+                {
+                    element = __instance.m_elements[index];
+                }
+
+                if (element == null)
+                {
+                    return;
+                }
+
+                // would be better if this could be done reliably in an Awake/ Start, but I'm not in the mood to look for one
+                if (element.m_icon.gameObject.GetComponent<ItemIconUpdater>() == null)
+                {
+                    var origScaleComp = element.m_icon.gameObject.AddComponent<ItemIconUpdater>();
+                    origScaleComp.Setup(element.m_icon);
+                }
+
+                ElementHelper.UpdateElement(element.m_durability, element.m_icon, itemData);
+
+                // Change item quality info (HotKeyBar doesn't do this, so we don't add it to UpdateElement)
+                if (Main.showItemStars.Value)
+                {
+                    if (itemData.m_shared.m_maxQuality > 1)
+                    {
+                        Stars.Draw(element, itemData.m_quality);
+                    }
+                }
             }
-          }
         }
-        // Change item quality info
-        if (itemData.m_shared.m_maxQuality > 1)
-        {
-          if (Main.showItemStars.Value)
-          {
-            Patches.Stars.Draw(element, itemData.m_quality);
-          }
-        }
-      }
     }
-  }
 }

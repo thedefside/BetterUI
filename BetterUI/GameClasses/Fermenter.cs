@@ -9,7 +9,7 @@ namespace BetterUI.GameClasses
     [HarmonyPatch(typeof(Fermenter), "GetHoverText")]
     private static bool GetHoverText(Fermenter __instance, ref string __result)
     {
-      if (Main.timeLeftStyleFermenter.Value == 0) return true;
+      if (Main.timeLeftHoverTextFermenter.Value == 0) return true;
 
       if (!PrivateArea.CheckAccess(__instance.transform.position, 0f, false, false))
       {

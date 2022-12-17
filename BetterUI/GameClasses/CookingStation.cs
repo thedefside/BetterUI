@@ -10,7 +10,7 @@ namespace BetterUI.GameClasses
     [HarmonyPatch(typeof(CookingStation), "GetHoverText")]
     private static bool GetHoverText(CookingStation __instance, ref string __result)
     {
-      if (Main.timeLeftStyleCookingStation.Value == 0) return true;
+      if (Main.timeLeftHoverTextCookingStation.Value == 0) return true;
 
       return Patches.HoverText.PatchCookingStation(__instance, ref __result);
     }

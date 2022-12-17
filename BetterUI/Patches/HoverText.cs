@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using static BetterUI.Main;
 
 namespace BetterUI.Patches
 {
@@ -25,7 +26,7 @@ namespace BetterUI.Patches
             hoverText = Localization.instance.Localize(fermenter.m_name + " ( " + contentName + ", $piece_fermenter_exposed )");
             return false;
           }
-          string time = Main.timeLeftStyleFermenter.Value == 1 ?
+          string time = Main.timeLeftHoverTextFermenter.Value == Main.TimeLeftStyle.PercentageDone ?
             $"{fermenter.GetFermentationTime() / fermenter.m_fermentationDuration:P0}" :
             Helpers.TimeString(fermenter.m_fermentationDuration - fermenter.GetFermentationTime());
 
@@ -42,12 +43,44 @@ namespace BetterUI.Patches
       }
     }
 
+        public static void PatchBeeHive(Beehive beeHive, ref string hoverText)
+        {
+            int honeyLevel = beeHive.GetHoneyLevel();
+
+            var timeLeft = string.Empty;
+
+            if (honeyLevel < beeHive.m_maxHoney)
+            {
+                float num = beeHive.m_nview.GetZDO().GetFloat("product");
+
+                float durationUntilDone = beeHive.m_secPerUnit - num;
+
+                if (Main.timeLeftHoverTextBeeHive.Value == Main.TimeLeftStyle.PercentageDone)
+                {
+                    timeLeft = $"{num / beeHive.m_secPerUnit:P0}, ";
+                }
+                else
+                {
+                    timeLeft = $"{Helpers.TimeString(durationUntilDone)}, ";
+                }
+            }
+
+            if (honeyLevel > 0)
+            {
+                hoverText = Localization.instance.Localize($"{beeHive.m_name} ( {timeLeft}{beeHive.m_honeyItem.m_itemData.m_shared.m_name} x {honeyLevel} ) \n[<color=yellow><b>$KEY_Use</b></color>] $piece_beehive_extract");
+            }
+            else
+            {
+                hoverText = Localization.instance.Localize($"{beeHive.m_name} ( {timeLeft}$piece_container_empty ) \n[<color=yellow><b>$KEY_Use</b></color>] $piece_beehive_check");
+            }
+        }
+
     public static bool PatchPlant(Plant plant, ref string hoverText)
     {
       switch (plant.m_status)
       {
         case Plant.Status.Healthy:
-          string time = Main.timeLeftStylePlant.Value == 1 ?
+          string time = Main.timeLeftHoverTextPlant.Value == Main.TimeLeftStyle.PercentageDone ?
             $"{plant.TimeSincePlanted() / plant.GetGrowTime():P0}" :
             Helpers.TimeString(plant.GetGrowTime() - plant.TimeSincePlanted());
 
@@ -66,16 +99,16 @@ namespace BetterUI.Patches
         $"{container.m_inventory.SlotsUsedPercentage():F0}%" : 
         $"{container.m_inventory.NrOfItems()}/{container.m_inventory.GetWidth() * container.m_inventory.GetHeight()}";
       */
-      string room;
-      switch (Main.chestHasRoomStyle.Value)
+        string room;
+      switch (Main.chestHasRoomHoverText.Value)
       {
-        case 1:
+        case ChestHasRoomStyle.Percentage:
           room = $"{container.m_inventory.SlotsUsedPercentage():F0}%";
           break;
-        case 2:
+        case ChestHasRoomStyle.ItemsSlashMaxRoom:
           room = $"{container.m_inventory.NrOfItems()}/{container.m_inventory.GetWidth() * container.m_inventory.GetHeight()}";
           break;
-        case 3:
+        case ChestHasRoomStyle.AmountOfFreeSlots:
           room = $"{container.m_inventory.GetEmptySlots()}";
           break;
         default:
@@ -103,12 +136,12 @@ namespace BetterUI.Patches
               items++;
               if (num > itemConversion.m_cookTime) // Item overCooking
               {
-                string time = Main.timeLeftStyleCookingStation.Value == 1 ? $"{num / (itemConversion.m_cookTime * 2f):P0}" : Helpers.TimeString(itemConversion.m_cookTime * 2f - num);
+                string time = Main.timeLeftHoverTextCookingStation.Value == Main.TimeLeftStyle.PercentageDone ? $"{num / (itemConversion.m_cookTime * 2f):P0}" : Helpers.TimeString(itemConversion.m_cookTime * 2f - num);
                 cookingItems += $"\n{cookingStation.m_overCookedItem.GetHoverName()}: <color={overCookColor}>{time}</color>";
               }
               else
               {
-                string time = Main.timeLeftStyleCookingStation.Value == 1 ? $"{num / itemConversion.m_cookTime:P0}" : Helpers.TimeString(itemConversion.m_cookTime - num);
+                string time = Main.timeLeftHoverTextCookingStation.Value == Main.TimeLeftStyle.PercentageDone ? $"{num / itemConversion.m_cookTime:P0}" : Helpers.TimeString(itemConversion.m_cookTime - num);
                 cookingItems += $"\n{itemConversion.m_to.GetHoverName()}: {time}";
               }
             }

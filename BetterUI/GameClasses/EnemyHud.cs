@@ -84,7 +84,7 @@ namespace BetterUI.GameClasses
             else
             {
                 hudData.m_name.fontSize = Main.enemyNameTextSize.Value;
-                if (Main.enemyLvlStyle.Value != 0)
+                if (Main.enemyLevelStyle.Value != 0)
                 {
                     hudData.m_name.text = hudData.m_name.text.Insert(0, $"<size={Main.enemyNameTextSize.Value}><color=white>Lv.{c.m_level} </color></size> ");
                 }
@@ -117,7 +117,7 @@ namespace BetterUI.GameClasses
                 hudData.m_healthFast.m_bar.sizeDelta = new Vector2(hudData.m_healthFast.m_width, hpRoot.sizeDelta.y);
                 hudData.m_healthSlow.m_bar.sizeDelta = new Vector2(hudData.m_healthSlow.m_width, hpRoot.sizeDelta.y);
 
-                if (Main.enemyLvlStyle.Value == 1)
+                if (Main.enemyLevelStyle.Value == Main.EnemyLevelStyle.PrefixLevelNumber)
                 {
                     hudData.m_level2.gameObject.SetActive(false);
                     hudData.m_level3.gameObject.SetActive(false);
@@ -175,12 +175,12 @@ namespace BetterUI.GameClasses
                           hpText.text = $"<size={Main.enemyHPTextSize.Value}>{value.m_character.GetHealth():0}/{value.m_character.GetMaxHealth():0}</size>";
                         }
 
-                        if (Main.enemyLvlStyle.Value != 0)
+                        if (Main.enemyLevelStyle.Value != 0)
                         {
                             value.m_name.text = value.m_name.text.Insert(0, $"<size={Main.enemyNameTextSize.Value}><color=white>Lv.{value.m_character.m_level} </color></size> ");
                         }
 
-                        if (Main.enemyLvlStyle.Value == 1)
+                        if (Main.enemyLevelStyle.Value == Main.EnemyLevelStyle.PrefixLevelNumber)
                         {
                             value.m_level2.gameObject.SetActive(false);
                             value.m_level3.gameObject.SetActive(false);
