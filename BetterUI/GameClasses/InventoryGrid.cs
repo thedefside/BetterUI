@@ -36,7 +36,7 @@ namespace BetterUI.GameClasses
                     origScaleComp.Setup(element.m_icon);
                 }
 
-                ElementHelper.UpdateElement(element.m_durability, element.m_icon, itemData);
+                ElementHelper.UpdateElement(element.m_durability);
 
                 // Change item quality info (HotKeyBar doesn't do this, so we don't add it to UpdateElement)
                 if (Main.showItemStars.Value)

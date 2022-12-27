@@ -359,6 +359,7 @@
     <Compile Include="Patches\Skill.cs" />
     <Compile Include="Patches\TextScaler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Changelog.txt" />
     <Content Include="Package\icon.png" />
     <None Include="GameDir.targets" />
     <None Include="Package\manifest.json" />

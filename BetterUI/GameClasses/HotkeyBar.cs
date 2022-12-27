@@ -24,7 +24,7 @@ namespace BetterUI.GameClasses
                     origScaleComp.Setup(element.m_icon);
                 }
 
-                ElementHelper.UpdateElement(element.m_durability, element.m_icon, null);
+                ElementHelper.UpdateElement(element.m_durability);
             }
         }
     }

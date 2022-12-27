@@ -21,7 +21,7 @@ namespace BetterUI
           MODNAME = "BetterUI",
           AUTHOR = "MK",
           GUID = AUTHOR + "_" + MODNAME,
-          VERSION = "2.3.2";
+          VERSION = "2.4.0";
 
         internal static ManualLogSource log;
         internal readonly Harmony harmony;
@@ -136,14 +136,14 @@ namespace BetterUI
 
             var healthDefault = GetOldOrDefaultConfigValue(new ConfigDefinition("1 - Player HUD", "useCustomHealthBar"), false);
             healthDefault |= GetOldOrDefaultConfigValue(new ConfigDefinition("1 - Player HUD (Requires Logout)", "useCustomHealthBar"), false);
-            customHealthBar = Config.Bind(sectionName, nameof(customHealthBar), healthDefault ? CustomBarState.on0Degrees : CustomBarState.off, $"Resizable, rotatable HP bar. This bar will always be the same size and will not scale when you eat. Will also disable the default food bar, so use {nameof(customFoodBar)}.");
+            customHealthBar = Config.Bind(sectionName, nameof(customHealthBar), healthDefault ? CustomBarState.on0Degrees : CustomBarState.off, $"Resizable, rotatable HP bar. This bar will always be the same size and will not get longer when you eat. Will also disable the default food bar, so use {nameof(customFoodBar)}.");
             customHealthBar.SettingChanged += (_, _) => CustomHealthBar_SettingChanged();
             RemoveOldConfigValue<int>(new ConfigDefinition("1 - Player HUD", "healthBarRotation"));
             RemoveOldConfigValue<int>(new ConfigDefinition(sectionName, "customHealthBarRotation"));
 
             var staminaDefault = GetOldOrDefaultConfigValue(new ConfigDefinition("1 - Player HUD", "useCustomStaminaBar"), false);
             staminaDefault |= GetOldOrDefaultConfigValue(new ConfigDefinition(sectionName, "useCustomStaminaBar"), false);
-            customStaminaBar = Config.Bind(sectionName, nameof(customStaminaBar), staminaDefault ? CustomBarState.on0Degrees : CustomBarState.off, "Resizable, rotatable stamina bar. This bar will always be visible and will not scale when you eat.");
+            customStaminaBar = Config.Bind(sectionName, nameof(customStaminaBar), staminaDefault ? CustomBarState.on0Degrees : CustomBarState.off, "Resizable, rotatable stamina bar. This bar will always be visible and will not get longer when you eat.");
             customStaminaBar.SettingChanged += (_, _) => CustomStaminaBar_SettingChanged();
             RemoveOldConfigValue<int>(new ConfigDefinition("1 - Player HUD", "staminaBarRotation"));
             RemoveOldConfigValue<int>(new ConfigDefinition(sectionName, "customStaminaBarRotation"));
@@ -156,7 +156,7 @@ namespace BetterUI
             RemoveOldConfigValue<int>(new ConfigDefinition(sectionName, "customFoodBarRotation"));
 
             var eitrDefault = GetOldOrDefaultConfigValue(new ConfigDefinition("1 - Player HUD", "useCustomEitrBar"), false);
-            customEitrBar = Config.Bind(sectionName, nameof(customEitrBar), eitrDefault ? CustomBarState.on0Degrees : CustomBarState.off, "Resizable, rotatable eitr bar. If you don't know what this is yet, just keep it disabled. This bar will always be visible and will not scale when you eat.");
+            customEitrBar = Config.Bind(sectionName, nameof(customEitrBar), eitrDefault ? CustomBarState.on0Degrees : CustomBarState.off, "Resizable, rotatable eitr bar. If you don't know what this is yet, just keep it disabled. This bar will always be visible and will not get longer when you eat.");
             customEitrBar.SettingChanged += (_, _) => CustomEitrBar_SettingChanged();
             RemoveOldConfigValue<int>(new ConfigDefinition(sectionName, "customSpoilerBarRotation"));
 
@@ -192,18 +192,18 @@ namespace BetterUI
             int timeLeftDefault;
 
             timeLeftDefault = GetOldOrDefaultConfigValue(new ConfigDefinition(sectionName, "timeLeftStyleFermenter"), 2);
-            timeLeftHoverTextFermenter = Config.Bind(sectionName, nameof(timeLeftHoverTextFermenter), IntToTimeLeftStyle(timeLeftDefault), "Select duration display. 0 = Default, 1 = % Done, 2 = min:sec left.");
+            timeLeftHoverTextFermenter = Config.Bind(sectionName, nameof(timeLeftHoverTextFermenter), IntToTimeLeftStyle(timeLeftDefault), "Select duration display. Disabled = Default, PercentageDone = % Done, MinutesSecondsLeft = min:sec left.");
 
             timeLeftDefault = GetOldOrDefaultConfigValue(new ConfigDefinition(sectionName, "timeLeftStylePlant"), 2);
-            timeLeftHoverTextPlant = Config.Bind(sectionName, nameof(timeLeftHoverTextPlant), IntToTimeLeftStyle(timeLeftDefault), "Select duration display. 0 = Default, 1 = % Done, 2 = min:sec left.");
+            timeLeftHoverTextPlant = Config.Bind(sectionName, nameof(timeLeftHoverTextPlant), IntToTimeLeftStyle(timeLeftDefault), "Select duration display. Disabled = Default, PercentageDone = % Done, MinutesSecondsLeft = min:sec left.");
 
             timeLeftDefault = GetOldOrDefaultConfigValue(new ConfigDefinition(sectionName, "timeLeftStyleCookingStation"), 2);
-            timeLeftHoverTextCookingStation = Config.Bind(sectionName, nameof(timeLeftHoverTextCookingStation), IntToTimeLeftStyle(timeLeftDefault), "Select duration display. 0 = Default, 1= % Done, 2 = min:sec left.");
+            timeLeftHoverTextCookingStation = Config.Bind(sectionName, nameof(timeLeftHoverTextCookingStation), IntToTimeLeftStyle(timeLeftDefault), "Select duration display. Disabled = Default, PercentageDone = % Done, MinutesSecondsLeft = min:sec left.");
 
-            timeLeftHoverTextBeeHive = Config.Bind(sectionName, nameof(timeLeftHoverTextBeeHive), TimeLeftStyle.MinutesSecondsLeft, "Select duration display. 0 = Default, 1 = % Done, 2 = min:sec left.");
+            timeLeftHoverTextBeeHive = Config.Bind(sectionName, nameof(timeLeftHoverTextBeeHive), TimeLeftStyle.MinutesSecondsLeft, "Select duration display. Disabled = Default, PercentageDone = % Done, MinutesSecondsLeft = min:sec left.");
 
             var chestStyleDefault = GetOldOrDefaultConfigValue(new ConfigDefinition(sectionName, "chestHasRoomStyle"), 2);
-            chestHasRoomHoverText = Config.Bind(sectionName, nameof(chestHasRoomHoverText), IntToChestHasRoomStyle(chestStyleDefault), "Select how chest emptiness is displayed. 0 = Default | 1 = % | 2 = items / max_room. | 3 = free slots.");
+            chestHasRoomHoverText = Config.Bind(sectionName, nameof(chestHasRoomHoverText), IntToChestHasRoomStyle(chestStyleDefault), "Select how chest emptiness is displayed. Disabled = Default | Percentage = % | ItemsSlashMaxRoom= used / total slots. | AmountOfFreeSlots = count of free slots.");
 
             //
             // Character XP
@@ -236,7 +236,7 @@ namespace BetterUI
             showEnemyHPText = Config.Bind(sectionName, nameof(showEnemyHPText), true, "Show the text with HP amount on enemy health bars.");
 
             var enemyLevelStyleDefault = GetOldOrDefaultConfigValue(new ConfigDefinition(sectionName, "enemyLvlStyle"), 0);
-            enemyLevelStyle = Config.Bind(sectionName, nameof(enemyLevelStyle), IntToEnemyLevelStyle(enemyLevelStyleDefault), "Choose how enemy level is shown. 0 = Default (stars) | 1 = Prefix before name (Lv. 1) | 2 = Both.");
+            enemyLevelStyle = Config.Bind(sectionName, nameof(enemyLevelStyle), IntToEnemyLevelStyle(enemyLevelStyleDefault), "Choose how enemy level is shown.");
 
             enemyNameTextSize = Config.Bind(sectionName, nameof(enemyNameTextSize), 14, "Font size of the name on the enemy.");
 
