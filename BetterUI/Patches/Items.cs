@@ -11,7 +11,7 @@ namespace BetterUI.Patches
 {
     public static class ElementHelper
     {
-        public static void UpdateElement(GuiBar durabilityBar, Image icon, ItemDrop.ItemData item)
+        public static void UpdateElement(GuiBar durabilityBar)
         {
             if (Main.durabilityBarColorPalette.Value != Main.DurabilityBarStyle.Disabled && durabilityBar )
             {
