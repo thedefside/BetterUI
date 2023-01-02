@@ -83,7 +83,7 @@ namespace BetterUI.Patches
 
   static class Stars
   {
-    private static Color starColor = new Color(1.0f, 0.85882f, 0.23137f, 1.0f);
+    private static Color starColor = new(1.0f, 0.85882f, 0.23137f, 1.0f);
 
     public static void Draw(InventoryGrid.Element element, int quality_lvl)
     {
@@ -278,10 +278,10 @@ namespace BetterUI.Patches
     {
       if (left)
       {
-        return player.m_leftItem != null ? player.m_leftItem : player.m_hiddenLeftItem; 
+        return player.m_leftItem ?? player.m_hiddenLeftItem; 
       } else
       {
-        return player.m_rightItem != null ? player.m_rightItem : player.m_hiddenRightItem;
+        return player.m_rightItem ?? player.m_hiddenRightItem;
       }
 
     }
@@ -426,9 +426,12 @@ namespace BetterUI.Patches
           {
             if (_item.m_shared.m_food > 0f)
             {
-              _sb.AppendFormat("\n$item_food_health: <color=orange>{0}</color>", _item.m_shared.m_food);
-              _sb.AppendFormat("\n$item_food_stamina: <color=orange>{0}</color>", _item.m_shared.m_foodStamina);
-              _sb.AppendFormat("\n$item_food_duration: <color=orange>{0}s</color>", _item.m_shared.m_foodBurnTime);
+              _sb.AppendFormat("\n$item_food_health: <color=red>{0}</color>", _item.m_shared.m_food);
+              _sb.AppendFormat("\n$item_food_stamina: <color=yellow>{0}</color>", _item.m_shared.m_foodStamina);
+              if (_item.m_shared.m_foodEitr > 0f) {
+                _sb.AppendFormat("\n$item_food_eitr: <color=cyan>{0}</color>", _item.m_shared.m_foodEitr);
+              }
+              _sb.AppendFormat("\n$item_food_duration: <color=orange>{0}s ({1}m)</color>", _item.m_shared.m_foodBurnTime, (_item.m_shared.m_foodBurnTime/60));
               _sb.AppendFormat("\n$item_food_regen: <color=orange>{0} hp/tick</color>", _item.m_shared.m_foodRegen);
             }
             string statusEffectTooltip = _item.GetStatusEffectTooltip(qualityLevel, skillLevel);
