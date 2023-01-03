@@ -15,8 +15,24 @@ namespace BetterUI.GameClasses
                 return;
             }
 
-            foreach (HotkeyBar.ElementData element in __instance.m_elements)
+            HotkeyBar.ElementData element;
+            float xPos;
+
+            foreach (ItemDrop.ItemData itemData in __instance.m_items)
             {
+                element = null;
+                xPos = itemData.m_gridPos.x;
+
+                if (xPos >= 0 && xPos < __instance.m_elements.Count)
+                {
+                    element = __instance.m_elements[itemData.m_gridPos.x];
+                }
+
+                if (element == null)
+                {
+                    return;
+                }
+
                 // would be better if this could be done reliably in an Awake/ Start, but I'm not in the mood to look for one
                 if (element.m_icon.gameObject.GetComponent<ItemIconUpdater>() == null)
                 {
@@ -24,7 +40,7 @@ namespace BetterUI.GameClasses
                     origScaleComp.Setup(element.m_icon);
                 }
 
-                ElementHelper.UpdateElement(element.m_durability);
+                ElementHelper.UpdateElement(element.m_durability, element.m_icon, itemData);
             }
         }
     }
