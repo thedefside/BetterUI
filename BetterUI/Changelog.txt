@@ -1,4 +1,22 @@
-﻿#### 2.3.2
+﻿#### 2.4.1
+  - Resolve inventory related issues (thedefside)
+  - Resolve an issue where you could end up with no Food Bar due to conflicting config settings
+  - Inventory Tooltip improvements (MetricMike)
+    - Show Eitr increase
+    - Color code food values (red for health, yellow for stamina, blue for eitr)
+    - Include food duration value in minutes
+#### 2.4.0
+- Overhauled general scaling and dimension as well as custom bar rotation system (Goldenrevolver):
+    - in addition to being able to rotate the custom bars ingame using the new enum config, you can now also rotate them with the mouse wheel in edit mode while not holding down the modifier key. holding down the modifier key and scrolling still changes the scale for any UI element, but additionally while holding down the modifier key moving the mouse horizontally and vertically now changes the X and Y dimension respectively (X dimension support is completely new)
+    - custom bar text now scales based on Y axis only (that means that the text is no longer distorted when changing only one dimension)
+    - hotbar and inventory icons now scale ingame through new component
+    - improved bar update performance by saving in local variables
+ - New features ((Goldenrevolver)
+    - added font option for custom bar text and custom food bar duration text
+    - added option for bee hive hover text like fermenter hover text
+    - added option to not show running exp notifications
+ - Fix compatibility with ComfyQuickSlots and Odin's QOL (BruceOfTheBow & Goldenrevolver)
+#### 2.3.2
  - Added backwards compatibility to older config versions (Goldenrevolver)
  - Fixed having durability color disabled also disabling icon size rescaling (Goldenrevolver)
 #### 2.3.0

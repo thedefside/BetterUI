@@ -1,14 +1,21 @@
 [<p align="center"><img width="600" src="https://i.imgur.com/TvcCtRJ.png"></p>](https://valheim.thunderstore.io/package/thedefside/BetterUI_Reforged)
 
-
 # BetterUI: Reforged for Valheim
 This mod updates the game UI with few subtle edits.  
 You are able to edit and select what updates you want to use. 
 
+
 # Support
 Join our Discord! https://discord.gg/vSEjCNF48K
 
-# Features
+## Table of Contents
+1. [Features](#Features)
+2. [Changelog](#Changelog)
+3. [Installation](#Installation)
+4. [FAQ](#FAQ)
+5. [Thanks](#Thanks)  
+
+## Features
 
 #### Add stats to the character select screen
  - Kills (if IG ever starts counting these)
@@ -52,33 +59,28 @@ Join our Discord! https://discord.gg/vSEjCNF48K
 #### Custom Map
  - Change map pin size
 
+## Changelog
 
+v2.4.1
+  - Resolve inventory related issues (thedefside)
+  - Resolve an issue where you could end up with no Food Bar due to conflicting config settings (thedefside)
+  - Inventory Tooltip improvements (MetricMike)
+    - Show Eitr increase
+    - Color code food values (red for health, yellow for stamina, blue for eitr)
+    - Include food duration value in minutes
 
-## Version 2.4.0 Information
+Full Changelog: https://github.com/thedefside/BetterUI/blob/main/BetterUI/Changelog.txt
 
-- Overhauled general scaling and dimension as well as custom bar rotation system (Goldenrevolver):
+## Installation
 
-    - in addition to being able to rotate the custom bars ingame using the new enum config, you can now also rotate them with the mouse wheel in edit mode while not holding down the modifier key. holding down the modifier key and scrolling still changes the scale for any UI element, but additionally while holding down the modifier key moving the mouse horizontally and vertically now changes the X and Y dimension respectively (X dimension support is completely new)
-    - custom bar text now scales based on Y axis only (that means that the text is no longer distorted when changing only one dimension)
-    - hotbar and inventory icons now scale ingame through new component
-    - improved bar update performance by saving in local variables
+#### r2Modman (recommended)
+  1. Install [r2modman](https://valheim.thunderstore.io/package/ebkr/r2modman/)
+  2. Create a new profile
+  3. Select 'Online' from the left nav
+  4. Search for 'BetterUI' and download
+  5. Click 'Start Modded'
 
- - New features ((Goldenrevolver)
-
-    - added font option for custom bar text and custom food bar duration text
-    - added option for bee hive hover text like fermenter hover text
-    - added option to not show running exp notifications
-
-- Fix compatibility with ComfyQuickSlots and Odin's QOL (BruceOfTheBow & Goldenrevolver)
-
-
-## Table of Contents
-1. [Installation](#Installation-(manual))
-2. [FAQ](#FAQ)
-3. [Changelog](#Changelog)  
-
-## Installation (manual)
-
+#### Manual
 If you are installing this manually, do the following _(You will need Bepinex installed)_
 
 1. Extract the archive into a folder. **Do not extract into the game folder.**
@@ -118,6 +120,16 @@ __How do I edit the player HUD?__
  __How do I reset the Custom HUD positions?__
   - Clear out the value in the uiData field in the config
 
- Small showcase on editing UI: https://imgur.com/a/w6bRkWs 
+ # Thanks
+
+ Thank you to all who have contributed to keeping this mod alive!
+  - MKMasa
+  - Goldenrevolver
+  - Dayaleth
+  - redseiko
+  - nandryshak
+  - MetricMike
+  - BruceOfTheBow
+  - phtnk
+  - FelixReuthlinger
  
- Full Changelog: https://github.com/thedefside/BetterUI/blob/main/Changelog.txt

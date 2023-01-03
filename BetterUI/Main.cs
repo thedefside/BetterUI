@@ -21,7 +21,7 @@ namespace BetterUI
           MODNAME = "BetterUI",
           AUTHOR = "MK",
           GUID = AUTHOR + "_" + MODNAME,
-          VERSION = "2.4.0";
+          VERSION = "2.4.1";
 
         internal static ManualLogSource log;
         internal readonly Harmony harmony;
@@ -136,7 +136,7 @@ namespace BetterUI
 
             var healthDefault = GetOldOrDefaultConfigValue(new ConfigDefinition("1 - Player HUD", "useCustomHealthBar"), false);
             healthDefault |= GetOldOrDefaultConfigValue(new ConfigDefinition("1 - Player HUD (Requires Logout)", "useCustomHealthBar"), false);
-            customHealthBar = Config.Bind(sectionName, nameof(customHealthBar), healthDefault ? CustomBarState.on0Degrees : CustomBarState.off, $"Resizable, rotatable HP bar. This bar will always be the same size and will not get longer when you eat. Will also disable the default food bar, so use {nameof(customFoodBar)}.");
+            customHealthBar = Config.Bind(sectionName, nameof(customHealthBar), healthDefault ? CustomBarState.on0Degrees : CustomBarState.off, $"Resizable, rotatable HP bar. This bar will always be the same size and will not get longer when you eat. Will also disable the default food bar, so {nameof(customFoodBar)} will be enabled automatically.");
             customHealthBar.SettingChanged += (_, _) => CustomHealthBar_SettingChanged();
             RemoveOldConfigValue<int>(new ConfigDefinition("1 - Player HUD", "healthBarRotation"));
             RemoveOldConfigValue<int>(new ConfigDefinition(sectionName, "customHealthBarRotation"));
@@ -151,6 +151,11 @@ namespace BetterUI
             var foodDefault = GetOldOrDefaultConfigValue(new ConfigDefinition("1 - Player HUD", "useCustomFoodBar"), false);
             foodDefault |= GetOldOrDefaultConfigValue(new ConfigDefinition(sectionName, "useCustomFoodBar"), false);
             customFoodBar = Config.Bind(sectionName, nameof(customFoodBar), foodDefault ? CustomBarState.on0Degrees : CustomBarState.off, $"Resizable, rotatable food bar. Requires {nameof(customHealthBar)}.");
+            // if the customHealthBar is enabled the vanilla food bar is removed. If the customeFoodBAr is disabled, enable it so the user doesn't end up with no food bar.
+            if (customHealthBar.Value != CustomBarState.off && customFoodBar.Value == CustomBarState.off)
+            {
+                customFoodBar.Value = CustomBarState.on0Degrees;
+            }
             customFoodBar.SettingChanged += (_, _) => CustomFoodBar_SettingChanged();
             RemoveOldConfigValue<int>(new ConfigDefinition("1 - Player HUD", "foodBarRotation"));
             RemoveOldConfigValue<int>(new ConfigDefinition(sectionName, "customFoodBarRotation"));
