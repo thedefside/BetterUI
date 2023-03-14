@@ -1,4 +1,6 @@
-﻿#### 2.4.1
+﻿####v2.4.2
+  - Fix enemy HUD
+#### 2.4.1
   - Resolve inventory related issues (thedefside)
   - Resolve an issue where you could end up with no Food Bar due to conflicting config settings
   - Inventory Tooltip improvements (MetricMike)
