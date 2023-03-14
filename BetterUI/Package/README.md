@@ -61,13 +61,8 @@ Join our Discord! https://discord.gg/vSEjCNF48K
 
 ## Changelog
 
-v2.4.1
-  - Resolve inventory related issues (thedefside)
-  - Resolve an issue where you could end up with no Food Bar due to conflicting config settings (thedefside)
-  - Inventory Tooltip improvements (MetricMike)
-    - Show Eitr increase
-    - Color code food values (red for health, yellow for stamina, blue for eitr)
-    - Include food duration value in minutes
+v2.4.2
+  - Fix enemy HUD
 
 Full Changelog: https://github.com/thedefside/BetterUI/blob/main/BetterUI/Changelog.txt
 
