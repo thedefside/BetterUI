@@ -27,7 +27,7 @@ namespace BetterUI.Patches
     {
       if (menu.m_profiles == null)
       {
-        menu.m_profiles = PlayerProfile.GetAllPlayerProfiles();
+        menu.m_profiles = SaveSystem.GetAllPlayerProfiles();
       }
       if (menu.m_profileIndex >= menu.m_profiles.Count)
       {

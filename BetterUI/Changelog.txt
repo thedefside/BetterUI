@@ -1,4 +1,6 @@
-﻿####v2.4.2
+﻿####v2.4.3
+  - Required updates for Valheim version 0.216.9
+####v2.4.2
   - Fix enemy HUD
 #### 2.4.1
   - Resolve inventory related issues (thedefside)
