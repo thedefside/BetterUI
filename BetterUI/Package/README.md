@@ -61,8 +61,8 @@ Join our Discord! https://discord.gg/vSEjCNF48K
 
 ## Changelog
 
-v2.4.2
-  - Fix enemy HUD
+v2.4.4
+  - Fix for game version 0.217.14 (JuniorAndria)
 
 Full Changelog: https://github.com/thedefside/BetterUI/blob/main/BetterUI/Changelog.txt
 
@@ -127,4 +127,5 @@ __How do I edit the player HUD?__
   - BruceOfTheBow
   - phtnk
   - FelixReuthlinger
+  - JuniorAndria
  
