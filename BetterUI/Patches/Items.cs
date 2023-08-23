@@ -249,7 +249,7 @@ namespace BetterUI.Patches
           // Has shield, weapon in right hand.
         } else
         {
-          HitData.DamageTypes hd = leftHand.GetDamage(leftHand.m_quality);
+          HitData.DamageTypes hd = leftHand.GetDamage(leftHand.m_quality, Game.m_worldLevel);
 
           if (leftHand.m_shared.m_skillType == Skills.SkillType.Bows && ammoItem != null)
           {
@@ -264,7 +264,7 @@ namespace BetterUI.Patches
 
       if (rightHand != null)
       {
-        HitData.DamageTypes hd = rightHand.GetDamage(rightHand.m_quality);
+        HitData.DamageTypes hd = rightHand.GetDamage(rightHand.m_quality, Game.m_worldLevel);
 
         // Show Item Damage
         sb.AppendFormat("{0}", hd.GetTooltipString(rightHand.m_shared.m_skillType));
@@ -326,8 +326,8 @@ namespace BetterUI.Patches
 
     private static void CustomDamageCalculations(int newLvl, int oldLvl)
     {
-      HitData.DamageTypes oldItem = _item.GetDamage(oldLvl);
-      HitData.DamageTypes newItem = _item.GetDamage(newLvl);
+      HitData.DamageTypes oldItem = _item.GetDamage(oldLvl, Game.m_worldLevel);
+      HitData.DamageTypes newItem = _item.GetDamage(newLvl, Game.m_worldLevel);
       if (newItem.m_damage > oldItem.m_damage)
       {
         _sb.AppendFormat("\n$inventory_damage: <color=silver>{0}</color> {1} <color=orange>{2}</color>", oldItem.m_damage, arrow, newItem.m_damage);
@@ -446,7 +446,7 @@ namespace BetterUI.Patches
         case ItemDrop.ItemData.ItemType.TwoHandedWeapon:
         case ItemDrop.ItemData.ItemType.Torch:
           {
-            _sb.Append(_item.GetDamage(qualityLevel).GetTooltipString(_item.m_shared.m_skillType));
+            _sb.Append(_item.GetDamage(qualityLevel, Game.m_worldLevel).GetTooltipString(_item.m_shared.m_skillType));
             _sb.AppendFormat("\n$item_knockback: <color=orange>{0}</color>", _item.m_shared.m_attackForce);
             _sb.AppendFormat("\n$item_backstab: <color=orange>{0}x</color>", _item.m_shared.m_backstabBonus);
 
@@ -485,7 +485,7 @@ namespace BetterUI.Patches
         case ItemDrop.ItemData.ItemType.Legs:
         case ItemDrop.ItemData.ItemType.Shoulder:
           {
-            _sb.AppendFormat("\n$item_armor: <color=orange>{0}</color>", _item.GetArmor(qualityLevel));
+            _sb.AppendFormat("\n$item_armor: <color=orange>{0}</color>", _item.GetArmor(qualityLevel, Game.m_worldLevel));
             /*
             string damageModifiersTooltipString = SE_Stats.GetDamageModifiersTooltipString(_item.m_shared.m_damageModifiers);
             if (damageModifiersTooltipString.Length > 0)
@@ -502,7 +502,7 @@ namespace BetterUI.Patches
             break;
           }
         case ItemDrop.ItemData.ItemType.Ammo:
-          _sb.Append(_item.GetDamage(qualityLevel).GetTooltipString(_item.m_shared.m_skillType));
+          _sb.Append(_item.GetDamage(qualityLevel, Game.m_worldLevel).GetTooltipString(_item.m_shared.m_skillType));
           _sb.AppendFormat("\n$item_knockback: <color=orange>{0}</color>", _item.m_shared.m_attackForce);
           break;
       }
@@ -566,12 +566,12 @@ namespace BetterUI.Patches
         case ItemDrop.ItemData.ItemType.TwoHandedWeapon:
         case ItemDrop.ItemData.ItemType.Torch:
           {
-            if (_item.GetDamage(newQuality).GetTotalDamage() > _item.GetDamage(oldQuality).GetTotalDamage())
+            if (_item.GetDamage(newQuality, Game.m_worldLevel).GetTotalDamage() > _item.GetDamage(oldQuality, Game.m_worldLevel).GetTotalDamage())
             {
               CustomDamageCalculations(newQuality, oldQuality);
             } else
             {
-              _sb.Append(_item.GetDamage(newQuality).GetTooltipString(_item.m_shared.m_skillType));
+              _sb.Append(_item.GetDamage(newQuality, Game.m_worldLevel).GetTooltipString(_item.m_shared.m_skillType));
             }
             _sb.AppendFormat("\n$item_knockback: <color=orange>{0}</color>", _item.m_shared.m_attackForce);
             _sb.AppendFormat("\n$item_backstab: <color=orange>{0}x</color>", _item.m_shared.m_backstabBonus);
@@ -637,12 +637,12 @@ namespace BetterUI.Patches
         case ItemDrop.ItemData.ItemType.Legs:
         case ItemDrop.ItemData.ItemType.Shoulder:
           {
-            if(_item.GetArmor(newQuality) > _item.GetArmor(oldQuality))
+            if(_item.GetArmor(newQuality,Game.m_worldLevel) > _item.GetArmor(oldQuality, Game.m_worldLevel))
             {
-              _sb.AppendFormat("\n$item_armor: <color=silver>{0}</color> {1} <color=orange>{2}</color>", _item.GetArmor(oldQuality), arrow, _item.GetArmor(newQuality));
+              _sb.AppendFormat("\n$item_armor: <color=silver>{0}</color> {1} <color=orange>{2}</color>", _item.GetArmor(oldQuality, Game.m_worldLevel), arrow, _item.GetArmor(newQuality, Game.m_worldLevel));
             } else
             {
-              _sb.AppendFormat("\n$item_armor: <color=orange>{0}</color>", _item.GetArmor(newQuality));
+              _sb.AppendFormat("\n$item_armor: <color=orange>{0}</color>", _item.GetArmor(newQuality, Game.m_worldLevel));
             }
             /*
             string damageModifiersTooltipString = SE_Stats.GetDamageModifiersTooltipString(_item.m_shared.m_damageModifiers);
@@ -660,7 +660,7 @@ namespace BetterUI.Patches
             break;
           }
         case ItemDrop.ItemData.ItemType.Ammo:
-          _sb.Append(_item.GetDamage(newQuality).GetTooltipString(_item.m_shared.m_skillType));
+          _sb.Append(_item.GetDamage(newQuality, Game.m_worldLevel).GetTooltipString(_item.m_shared.m_skillType));
           _sb.AppendFormat("\n$item_knockback: <color=orange>{0}</color>", _item.m_shared.m_attackForce);
           break;
 
