@@ -37,7 +37,7 @@ namespace BetterUI.GameClasses
     static class ItemData
     {
       [HarmonyPrefix]
-      [HarmonyPatch(typeof(ItemDrop.ItemData), "GetTooltip", new Type[] { typeof(ItemDrop.ItemData), typeof(int), typeof(bool) })]
+      [HarmonyPatch(typeof(ItemDrop.ItemData), "GetTooltip", new Type[] { typeof(ItemDrop.ItemData), typeof(int), typeof(bool), typeof(float) })]
       public static bool PatchTooltip(ref string __result, ItemDrop.ItemData item, int qualityLevel, bool crafting)
       {
         if (!Main.showCustomTooltips.Value) return true;
