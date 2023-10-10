@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using TMPro;
 using UnityEngine.UI;
 
 namespace BetterUI.GameClasses
@@ -13,7 +14,7 @@ namespace BetterUI.GameClasses
             __instance.gameObject.SetActive(true);
             if (Main.showCharacterXP.Value)
             {
-                Utils.FindChild(__instance.transform, "topic").GetComponent<Text>().text = $"Level: {Patches.XP.level:0}      Progress: {string.Format("{0:0%}", Patches.XP.LevelProgressPercentage)}";
+                Utils.FindChild(__instance.transform, "topic").GetComponent<TMP_Text>().text = $"Level: {Patches.XP.level:0}      Progress: {string.Format("{0:0%}", Patches.XP.LevelProgressPercentage)}";
             }
             if (!Main.customSkillUI.Value) return;
 

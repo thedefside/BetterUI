@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -54,15 +55,15 @@ namespace BetterUI.Patches
                 gameObject.GetComponentInChildren<UITooltip>().m_text = skill.m_info.m_description;
 
                 Utils.FindChild(gameObject.transform, "icon").GetComponent<Image>().sprite = skill.m_info.m_icon;
-                Utils.FindChild(gameObject.transform, "name").GetComponent<Text>().text = Localization.instance.Localize("$skill_" + skill.m_info.m_skill.ToString().ToLower() + $"\n<size={Main.skillUITextSize.Value - 2}>Lvl: {(int)skill.m_level}</size>");
-                Utils.FindChild(gameObject.transform, "name").GetComponent<Text>().fontSize = Main.skillUITextSize.Value;
+                Utils.FindChild(gameObject.transform, "name").GetComponent<TMP_Text>().text = Localization.instance.Localize("$skill_" + skill.m_info.m_skill.ToString().ToLower() + $"\n<size={Main.skillUITextSize.Value - 2}>Lvl: {(int)skill.m_level}</size>");
+                Utils.FindChild(gameObject.transform, "name").GetComponent<TMP_Text>().fontSize = Main.skillUITextSize.Value;
                 float skillLevel = player.GetSkills().GetSkillLevel(skill.m_info.m_skill);
-                Utils.FindChild(gameObject.transform, "leveltext").GetComponent<Text>().text = $"<size={Main.skillUITextSize.Value - 4}>{acc} ({skill.GetLevelPercentage() * 100f:0.##}%)</size>";
-                Text component = Utils.FindChild(gameObject.transform, "bonustext").GetComponent<Text>();
+                Utils.FindChild(gameObject.transform, "leveltext").GetComponent<TMP_Text>().text = $"<size={Main.skillUITextSize.Value - 4}>{acc} ({skill.GetLevelPercentage() * 100f:0.##}%)</size>";
+                TMP_Text component = Utils.FindChild(gameObject.transform, "bonustext").GetComponent<TMP_Text>();
                 if (skillLevel != skill.m_level)
                 {
                     component.text = (skillLevel - skill.m_level).ToString("+0");
-                    Utils.FindChild(gameObject.transform, "name").GetComponent<Text>().text += $" <size={Main.skillUITextSize.Value - 2}><color=cyan>{component.text}</color></size>";
+                    Utils.FindChild(gameObject.transform, "name").GetComponent<TMP_Text>().text += $" <size={Main.skillUITextSize.Value - 2}><color=cyan>{component.text}</color></size>";
                     component.gameObject.SetActive(value: false);
                 }
                 else
@@ -77,7 +78,7 @@ namespace BetterUI.Patches
                 RectTransform xpBar = (Utils.FindChild(gameObject.transform, "levelbar").GetComponent<GuiBar>().m_bar.parent as RectTransform);
                 xpBar.sizeDelta = new Vector2(xpBar.sizeDelta.x, xpBar.sizeDelta.y + 4f);
                 xpBar.anchoredPosition = new Vector2(-4f, 0f);
-                RectTransform txt = Utils.FindChild(gameObject.transform, "leveltext").GetComponent<Text>().rectTransform;
+                RectTransform txt = Utils.FindChild(gameObject.transform, "leveltext").GetComponent<TMP_Text>().rectTransform;
                 txt.anchoredPosition = new Vector2(txt.anchoredPosition.x, txt.anchoredPosition.y + 2f);
                 // Remove currentlevel bar
                 UnityEngine.Object.Destroy(Utils.FindChild(gameObject.transform, "currentlevel").GetComponent<GuiBar>().gameObject);

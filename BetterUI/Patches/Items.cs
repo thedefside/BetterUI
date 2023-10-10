@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HarmonyLib;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -90,7 +91,7 @@ namespace BetterUI.Patches
       if(quality_lvl >= 5) // Fix for modded items...
       {
         stars = $"<color=white><size=10>{quality_lvl}</size>x </color>\u2605"; // Could be ★x5 or ★x99999
-        element.m_quality.alignment = TextAnchor.MiddleRight;
+        element.m_quality.alignment = TextAlignmentOptions.MidlineRight;
         element.m_quality.rectTransform.sizeDelta = new Vector2(60f, 20f);
         if (quality_lvl > 99998) stars = $"<color=white><size=10>MODDED</size> </color>\u2605"; // For them wack guys
       } else
@@ -125,7 +126,7 @@ namespace BetterUI.Patches
   {
     // Should we just inherit from UITooltip and add our own stuff?
     public static UITooltip tooltip = null;
-    public static Text m_armor = null;
+    public static TMP_Text m_armor = null;
 
     public static void Awake(InventoryGui ig)
     {
@@ -145,10 +146,10 @@ namespace BetterUI.Patches
       InventoryElement.transform.Find("equiped").GetComponent<Image>().enabled = false;
       InventoryElement.transform.Find("queued").GetComponent<Image>().enabled = false;
       InventoryElement.transform.Find("icon").GetComponent<Image>().enabled = false;
-      InventoryElement.transform.Find("amount").GetComponent<Text>().enabled = false;
+      InventoryElement.transform.Find("amount").GetComponent<TMP_Text>().enabled = false;
       InventoryElement.transform.Find("durability").gameObject.SetActive(false);
-      InventoryElement.transform.Find("binding").GetComponent<Text>().enabled = false;
-      InventoryElement.transform.Find("quality").GetComponent<Text>().enabled = false;
+      InventoryElement.transform.Find("binding").GetComponent<TMP_Text>().enabled = false;
+      InventoryElement.transform.Find("quality").GetComponent<TMP_Text>().enabled = false;
       InventoryElement.transform.Find("selected").gameObject.SetActive(false);
       InventoryElement.transform.Find("noteleport").GetComponent<Image>().enabled = false;
       InventoryElement.transform.Find("foodicon").GetComponent<Image>().enabled = false;

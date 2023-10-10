@@ -374,6 +374,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy "$(TargetDir)" "$(GameDir)\Bepinex\plugins\$(ProjectName)\" /q /s /y /i</PostBuildEvent>
+    <PostBuildEvent>xcopy "$(TargetDir)" "$(GameDir)\BepInEx\plugins\$(ProjectName)\" /q /s /y /i</PostBuildEvent>
+    <PostBuildEvent>xcopy "$(TargetDir)" "C:\Users\crypt\AppData\Roaming\r2modmanPlus-local\Valheim\profiles\PTB 0.217.22\BepInEx\plugins\$(ProjectName)\" /q /s /y /i</PostBuildEvent>
   </PropertyGroup>
 </Project>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using static BetterUI.Main;
@@ -15,7 +16,7 @@ namespace BetterUI.Patches
             public const float scalingFactor = 0.6f;
             public const int padding = 0;
 
-            public static void BaseCreate(string objectName, string origBarName, ref RectTransform root, ref GuiBar slowBar, ref GuiBar fastBar, ref Text barText)
+            public static void BaseCreate(string objectName, string origBarName, ref RectTransform root, ref GuiBar slowBar, ref GuiBar fastBar, ref TMP_Text barText)
             {
                 // we've obviously already done this before if it's not null
                 if (root != null)
@@ -34,7 +35,7 @@ namespace BetterUI.Patches
 
                 var fastBarHealthText = fastBar.transform.Find("bar").Find("HealthText");
                 fastBarHealthText.gameObject.SetActive(false);
-                barText = UnityEngine.Object.Instantiate(fastBarHealthText.GetComponent<Text>(), root);
+                barText = UnityEngine.Object.Instantiate(fastBarHealthText.GetComponent<TMP_Text>(), root);
                 barText.gameObject.AddComponent<TextScaler>();
                 barText.gameObject.SetActive(true);
 
@@ -46,7 +47,7 @@ namespace BetterUI.Patches
                 slowBar.transform.localScale = new Vector3(1f, scalingFactor, 1f);
             }
 
-            public static void UpdateRotation(int configRotation, ref RectTransform root, ref Text barText)
+            public static void UpdateRotation(int configRotation, ref RectTransform root, ref TMP_Text barText)
             {
                 //configRotation = (configRotation + 180) % 360;
 
@@ -54,7 +55,7 @@ namespace BetterUI.Patches
                 barText.transform.localEulerAngles = new Vector3(0, 0, -configRotation);
             }
 
-            public static void HealthStyleUpdate(float max, float current, ref GuiBar slowBar, ref GuiBar fastBar, ref Text barText)
+            public static void HealthStyleUpdate(float max, float current, ref GuiBar slowBar, ref GuiBar fastBar, ref TMP_Text barText)
             {
                 fastBar.SetMaxValue(max);
                 fastBar.SetValue(current);
@@ -65,7 +66,7 @@ namespace BetterUI.Patches
                 barText.text = $"{Mathf.CeilToInt(current)}/{Mathf.CeilToInt(max)}";
             }
 
-            public static void StaminaStyleUpdate(float max, float current, ref GuiBar slowBar, ref GuiBar fastBar, ref Text barText)
+            public static void StaminaStyleUpdate(float max, float current, ref GuiBar slowBar, ref GuiBar fastBar, ref TMP_Text barText)
             {
                 fastBar.SetValue(current / max);
                 slowBar.SetValue(current / max);
@@ -123,7 +124,7 @@ namespace BetterUI.Patches
             internal static RectTransform root;
             internal static GuiBar slowBar;
             internal static GuiBar fastBar;
-            internal static Text barText;
+            internal static TMP_Text barText;
 
             public static void UpdateRotation()
             {
@@ -174,7 +175,7 @@ namespace BetterUI.Patches
             internal static RectTransform root;
             internal static GuiBar slowBar;
             internal static GuiBar fastBar;
-            internal static Text barText;
+            internal static TMP_Text barText;
 
             public static void UpdateRotation()
             {
@@ -245,7 +246,7 @@ namespace BetterUI.Patches
             internal static RectTransform root;
             internal static GuiBar slowBar;
             internal static GuiBar fastBar;
-            internal static Text barText;
+            internal static TMP_Text barText;
 
             public static void UpdateRotation()
             {
@@ -325,7 +326,7 @@ namespace BetterUI.Patches
 
             private static Image[] foodBars;
             private static Image[] foodIcons;
-            private static Text[] foodTimes;
+            private static TMP_Text[] foodTimes;
             private static Transform[] foodTransforms;
 
             public static void UpdateRotation()
@@ -370,7 +371,7 @@ namespace BetterUI.Patches
 
                     foodBars = new Image[Hud.instance.m_foodBars.Length];
                     foodIcons = new Image[Hud.instance.m_foodIcons.Length];
-                    foodTimes = new Text[Hud.instance.m_foodTime.Length];
+                    foodTimes = new TMP_Text[Hud.instance.m_foodTime.Length];
                     foodTransforms = new Transform[Hud.instance.m_foodTime.Length];
 
                     for (int i = 0; i < Hud.instance.m_foodBars.Length; i++)
@@ -378,7 +379,7 @@ namespace BetterUI.Patches
                         foodBars[i] = foodBarRoot.Find(Hud.instance.m_foodBars[i].name).GetComponent<Image>();
                         foodTransforms[i] = foodPanel.Find($"food{i}");
                         foodIcons[i] = foodTransforms[i].Find($"foodicon{i}").GetComponent<Image>();
-                        foodTimes[i] = foodTransforms[i].Find($"time").GetComponent<Text>();
+                        foodTimes[i] = foodTransforms[i].Find($"time").GetComponent<TMP_Text>();
                     }
 
                     UpdateRotation();
@@ -416,7 +417,7 @@ namespace BetterUI.Patches
                         {
                             Image foodBar = foodBars[i];
                             Image foodIcon = foodIcons[i];
-                            Text foodTime = foodTimes[i];
+                            TMP_Text foodTime = foodTimes[i];
 
                             if (i < foods.Count)
                             {

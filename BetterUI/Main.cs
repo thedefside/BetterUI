@@ -21,7 +21,7 @@ namespace BetterUI
           MODNAME = "BetterUI",
           AUTHOR = "MK",
           GUID = AUTHOR + "_" + MODNAME,
-          VERSION = "2.4.4";
+          VERSION = "2.5.0";
 
         internal static ManualLogSource log;
         internal readonly Harmony harmony;
@@ -281,6 +281,8 @@ namespace BetterUI
             {
                 PrintOrphanedEntries();
             }
+            
+            this.Logger.LogInfo("BetterUI (Forever Maintained Version) loaded");
         }
 
         private DurabilityBarStyle IntToDurabilityBarStyle(bool wasColorPaletteOn, int selectedColorPalette)

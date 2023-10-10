@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -322,11 +323,11 @@ namespace BetterUI.Patches
             go.Find("selected_piece").gameObject.SetActive(false);
             go.Find("requirements").gameObject.SetActive(false);
 
-            Text t = go.gameObject.AddComponent<Text>();
+            TextMeshProUGUI t = go.gameObject.AddComponent<TextMeshProUGUI>();
             t.text = $"{element.DisplayName}";
-            t.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
+            t.font = Hud.instance.m_pieceDescription.font;
             t.fontSize = 20;
-            t.alignment = TextAnchor.MiddleCenter;
+            t.alignment = TextAlignmentOptions.CenterGeoAligned;
             go.gameObject.SetActive(false); // Have it hidden when added
 
             RectTransform templateRT = go.GetComponent<RectTransform>();
@@ -339,7 +340,7 @@ namespace BetterUI.Patches
             templateRT.anchoredPosition = rt.anchoredPosition;
             templateRT.position = rt.position;
             templateRT.localEulerAngles = rt.localEulerAngles;
-            t.resizeTextForBestFit = true;
+            t.enableAutoSizing = true;
         }
     }
 }

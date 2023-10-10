@@ -61,10 +61,10 @@ Join our Discord! https://discord.gg/vSEjCNF48K
 
 ## Changelog
 
-v2.4.4
-  - Fix for game version 0.217.14 (JuniorAndria)
+v2.5.0
+  - Fix for game version 0.217.24
 
-Full Changelog: https://github.com/thedefside/BetterUI/blob/main/BetterUI/Changelog.txt
+Full Changelog can be found on the wiki tab for this mod here: [https://valheim.thunderstore.io/package/BetterUI_ForeverMaintained/BetterUI_ForeverMaintained/wiki/](https://valheim.thunderstore.io/package/BetterUI_ForeverMaintained/BetterUI_ForeverMaintained/wiki/)
 
 ## Installation
 
