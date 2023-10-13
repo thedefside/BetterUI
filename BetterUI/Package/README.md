@@ -1,19 +1,16 @@
-[<p align="center"><img width="600" src="https://i.imgur.com/TvcCtRJ.png"></p>](https://valheim.thunderstore.io/package/thedefside/BetterUI_Reforged)
+[<p align="center"><img width="600" src="https://i.imgur.com/uo5x73K.png"></p>](https://valheim.thunderstore.io/package/BetterUI_ForeverMaintained/BetterUI_ForeverMaintained/)
 
-# BetterUI: Reforged for Valheim
+# BetterUI: Forever Maintained for Valheim
 This mod updates the game UI with few subtle edits.  
 You are able to edit and select what updates you want to use. 
 
 
 # Support
-Join our Discord! https://discord.gg/vSEjCNF48K
+Want to report a bug or request a feature? Please post in any of the Valheim discords like this so I can see it via discord search:
 
-## Table of Contents
-1. [Features](#Features)
-2. [Changelog](#Changelog)
-3. [Installation](#Installation)
-4. [FAQ](#FAQ)
-5. [Thanks](#Thanks)  
+"BetterUI Forever Maintained: I found a bug! [insert bug here]"
+or
+"BetterUI Forever Maintained: I have a feature request! [insert feature here]"
 
 ## Features
 
@@ -61,8 +58,8 @@ Join our Discord! https://discord.gg/vSEjCNF48K
 
 ## Changelog
 
-v2.5.0
-  - Fix for game version 0.217.24
+v2.5.1
+  - Fix color issues after the TextMeshPro update
 
 Full Changelog can be found on the wiki tab for this mod here: [https://valheim.thunderstore.io/package/BetterUI_ForeverMaintained/BetterUI_ForeverMaintained/wiki/](https://valheim.thunderstore.io/package/BetterUI_ForeverMaintained/BetterUI_ForeverMaintained/wiki/)
 

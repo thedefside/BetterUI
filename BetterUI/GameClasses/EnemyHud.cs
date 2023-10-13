@@ -86,7 +86,7 @@ namespace BetterUI.GameClasses
                 hudData.m_name.fontSize = Main.enemyNameTextSize.Value;
                 if (Main.enemyLevelStyle.Value != 0)
                 {
-                    hudData.m_name.text = hudData.m_name.text.Insert(0, $"<size={Main.enemyNameTextSize.Value}><color=white>Lv.{c.m_level} </color></size> ");
+                    hudData.m_name.text = hudData.m_name.text.Insert(0, $"<size={Main.enemyNameTextSize.Value}><color=#ffffffff>Lv.{c.m_level} </color></size> ");
                 }
                 if (Main.showEnemyHPText.Value)
                 {
@@ -177,7 +177,7 @@ namespace BetterUI.GameClasses
 
                         if (Main.enemyLevelStyle.Value != 0)
                         {
-                            value.m_name.text = value.m_name.text.Insert(0, $"<size={Main.enemyNameTextSize.Value}><color=white>Lv.{value.m_character.m_level} </color></size> ");
+                            value.m_name.text = value.m_name.text.Insert(0, $"<size={Main.enemyNameTextSize.Value}><color=#ffffffff>Lv.{value.m_character.m_level} </color></size> ");
                         }
 
                         if (Main.enemyLevelStyle.Value == Main.EnemyLevelStyle.PrefixLevelNumber)

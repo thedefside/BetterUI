@@ -63,7 +63,7 @@ namespace BetterUI.Patches
                 if (skillLevel != skill.m_level)
                 {
                     component.text = (skillLevel - skill.m_level).ToString("+0");
-                    Utils.FindChild(gameObject.transform, "name").GetComponent<TMP_Text>().text += $" <size={Main.skillUITextSize.Value - 2}><color=cyan>{component.text}</color></size>";
+                    Utils.FindChild(gameObject.transform, "name").GetComponent<TMP_Text>().text += $" <size={Main.skillUITextSize.Value - 2}><color=#00ffffff>{component.text}</color></size>";
                     component.gameObject.SetActive(value: false);
                 }
                 else
@@ -92,9 +92,9 @@ namespace BetterUI.Patches
             /*
             __instance.m_totalSkillText.text = string.Concat(new string[]
             {
-                "<color=orange>",
+                "<color=#ffa500ff>",
                 player.GetSkills().GetTotalSkill().ToString("0"),
-                "</color><color=white> / </color><color=orange>",
+                "</color><color=#ffffffff> / </color><color=#ffa500ff>",
                 player.GetSkills().GetTotalSkillCap().ToString("0"),
                 "</color>"
             });

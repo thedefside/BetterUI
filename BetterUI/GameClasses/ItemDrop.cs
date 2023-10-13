@@ -20,7 +20,7 @@ namespace BetterUI.GameClasses
         text = string.Concat(new object[]
         {
           text,
-          " (<color=yellow>",
+          " (<color=#ffff00ff>",
           Patches.Stars.HoverText(__instance.m_itemData.m_quality),
           "</color>) "
         });
@@ -29,7 +29,7 @@ namespace BetterUI.GameClasses
       {
         text = text + " x" + __instance.m_itemData.m_stack.ToString();
       }
-      __result = Localization.instance.Localize(text + "\n[<color=yellow><b>$KEY_Use</b></color>] $inventory_pickup");
+      __result = Localization.instance.Localize(text + "\n[<color=#ffff00ff><b>$KEY_Use</b></color>] $inventory_pickup");
       return false;
     }
 

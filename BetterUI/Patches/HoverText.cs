@@ -5,15 +5,15 @@ namespace BetterUI.Patches
 {
   static class HoverText
   {
-    private static readonly string useKey = "[<color=yellow><b>$KEY_Use</b></color>]";
-    private static readonly string _containerBase = "[<color=yellow><b>$KEY_Use</b></color>] $piece_container_open";
+    private static readonly string useKey = "[<color=#ffff00ff><b>$KEY_Use</b></color>]";
+    private static readonly string _containerBase = "[<color=#ffff00ff><b>$KEY_Use</b></color>] $piece_container_open";
     // [E] Cook item
-    private static readonly string _cookItem = "[<color=yellow><b>$KEY_Use</b></color>] $piece_cstand_cook";
+    private static readonly string _cookItem = "[<color=#ffff00ff><b>$KEY_Use</b></color>] $piece_cstand_cook";
     // [1-8] Cook Item
-    private static readonly string _selectItem = "[<color=yellow><b>1-8</b></color>] $piece_cstand_cook";
+    private static readonly string _selectItem = "[<color=#ffff00ff><b>1-8</b></color>] $piece_cstand_cook";
     private static readonly string overCookColor = "red";
 
-    private static readonly string smelterRoof = "<color=yellow>$piece_smelter_reqroof</color>";
+    private static readonly string smelterRoof = "<color=#ffff00ff>$piece_smelter_reqroof</color>";
 
     public static bool PatchFermenter(Fermenter fermenter, ref string hoverText)
     {
@@ -35,7 +35,7 @@ namespace BetterUI.Patches
 
         case Fermenter.Status.Ready:
           string contentName2 = fermenter.GetContentName();
-          hoverText = Localization.instance.Localize($"{fermenter.m_name}, $piece_fermenter_ready \n{contentName2}\n[<color=yellow><b>$KEY_Use</b></color>] $piece_fermenter_tap");
+          hoverText = Localization.instance.Localize($"{fermenter.m_name}, $piece_fermenter_ready \n{contentName2}\n[<color=#ffff00ff><b>$KEY_Use</b></color>] $piece_fermenter_tap");
           return false;
 
         default:
@@ -67,11 +67,11 @@ namespace BetterUI.Patches
 
             if (honeyLevel > 0)
             {
-                hoverText = Localization.instance.Localize($"{beeHive.m_name} ( {timeLeft}{beeHive.m_honeyItem.m_itemData.m_shared.m_name} x {honeyLevel} ) \n[<color=yellow><b>$KEY_Use</b></color>] $piece_beehive_extract");
+                hoverText = Localization.instance.Localize($"{beeHive.m_name} ( {timeLeft}{beeHive.m_honeyItem.m_itemData.m_shared.m_name} x {honeyLevel} ) \n[<color=#ffff00ff><b>$KEY_Use</b></color>] $piece_beehive_extract");
             }
             else
             {
-                hoverText = Localization.instance.Localize($"{beeHive.m_name} ( {timeLeft}$piece_container_empty ) \n[<color=yellow><b>$KEY_Use</b></color>] $piece_beehive_check");
+                hoverText = Localization.instance.Localize($"{beeHive.m_name} ( {timeLeft}$piece_container_empty ) \n[<color=#ffff00ff><b>$KEY_Use</b></color>] $piece_beehive_check");
             }
         }
 

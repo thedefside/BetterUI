@@ -90,10 +90,10 @@ namespace BetterUI.Patches
       string stars;
       if(quality_lvl >= 5) // Fix for modded items...
       {
-        stars = $"<color=white><size=10>{quality_lvl}</size>x </color>\u2605"; // Could be ★x5 or ★x99999
+        stars = $"<color=#ffffffff><size=10>{quality_lvl}</size>x </color>\u2605"; // Could be ★x5 or ★x99999
         element.m_quality.alignment = TextAlignmentOptions.MidlineRight;
         element.m_quality.rectTransform.sizeDelta = new Vector2(60f, 20f);
-        if (quality_lvl > 99998) stars = $"<color=white><size=10>MODDED</size> </color>\u2605"; // For them wack guys
+        if (quality_lvl > 99998) stars = $"<color=#ffffffff><size=10>MODDED</size> </color>\u2605"; // For them wack guys
       } else
       {
         stars = Helpers.Repeat("\u2605", quality_lvl);
@@ -189,7 +189,7 @@ namespace BetterUI.Patches
       WeaponStats(player, sb);
       BlockStats(player, sb);
 
-      sb.AppendFormat("\n$item_armor: <color=orange>{0}</color>", Convert.ToInt32(player.GetBodyArmor()));
+      sb.AppendFormat("\n$item_armor: <color=#ffa500ff>{0}</color>", Convert.ToInt32(player.GetBodyArmor()));
 
       sb.Append("\n" + new string('\u2500', 10) + "  Buffs  " + new string('\u2500', 10));
       if (player.m_equipmentMovementModifier != 0f)
@@ -203,7 +203,7 @@ namespace BetterUI.Patches
       player.GetSEMan().GetHUDStatusEffects(list);
       foreach (StatusEffect statusEffect in list)
       {
-        sb.Append("<color=orange>" + Localization.instance.Localize(statusEffect.m_name) + "</color>\n");
+        sb.Append("<color=#ffa500ff>" + Localization.instance.Localize(statusEffect.m_name) + "</color>\n");
         sb.Append(Localization.instance.Localize(statusEffect.GetTooltipString()));
         sb.Append("\n\n");
       }
@@ -225,11 +225,11 @@ namespace BetterUI.Patches
       if (cb != null)
       {
         float sf = player.GetSkillFactor(Skills.SkillType.Blocking);
-        sb.AppendFormat("\n\n$item_blockpower: <color=orange>{0}</color>", Convert.ToInt32(cb.GetBlockPower(sf)));
+        sb.AppendFormat("\n\n$item_blockpower: <color=#ffa500ff>{0}</color>", Convert.ToInt32(cb.GetBlockPower(sf)));
         if (cb.m_shared.m_timedBlockBonus > 1f)
         {
-          sb.AppendFormat("\n$item_deflection: <color=orange>{0}</color>", cb.GetDeflectionForce(cb.m_quality));
-          sb.AppendFormat("\n$item_parrybonus: <color=orange>{0}x</color>", cb.m_shared.m_timedBlockBonus);
+          sb.AppendFormat("\n$item_deflection: <color=#ffa500ff>{0}</color>", cb.GetDeflectionForce(cb.m_quality));
+          sb.AppendFormat("\n$item_parrybonus: <color=#ffa500ff>{0}x</color>", cb.m_shared.m_timedBlockBonus);
         }
       }
     }
@@ -258,8 +258,8 @@ namespace BetterUI.Patches
           }
           sb.AppendFormat("{0}", hd.GetTooltipString(leftHand.m_shared.m_skillType));
 
-          sb.AppendFormat("\n\n$item_knockback: <color=orange>{0}</color>", leftHand.m_shared.m_attackForce);
-          sb.AppendFormat("\n$item_backstab: <color=orange>{0}x</color>", leftHand.m_shared.m_backstabBonus);
+          sb.AppendFormat("\n\n$item_knockback: <color=#ffa500ff>{0}</color>", leftHand.m_shared.m_attackForce);
+          sb.AppendFormat("\n$item_backstab: <color=#ffa500ff>{0}x</color>", leftHand.m_shared.m_backstabBonus);
         }
       }
 
@@ -269,8 +269,8 @@ namespace BetterUI.Patches
 
         // Show Item Damage
         sb.AppendFormat("{0}", hd.GetTooltipString(rightHand.m_shared.m_skillType));
-        sb.AppendFormat("\n\n$item_knockback: <color=orange>{0}</color>", rightHand.m_shared.m_attackForce);
-        sb.AppendFormat("\n$item_backstab: <color=orange>{0}x</color>", rightHand.m_shared.m_backstabBonus);
+        sb.AppendFormat("\n\n$item_knockback: <color=#ffa500ff>{0}</color>", rightHand.m_shared.m_attackForce);
+        sb.AppendFormat("\n$item_backstab: <color=#ffa500ff>{0}x</color>", rightHand.m_shared.m_backstabBonus);
       }
     }
 
@@ -322,7 +322,7 @@ namespace BetterUI.Patches
 
     private static void Crafted()
     {
-      _sb.AppendFormat("\n$item_crafter: <color=orange>{0}</color>", _item.m_crafterName);
+      _sb.AppendFormat("\n$item_crafter: <color=#ffa500ff>{0}</color>", _item.m_crafterName);
     }
 
     private static void CustomDamageCalculations(int newLvl, int oldLvl)
@@ -331,39 +331,39 @@ namespace BetterUI.Patches
       HitData.DamageTypes newItem = _item.GetDamage(newLvl, Game.m_worldLevel);
       if (newItem.m_damage > oldItem.m_damage)
       {
-        _sb.AppendFormat("\n$inventory_damage: <color=silver>{0}</color> {1} <color=orange>{2}</color>", oldItem.m_damage, arrow, newItem.m_damage);
+        _sb.AppendFormat("\n$inventory_damage: <color=#c0c0c0ff>{0}</color> {1} <color=#ffa500ff>{2}</color>", oldItem.m_damage, arrow, newItem.m_damage);
       }
       if (newItem.m_blunt > oldItem.m_blunt)
       {
-        _sb.AppendFormat("\n$inventory_blunt: <color=silver>{0}</color> {1} <color=orange>{2}</color>", oldItem.m_blunt, arrow, newItem.m_blunt);
+        _sb.AppendFormat("\n$inventory_blunt: <color=#c0c0c0ff>{0}</color> {1} <color=#ffa500ff>{2}</color>", oldItem.m_blunt, arrow, newItem.m_blunt);
       }
       if (newItem.m_slash > oldItem.m_slash)
       {
-        _sb.AppendFormat("\n$inventory_slash: <color=silver>{0}</color> {1} <color=orange>{2}</color>", oldItem.m_slash, arrow, newItem.m_slash);
+        _sb.AppendFormat("\n$inventory_slash: <color=#c0c0c0ff>{0}</color> {1} <color=#ffa500ff>{2}</color>", oldItem.m_slash, arrow, newItem.m_slash);
       }
       if (newItem.m_pierce > oldItem.m_pierce)
       {
-        _sb.AppendFormat("\n$inventory_pierce: <color=silver>{0}</color> {1} <color=orange>{2}</color>", oldItem.m_pierce, arrow, newItem.m_pierce);
+        _sb.AppendFormat("\n$inventory_pierce: <color=#c0c0c0ff>{0}</color> {1} <color=#ffa500ff>{2}</color>", oldItem.m_pierce, arrow, newItem.m_pierce);
       }
       if (newItem.m_fire > oldItem.m_fire)
       {
-        _sb.AppendFormat("\n$inventory_fire: <color=silver>{0}</color> {1} <color=orange>{2}</color>", oldItem.m_fire, arrow, newItem.m_fire);
+        _sb.AppendFormat("\n$inventory_fire: <color=#c0c0c0ff>{0}</color> {1} <color=#ffa500ff>{2}</color>", oldItem.m_fire, arrow, newItem.m_fire);
       }
       if (newItem.m_frost > oldItem.m_frost)
       {
-        _sb.AppendFormat("\n$inventory_frost: <color=silver>{0}</color> {1} <color=orange>{2}</color>", oldItem.m_frost, arrow, newItem.m_frost);
+        _sb.AppendFormat("\n$inventory_frost: <color=#c0c0c0ff>{0}</color> {1} <color=#ffa500ff>{2}</color>", oldItem.m_frost, arrow, newItem.m_frost);
       }
       if (newItem.m_lightning > oldItem.m_lightning)
       {
-        _sb.AppendFormat("\n$inventory_lightning: <color=silver>{0}</color> {1} <color=orange>{2}</color>", oldItem.m_lightning, arrow, newItem.m_lightning);
+        _sb.AppendFormat("\n$inventory_lightning: <color=#c0c0c0ff>{0}</color> {1} <color=#ffa500ff>{2}</color>", oldItem.m_lightning, arrow, newItem.m_lightning);
       }
       if (newItem.m_poison > oldItem.m_poison)
       {
-        _sb.AppendFormat("\n$inventory_poison: <color=silver>{0}</color> {1} <color=orange>{2}</color>", oldItem.m_poison, arrow, newItem.m_poison);
+        _sb.AppendFormat("\n$inventory_poison: <color=#c0c0c0ff>{0}</color> {1} <color=#ffa500ff>{2}</color>", oldItem.m_poison, arrow, newItem.m_poison);
       }
       if (newItem.m_spirit > oldItem.m_spirit)
       {
-        _sb.AppendFormat("\n$inventory_spirit: <color=silver>{0}</color> {1} <color=orange>{2}</color>", oldItem.m_spirit, arrow, newItem.m_spirit);
+        _sb.AppendFormat("\n$inventory_spirit: <color=#c0c0c0ff>{0}</color> {1} <color=#ffa500ff>{2}</color>", oldItem.m_spirit, arrow, newItem.m_spirit);
       }
 
     }
@@ -384,7 +384,7 @@ namespace BetterUI.Patches
 
     private static void DLC()
     {
-      _sb.Append("\n<color=aqua>$item_dlc</color>");
+      _sb.Append("\n<color=#00ffffff>$item_dlc</color>");
     }
 
     private static void Durability(int qualityLevel, bool crafting)
@@ -396,24 +396,24 @@ namespace BetterUI.Patches
         if (qualityLevel <= 1)
         {
           // Just creating item. Show base values.
-          _sb.AppendFormat("\n$item_durability: <color=orange>{0}</color>", maxDurability);
+          _sb.AppendFormat("\n$item_durability: <color=#ffa500ff>{0}</color>", maxDurability);
         }
         else if (qualityLevel > _item.m_shared.m_maxQuality)
         {
           // No room to upgrade, game still shows upgraded values, so lets show the durability 1 lvl lower.
           float oldDurability = _item.GetMaxDurability(qualityLevel - 1);
-          _sb.AppendFormat("\n$item_durability: <color=orange>{0}</color>", oldDurability);
+          _sb.AppendFormat("\n$item_durability: <color=#ffa500ff>{0}</color>", oldDurability);
         } else
         {
           float oldDurability = _item.GetMaxDurability(qualityLevel - 1);
-          _sb.AppendFormat("\n$item_durability: <color=silver>{0}</color> {1} <color=orange>{2}</color>", oldDurability, arrow, maxDurability);
+          _sb.AppendFormat("\n$item_durability: <color=#c0c0c0ff>{0}</color> {1} <color=#ffa500ff>{2}</color>", oldDurability, arrow, maxDurability);
         }
       }
       else
       {
         float maxDurability2 = _item.GetMaxDurability(qualityLevel);
         float durability = _item.m_durability;
-        //_sb.AppendFormat("\n$item_durability: <color=orange>{0}%</color> <color=yellow>({1}/{2})</color>", (_item.GetDurabilityPercentage() * 100f).ToString("0"), durability.ToString("0"), maxDurability2.ToString("0"));
+        //_sb.AppendFormat("\n$item_durability: <color=#ffa500ff>{0}%</color> <color=#ffff00ff>({1}/{2})</color>", (_item.GetDurabilityPercentage() * 100f).ToString("0"), durability.ToString("0"), maxDurability2.ToString("0"));
         _sb.AppendFormat("\n$item_durability: {0} / {1}", durability.ToString("0"), maxDurability2.ToString("0"));
       }
     }
@@ -426,13 +426,13 @@ namespace BetterUI.Patches
           {
             if (_item.m_shared.m_food > 0f)
             {
-              _sb.AppendFormat("\n$item_food_health: <color=red>{0}</color>", _item.m_shared.m_food);
-              _sb.AppendFormat("\n$item_food_stamina: <color=yellow>{0}</color>", _item.m_shared.m_foodStamina);
+              _sb.AppendFormat("\n$item_food_health: <color=#ff0000ff>{0}</color>", _item.m_shared.m_food);
+              _sb.AppendFormat("\n$item_food_stamina: <color=#ffff00ff>{0}</color>", _item.m_shared.m_foodStamina);
               if (_item.m_shared.m_foodEitr > 0f) {
-                _sb.AppendFormat("\n$item_food_eitr: <color=cyan>{0}</color>", _item.m_shared.m_foodEitr);
+                _sb.AppendFormat("\n$item_food_eitr: <color=#00ffffff>{0}</color>", _item.m_shared.m_foodEitr);
               }
-              _sb.AppendFormat("\n$item_food_duration: <color=orange>{0}s ({1}m)</color>", _item.m_shared.m_foodBurnTime, (_item.m_shared.m_foodBurnTime/60));
-              _sb.AppendFormat("\n$item_food_regen: <color=orange>{0} hp/tick</color>", _item.m_shared.m_foodRegen);
+              _sb.AppendFormat("\n$item_food_duration: <color=#ffa500ff>{0}s ({1}m)</color>", _item.m_shared.m_foodBurnTime, (_item.m_shared.m_foodBurnTime/60));
+              _sb.AppendFormat("\n$item_food_regen: <color=#ffa500ff>{0} hp/tick</color>", _item.m_shared.m_foodRegen);
             }
             string statusEffectTooltip = _item.GetStatusEffectTooltip(qualityLevel, skillLevel);
             if (statusEffectTooltip.Length > 0)
@@ -448,14 +448,14 @@ namespace BetterUI.Patches
         case ItemDrop.ItemData.ItemType.Torch:
           {
             _sb.Append(_item.GetDamage(qualityLevel, Game.m_worldLevel).GetTooltipString(_item.m_shared.m_skillType));
-            _sb.AppendFormat("\n$item_knockback: <color=orange>{0}</color>", _item.m_shared.m_attackForce);
-            _sb.AppendFormat("\n$item_backstab: <color=orange>{0}x</color>", _item.m_shared.m_backstabBonus);
+            _sb.AppendFormat("\n$item_knockback: <color=#ffa500ff>{0}</color>", _item.m_shared.m_attackForce);
+            _sb.AppendFormat("\n$item_backstab: <color=#ffa500ff>{0}x</color>", _item.m_shared.m_backstabBonus);
 
-            _sb.AppendFormat("\n\n$item_blockpower: <color=orange>{0}</color> <color=yellow>({1})</color>", _item.GetBaseBlockPower(qualityLevel), _item.GetBlockPowerTooltip(qualityLevel).ToString("0"));
+            _sb.AppendFormat("\n\n$item_blockpower: <color=#ffa500ff>{0}</color> <color=#ffff00ff>({1})</color>", _item.GetBaseBlockPower(qualityLevel), _item.GetBlockPowerTooltip(qualityLevel).ToString("0"));
             if (_item.m_shared.m_timedBlockBonus > 1f)
             {
-              _sb.AppendFormat("\n$item_deflection: <color=orange>{0}</color>", _item.GetDeflectionForce(qualityLevel));
-              _sb.AppendFormat("\n$item_parrybonus: <color=orange>{0}x</color>", _item.m_shared.m_timedBlockBonus);
+              _sb.AppendFormat("\n$item_deflection: <color=#ffa500ff>{0}</color>", _item.GetDeflectionForce(qualityLevel));
+              _sb.AppendFormat("\n$item_parrybonus: <color=#ffa500ff>{0}x</color>", _item.m_shared.m_timedBlockBonus);
             }
             string projectileTooltip = _item.GetProjectileTooltip(qualityLevel);
             if (projectileTooltip.Length > 0)
@@ -473,11 +473,11 @@ namespace BetterUI.Patches
             break;
           }
         case ItemDrop.ItemData.ItemType.Shield:
-          _sb.AppendFormat("\n$item_blockpower: <color=orange>{0}</color> <color=yellow>({1})</color>", _item.GetBaseBlockPower(qualityLevel), _item.GetBlockPowerTooltip(qualityLevel).ToString("0"));
+          _sb.AppendFormat("\n$item_blockpower: <color=#ffa500ff>{0}</color> <color=#ffff00ff>({1})</color>", _item.GetBaseBlockPower(qualityLevel), _item.GetBlockPowerTooltip(qualityLevel).ToString("0"));
           if (_item.m_shared.m_timedBlockBonus > 1f)
           {
-            _sb.AppendFormat("\n$item_deflection: <color=orange>{0}</color>", _item.GetDeflectionForce(qualityLevel));
-            _sb.AppendFormat("\n$item_parrybonus: <color=orange>{0}x</color>", _item.m_shared.m_timedBlockBonus);
+            _sb.AppendFormat("\n$item_deflection: <color=#ffa500ff>{0}</color>", _item.GetDeflectionForce(qualityLevel));
+            _sb.AppendFormat("\n$item_parrybonus: <color=#ffa500ff>{0}x</color>", _item.m_shared.m_timedBlockBonus);
             _sb.Append("\n");
           }
           break;
@@ -486,7 +486,7 @@ namespace BetterUI.Patches
         case ItemDrop.ItemData.ItemType.Legs:
         case ItemDrop.ItemData.ItemType.Shoulder:
           {
-            _sb.AppendFormat("\n$item_armor: <color=orange>{0}</color>", _item.GetArmor(qualityLevel, Game.m_worldLevel));
+            _sb.AppendFormat("\n$item_armor: <color=#ffa500ff>{0}</color>", _item.GetArmor(qualityLevel, Game.m_worldLevel));
             /*
             string damageModifiersTooltipString = SE_Stats.GetDamageModifiersTooltipString(_item.m_shared.m_damageModifiers);
             if (damageModifiersTooltipString.Length > 0)
@@ -504,7 +504,7 @@ namespace BetterUI.Patches
           }
         case ItemDrop.ItemData.ItemType.Ammo:
           _sb.Append(_item.GetDamage(qualityLevel, Game.m_worldLevel).GetTooltipString(_item.m_shared.m_skillType));
-          _sb.AppendFormat("\n$item_knockback: <color=orange>{0}</color>", _item.m_shared.m_attackForce);
+          _sb.AppendFormat("\n$item_knockback: <color=#ffa500ff>{0}</color>", _item.m_shared.m_attackForce);
           break;
       }
     }
@@ -517,7 +517,7 @@ namespace BetterUI.Patches
 
     private static void Quality(int qualityLevel)
     {
-      _sb.AppendFormat("\n$item_quality: <color=orange>{0}</color>", qualityLevel);
+      _sb.AppendFormat("\n$item_quality: <color=#ffa500ff>{0}</color>", qualityLevel);
     }
 
     private static void RepairStation()
@@ -526,7 +526,7 @@ namespace BetterUI.Patches
       if (recipe != null)
       {
         int minStationLevel = recipe.m_minStationLevel;
-        _sb.AppendFormat("\n$item_repairlevel: <color=orange>{0}</color>", minStationLevel.ToString());
+        _sb.AppendFormat("\n$item_repairlevel: <color=#ffa500ff>{0}</color>", minStationLevel.ToString());
       }
     }
 
@@ -535,24 +535,24 @@ namespace BetterUI.Patches
       // Naive, Please FIX
       string stars = Helpers.Repeat("\u2605", qualityLevel);
       //string upgrades = new string('\u2606', item.m_shared.m_maxQuality - qualityLevel); // These go to Tooltip?
-      _sb.AppendFormat("\n<size={0}><color=yellow>{1}</color></size>", starsSize, stars); // {2} upgrades
+      _sb.AppendFormat("\n<size={0}><color=#ffff00ff>{1}</color></size>", starsSize, stars); // {2} upgrades
     }
 
     private static void StatusEffect(string effectText)
     {
       /*
       _sb.AppendFormat("\n {0}", new string('\u2500', 25));
-      _sb.AppendFormat("\n$item_seteffect (<color=orange>{0}</color> $item_parts):\n<color=orange>{1}</color>", _item.m_shared.m_setSize, effectText);
+      _sb.AppendFormat("\n$item_seteffect (<color=#ffa500ff>{0}</color> $item_parts):\n<color=#ffa500ff>{1}</color>", _item.m_shared.m_setSize, effectText);
       _sb.AppendFormat(" {0}\n", new string('\u2500', 25));
       */
       string setSize = $"$item_seteffect ({_item.m_shared.m_setSize})";
-      _sb.AppendFormat("\n\n<color=silver>{0}</color>", setSize);
-      _sb.AppendFormat("\n<color=orange>{0}</color>", effectText);
+      _sb.AppendFormat("\n\n<color=#c0c0c0ff>{0}</color>", setSize);
+      _sb.AppendFormat("\n<color=#ffa500ff>{0}</color>", effectText);
     }
 
     private static void Teleport()
     {
-      _sb.Append("\n<color=red>$item_noteleport</color>");
+      _sb.Append("\n<color=#ff0000ff>$item_noteleport</color>");
     }
 
     private static void UpgradeStats(Player localPlayer)
@@ -574,28 +574,28 @@ namespace BetterUI.Patches
             {
               _sb.Append(_item.GetDamage(newQuality, Game.m_worldLevel).GetTooltipString(_item.m_shared.m_skillType));
             }
-            _sb.AppendFormat("\n$item_knockback: <color=orange>{0}</color>", _item.m_shared.m_attackForce);
-            _sb.AppendFormat("\n$item_backstab: <color=orange>{0}x</color>", _item.m_shared.m_backstabBonus);
+            _sb.AppendFormat("\n$item_knockback: <color=#ffa500ff>{0}</color>", _item.m_shared.m_attackForce);
+            _sb.AppendFormat("\n$item_backstab: <color=#ffa500ff>{0}x</color>", _item.m_shared.m_backstabBonus);
 
             if (_item.GetBaseBlockPower(newQuality) > _item.GetBaseBlockPower(oldQuality))
             {
-              _sb.AppendFormat("\n\n$item_blockpower: <color=silver>{0}</color> {1} <color=orange>{2}</color>", _item.GetBaseBlockPower(oldQuality), arrow, _item.GetBaseBlockPower(newQuality));
+              _sb.AppendFormat("\n\n$item_blockpower: <color=#c0c0c0ff>{0}</color> {1} <color=#ffa500ff>{2}</color>", _item.GetBaseBlockPower(oldQuality), arrow, _item.GetBaseBlockPower(newQuality));
             }
             else
             {
-              _sb.AppendFormat("\n\n$item_blockpower: <color=orange>{0}</color> <color=yellow>({1})</color>", _item.GetBaseBlockPower(newQuality), _item.GetBlockPowerTooltip(newQuality).ToString("0"));
+              _sb.AppendFormat("\n\n$item_blockpower: <color=#ffa500ff>{0}</color> <color=#ffff00ff>({1})</color>", _item.GetBaseBlockPower(newQuality), _item.GetBlockPowerTooltip(newQuality).ToString("0"));
             }
             if (_item.m_shared.m_timedBlockBonus > 1f)
             {
               if (_item.GetDeflectionForce(newQuality) > _item.GetDeflectionForce(oldQuality))
               {
-                _sb.AppendFormat("\n$item_deflection: <color=silver>{0}</color> {1} <color=orange>{2}</color>", _item.GetDeflectionForce(oldQuality), arrow, _item.GetDeflectionForce(newQuality));
+                _sb.AppendFormat("\n$item_deflection: <color=#c0c0c0ff>{0}</color> {1} <color=#ffa500ff>{2}</color>", _item.GetDeflectionForce(oldQuality), arrow, _item.GetDeflectionForce(newQuality));
               }
               else
               {
-                _sb.AppendFormat("\n$item_deflection: <color=orange>{0}</color>", _item.GetDeflectionForce(newQuality));
+                _sb.AppendFormat("\n$item_deflection: <color=#ffa500ff>{0}</color>", _item.GetDeflectionForce(newQuality));
               }
-              _sb.AppendFormat("\n$item_parrybonus: <color=orange>{0}x</color>", _item.m_shared.m_timedBlockBonus);
+              _sb.AppendFormat("\n$item_parrybonus: <color=#ffa500ff>{0}x</color>", _item.m_shared.m_timedBlockBonus);
             }
             string projectileTooltip = _item.GetProjectileTooltip(newQuality);
             if (projectileTooltip.Length > 0)
@@ -615,21 +615,21 @@ namespace BetterUI.Patches
         case ItemDrop.ItemData.ItemType.Shield:
           if (_item.GetBaseBlockPower(newQuality) > _item.GetBaseBlockPower(oldQuality))
           {
-            _sb.AppendFormat("\n$item_blockpower: <color=silver>{0}</color> {1} <color=orange>{2}</color>", _item.GetBaseBlockPower(oldQuality), arrow, _item.GetBaseBlockPower(newQuality));
+            _sb.AppendFormat("\n$item_blockpower: <color=#c0c0c0ff>{0}</color> {1} <color=#ffa500ff>{2}</color>", _item.GetBaseBlockPower(oldQuality), arrow, _item.GetBaseBlockPower(newQuality));
           } else
           {
-            _sb.AppendFormat("\n$item_blockpower: <color=orange>{0}</color> <color=yellow>({1})</color>", _item.GetBaseBlockPower(newQuality), _item.GetBlockPowerTooltip(newQuality).ToString("0"));
+            _sb.AppendFormat("\n$item_blockpower: <color=#ffa500ff>{0}</color> <color=#ffff00ff>({1})</color>", _item.GetBaseBlockPower(newQuality), _item.GetBlockPowerTooltip(newQuality).ToString("0"));
           }
           if (_item.m_shared.m_timedBlockBonus > 1f)
           {
             if (_item.GetDeflectionForce(newQuality) > _item.GetDeflectionForce(oldQuality))
             {
-              _sb.AppendFormat("\n$item_deflection: <color=silver>{0}</color> {1} <color=orange>{2}</color>", _item.GetDeflectionForce(oldQuality), arrow, _item.GetDeflectionForce(newQuality));
+              _sb.AppendFormat("\n$item_deflection: <color=#c0c0c0ff>{0}</color> {1} <color=#ffa500ff>{2}</color>", _item.GetDeflectionForce(oldQuality), arrow, _item.GetDeflectionForce(newQuality));
             } else
             {
-              _sb.AppendFormat("\n$item_deflection: <color=orange>{0}</color>", _item.GetDeflectionForce(newQuality));
+              _sb.AppendFormat("\n$item_deflection: <color=#ffa500ff>{0}</color>", _item.GetDeflectionForce(newQuality));
             }
-            _sb.AppendFormat("\n$item_parrybonus: <color=orange>{0}x</color>", _item.m_shared.m_timedBlockBonus);
+            _sb.AppendFormat("\n$item_parrybonus: <color=#ffa500ff>{0}x</color>", _item.m_shared.m_timedBlockBonus);
             _sb.Append("\n");
           }
           break;
@@ -640,10 +640,10 @@ namespace BetterUI.Patches
           {
             if(_item.GetArmor(newQuality,Game.m_worldLevel) > _item.GetArmor(oldQuality, Game.m_worldLevel))
             {
-              _sb.AppendFormat("\n$item_armor: <color=silver>{0}</color> {1} <color=orange>{2}</color>", _item.GetArmor(oldQuality, Game.m_worldLevel), arrow, _item.GetArmor(newQuality, Game.m_worldLevel));
+              _sb.AppendFormat("\n$item_armor: <color=#c0c0c0ff>{0}</color> {1} <color=#ffa500ff>{2}</color>", _item.GetArmor(oldQuality, Game.m_worldLevel), arrow, _item.GetArmor(newQuality, Game.m_worldLevel));
             } else
             {
-              _sb.AppendFormat("\n$item_armor: <color=orange>{0}</color>", _item.GetArmor(newQuality, Game.m_worldLevel));
+              _sb.AppendFormat("\n$item_armor: <color=#ffa500ff>{0}</color>", _item.GetArmor(newQuality, Game.m_worldLevel));
             }
             /*
             string damageModifiersTooltipString = SE_Stats.GetDamageModifiersTooltipString(_item.m_shared.m_damageModifiers);
@@ -662,7 +662,7 @@ namespace BetterUI.Patches
           }
         case ItemDrop.ItemData.ItemType.Ammo:
           _sb.Append(_item.GetDamage(newQuality, Game.m_worldLevel).GetTooltipString(_item.m_shared.m_skillType));
-          _sb.AppendFormat("\n$item_knockback: <color=orange>{0}</color>", _item.m_shared.m_attackForce);
+          _sb.AppendFormat("\n$item_knockback: <color=#ffa500ff>{0}</color>", _item.m_shared.m_attackForce);
           break;
 
       }
@@ -670,12 +670,12 @@ namespace BetterUI.Patches
 
     private static void Value()
     {
-      _sb.AppendFormat("\n$item_value: <color=orange>{0}  ({1})</color>", _item.GetValue(), _item.m_shared.m_value);
+      _sb.AppendFormat("\n$item_value: <color=#ffa500ff>{0}  ({1})</color>", _item.GetValue(), _item.m_shared.m_value);
     }
 
     private static void Weight()
     {
-      _sb.AppendFormat("\n\n$item_weight: <color=orange>{0}</color>", _item.GetWeight().ToString("F1"));
+      _sb.AppendFormat("\n\n$item_weight: <color=#ffa500ff>{0}</color>", _item.GetWeight().ToString("F1"));
     }
 
     private static void WieldType()
@@ -684,7 +684,7 @@ namespace BetterUI.Patches
       StringBuilder temp = new StringBuilder();
       ItemDrop.ItemData.AddHandedTip(_item, temp);
 
-      _sb.AppendFormat("<color=silver>{0}</color>", temp);
+      _sb.AppendFormat("<color=#c0c0c0ff>{0}</color>", temp);
     }
 
     public static string Create(ItemDrop.ItemData item, int qualityLevel, bool crafting)
