@@ -72,7 +72,7 @@ namespace BetterUI.Patches
                         Helpers.DebugLine($"FAILED to DeSerialize uiData: {Main.uiData.Value}");
                     }
 
-                    foreach (var item in elements)
+                    foreach (HudElement item in elements)
                     {
                         item.OnAfterDeserialize();
                     }
@@ -161,7 +161,7 @@ namespace BetterUI.Patches
 
                 if (element.Group == Groups.Inventory)
                 {
-                    var newPos = (Vector2)Camera.main.ScreenToViewportPoint(posChange);
+                    Vector2 newPos = (Vector2)Camera.main.ScreenToViewportPoint(posChange);
 
                     element.AnchorMin += newPos;
                     element.AnchorMax += newPos;

@@ -314,7 +314,7 @@ namespace BetterUI.Patches
   static class BetterTooltip
   {
     private static readonly int starsSize = 22;
-    private static readonly char arrow = '\u2794';
+    private static readonly char arrow = '\u2192';
     private static StringBuilder _sb;
     private static ItemDrop.ItemData _item;
     private static bool _crafting;

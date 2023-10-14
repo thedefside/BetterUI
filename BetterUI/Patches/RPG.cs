@@ -69,7 +69,7 @@ namespace BetterUI.Patches
             if (_xp_bar != null)
             {
                 // maybe use 'is' syntax, but may not reliable be for unity components (just like ?. doesn't work on monobehaviours)
-                var xpRect = _xp_bar.transform as RectTransform;
+                RectTransform xpRect = _xp_bar.transform as RectTransform;
 
                 if(xpRect != null)
                 {

@@ -10,7 +10,7 @@ namespace BetterUI.GameClasses
         [HarmonyPatch(typeof(InventoryGrid), "UpdateGui")]
         private static void PatchInventory(ref InventoryGrid __instance, ref Player player, ItemDrop.ItemData dragItem)
         {
-            var width = __instance.m_inventory.GetWidth();
+            int width = __instance.m_inventory.GetWidth();
             InventoryGrid.Element element;
             int index;
 
@@ -32,7 +32,7 @@ namespace BetterUI.GameClasses
                 // would be better if this could be done reliably in an Awake/ Start, but I'm not in the mood to look for one
                 if (element.m_icon.gameObject.GetComponent<ItemIconUpdater>() == null)
                 {
-                    var origScaleComp = element.m_icon.gameObject.AddComponent<ItemIconUpdater>();
+                    ItemIconUpdater origScaleComp = element.m_icon.gameObject.AddComponent<ItemIconUpdater>();
                     origScaleComp.Setup(element.m_icon);
                 }
 

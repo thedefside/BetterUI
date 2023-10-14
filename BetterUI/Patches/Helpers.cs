@@ -19,21 +19,21 @@ namespace BetterUI.Patches
         return null;
       }
 
-      using (var memoryStream = new MemoryStream())
+      using (MemoryStream memoryStream = new MemoryStream())
       {
-        var binaryFormatter = new BinaryFormatter();
+        BinaryFormatter binaryFormatter = new BinaryFormatter();
         binaryFormatter.Serialize(memoryStream, obj);
-        var compressed = Compress(memoryStream.ToArray());
+        byte[] compressed = Compress(memoryStream.ToArray());
         return compressed;
       }
     }
 
     public static object DeSerialize(this byte[] arrBytes)
     {
-      using (var memoryStream = new MemoryStream())
+      using (MemoryStream memoryStream = new MemoryStream())
       {
-        var binaryFormatter = new BinaryFormatter();
-        var decompressed = Decompress(arrBytes);
+        BinaryFormatter binaryFormatter = new BinaryFormatter();
+        byte[] decompressed = Decompress(arrBytes);
 
         memoryStream.Write(decompressed, 0, decompressed.Length);
         memoryStream.Seek(0, SeekOrigin.Begin);
@@ -46,9 +46,9 @@ namespace BetterUI.Patches
     {
       byte[] compressesData;
 
-      using (var outputStream = new MemoryStream())
+      using (MemoryStream outputStream = new MemoryStream())
       {
-        using (var zip = new GZipStream(outputStream, CompressionMode.Compress))
+        using (GZipStream zip = new GZipStream(outputStream, CompressionMode.Compress))
         {
           zip.Write(input, 0, input.Length);
         }
@@ -62,11 +62,11 @@ namespace BetterUI.Patches
     {
       byte[] decompressedData;
 
-      using (var outputStream = new MemoryStream())
+      using (MemoryStream outputStream = new MemoryStream())
       {
-        using (var inputStream = new MemoryStream(input))
+        using (MemoryStream inputStream = new MemoryStream(input))
         {
-          using (var zip = new GZipStream(inputStream, CompressionMode.Decompress))
+          using (GZipStream zip = new GZipStream(inputStream, CompressionMode.Decompress))
           {
             zip.CopyTo(outputStream);
           }
@@ -89,17 +89,15 @@ namespace BetterUI.Patches
     public static string TimeString(double val1, double val2)
     {
       TimeSpan t = TimeSpan.FromSeconds(val1 - val2);
-      return t.Hours > 0 ?
-        string.Format("{0:D2}h {1:D2}m {2:D2}s", t.Hours, t.Minutes, t.Seconds) : t.Minutes > 0 ? 
-        string.Format("{0:D2}m {1:D2}s", t.Minutes, t.Seconds) : string.Format("{0:D2}s", t.Seconds);
+      return t.Hours > 0 ? $"{t.Hours:D2}h {t.Minutes:D2}m {t.Seconds:D2}s"
+        : t.Minutes > 0 ? $"{t.Minutes:D2}m {t.Seconds:D2}s" : $"{t.Seconds:D2}s";
     }
 
     public static string TimeString(double seconds)
     {
       TimeSpan t = TimeSpan.FromSeconds(seconds);
-      return t.Hours > 0 ?
-        string.Format("{0:D2}h {1:D2}m {2:D2}s", t.Hours, t.Minutes, t.Seconds) : t.Minutes > 0 ?
-        string.Format("{0:D2}m {1:D2}s", t.Minutes, t.Seconds) : string.Format("{0:D2}s", t.Seconds);
+      return t.Hours > 0 ? $"{t.Hours:D2}h {t.Minutes:D2}m {t.Seconds:D2}s"
+        : t.Minutes > 0 ? $"{t.Minutes:D2}m {t.Seconds:D2}s" : $"{t.Seconds:D2}s";
     }
 
     public static void DebugLine(string str = "", bool pref = true, bool warn = false)

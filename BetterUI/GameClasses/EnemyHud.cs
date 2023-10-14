@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
-
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -46,13 +46,13 @@ namespace BetterUI.GameClasses
               return;
             }
 
-            var hpRoot = (hudData.m_gui.transform.Find("Health") as RectTransform);
+            RectTransform hpRoot = (hudData.m_gui.transform.Find("Health") as RectTransform);
 
             if (c.IsPlayer())
             {
                 if (Main.showPlayerHPText.Value)
                 {
-                    var hpText = UnityEngine.Object.Instantiate(hudData.m_name, hudData.m_name.transform.parent);
+                    TextMeshProUGUI hpText = UnityEngine.Object.Instantiate(hudData.m_name, hudData.m_name.transform.parent);
                     hpText.name = PlayerHpPrefix;
                     hpText.rectTransform.anchoredPosition = new Vector2(hpText.rectTransform.anchoredPosition.x, 3.5f);
                     hpText.text = $"<size={Main.playerHPTextSize.Value}>{hudData.m_character.GetHealth():0}/{hudData.m_character.GetMaxHealth():0}</size>";
@@ -71,7 +71,7 @@ namespace BetterUI.GameClasses
                 if (Main.showEnemyHPText.Value)
                 {
                     // Edits to Boss HP Bar
-                    var hpText = UnityEngine.Object.Instantiate(hudData.m_name, hudData.m_name.transform.parent);
+                    TextMeshProUGUI hpText = UnityEngine.Object.Instantiate(hudData.m_name, hudData.m_name.transform.parent);
                     hpText.name = BossHpPrefix;
                     hpText.rectTransform.anchoredPosition = new Vector2(hpText.rectTransform.anchoredPosition.x, 0.0f); // orig.y = 21f
                     hpText.text = $"<size={Main.bossHPTextSize.Value}>{hudData.m_character.GetHealth():0} / {hudData.m_character.GetMaxHealth():0}</size>";
@@ -92,7 +92,7 @@ namespace BetterUI.GameClasses
                 {
 
                     hpRoot.sizeDelta = new Vector2(hpRoot.sizeDelta.x, hpRoot.sizeDelta.y * 3f);
-                    var hpText = UnityEngine.Object.Instantiate(hudData.m_name, hudData.m_name.transform.parent);
+                    TextMeshProUGUI hpText = UnityEngine.Object.Instantiate(hudData.m_name, hudData.m_name.transform.parent);
                     hpText.name = EnemyHpPrefix;
                     hpText.rectTransform.anchoredPosition = new Vector2(hpText.rectTransform.anchoredPosition.x, 7.0f); // orig.y = 21f
                     hpText.text = $"<size={Main.enemyHPTextSize.Value}>{hudData.m_character.GetHealth():0}/{hudData.m_character.GetMaxHealth():0}</size>";
@@ -135,7 +135,7 @@ namespace BetterUI.GameClasses
             Character character = null;
             foreach (KeyValuePair<Character, EnemyHud.HudData> keyValuePair in __instance.m_huds)
             {
-                var value = keyValuePair.Value;
+                EnemyHud.HudData value = keyValuePair.Value;
                 
                 if (!value.m_character || !__instance.TestShow(value.m_character, true))
                 {
@@ -149,13 +149,13 @@ namespace BetterUI.GameClasses
                 {
                     if (value.m_character.IsPlayer())
                     {
-                        if (Main.showPlayerHPText.Value && _hpTextCache.TryGetValue(value, out var hpText)) {
+                        if (Main.showPlayerHPText.Value && _hpTextCache.TryGetValue(value, out TextMeshProUGUI hpText)) {
                           hpText.text = $"<size={Main.playerHPTextSize.Value}>{value.m_character.GetHealth():0}/{value.m_character.GetMaxHealth():0}</size>";
                         }
                     }
                     else if (value.m_character.IsBoss())
                     {
-                        if (Main.showEnemyHPText.Value && _hpTextCache.TryGetValue(value, out var hpText)) {
+                        if (Main.showEnemyHPText.Value && _hpTextCache.TryGetValue(value, out TextMeshProUGUI hpText)) {
                           hpText.text = $"<size={Main.bossHPTextSize.Value}>{value.m_character.GetHealth():0} / {value.m_character.GetMaxHealth():0}</size>";
                         }
                     }
@@ -171,7 +171,7 @@ namespace BetterUI.GameClasses
                         }
                                    
 
-                        if (Main.showEnemyHPText.Value && _hpTextCache.TryGetValue(value, out var hpText)) {
+                        if (Main.showEnemyHPText.Value && _hpTextCache.TryGetValue(value, out TextMeshProUGUI hpText)) {
                           hpText.text = $"<size={Main.enemyHPTextSize.Value}>{value.m_character.GetHealth():0}/{value.m_character.GetMaxHealth():0}</size>";
                         }
 

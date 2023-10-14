@@ -13,10 +13,10 @@ namespace BetterUI.Patches
         {
             // this sets the total (lossy) X scale to the same as the total lossy Y scale of the text component
 
-            var prevScale = transform.localScale;
+            Vector3 prevScale = transform.localScale;
 
-            var reverseParentTotalXScale = 1 / transform.parent.lossyScale.x;
-            var parentTotalYScale = transform.parent.lossyScale.y;
+            float reverseParentTotalXScale = 1 / transform.parent.lossyScale.x;
+            float parentTotalYScale = transform.parent.lossyScale.y;
             prevScale.x = reverseParentTotalXScale * parentTotalYScale * prevScale.y;
 
             this.transform.localScale = prevScale;

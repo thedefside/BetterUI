@@ -58,8 +58,10 @@ or
 
 ## Changelog
 
-v2.5.1
-  - Fix color issues after the TextMeshPro update
+v2.5.2
+  - Fix an issue with tooltips not having our nice ass arrow
+  - Fix an issue with the SkillsDialog, vanilla relies on the elements being there now, can't remove them so we hide instead
+  - Internally...not use var for things. Explicitly state types.
 
 Full Changelog can be found on the wiki tab for this mod here: [https://valheim.thunderstore.io/package/BetterUI_ForeverMaintained/BetterUI_ForeverMaintained/wiki/](https://valheim.thunderstore.io/package/BetterUI_ForeverMaintained/BetterUI_ForeverMaintained/wiki/)
 

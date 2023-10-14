@@ -13,18 +13,18 @@ namespace BetterUI.Patches
             //Debug.Log($"skill level: {skill.m_level}");
             if (skill.m_level >= 100) return;
 
-            if(Main.skipRunningSkillNotifications.Value && skill.m_info.m_skill == Skills.SkillType.Run)
+            if (Main.skipRunningSkillNotifications.Value && skill.m_info.m_skill == Skills.SkillType.Run)
             {
                 return;
             }
 
-            string notif_str = $"$skill_{ skill.m_info.m_skill.ToString().ToLower()}: {skill.GetLevelPercentage():P2}";
+            string notif_str = $"$skill_{skill.m_info.m_skill.ToString().ToLower()}: {skill.GetLevelPercentage():P2}";
 
             if (Main.extendedXPNotification.Value)
             {
                 float acc = (float)Math.Round(skill.m_accumulator * 100f) / 100f;
                 float max = (float)Math.Round(skill.GetNextLevelRequirement() * 100f) / 100f;
-                notif_str += $" (+{ skill.m_info.m_increseStep * factor})\n[{acc}/{max}]";
+                notif_str += $" (+{skill.m_info.m_increseStep * factor})\n[{acc}/{max}]";
             }
 
             string str = Localization.instance.Localize(notif_str);
@@ -42,9 +42,10 @@ namespace BetterUI.Patches
             {
                 UnityEngine.Object.Destroy(obj);
             }
+
             dialog.m_elements.Clear();
             List<Skills.Skill> skillList = player.GetSkills().GetSkillList();
-            for (int i = 0; i < skillList.Count; i++)
+            for (int i = 0; i < skillList.Count; ++i)
             {
                 Skills.Skill skill = skillList[i];
                 float acc = (float)Math.Round(skill.m_accumulator * 100f) / 100f;
@@ -70,7 +71,8 @@ namespace BetterUI.Patches
                 {
                     component.gameObject.SetActive(value: false);
                 }
-                UnityEngine.Object.Destroy(Utils.FindChild(gameObject.transform, "levelbar_total").GetComponent<GuiBar>().gameObject);
+
+                Utils.FindChild(gameObject.transform, "levelbar_total").GetComponent<GuiBar>().gameObject.SetActive(false);
 
                 Utils.FindChild(gameObject.transform, "levelbar").GetComponent<GuiBar>().SetValue(skill.GetLevelPercentage());
 
@@ -81,10 +83,11 @@ namespace BetterUI.Patches
                 RectTransform txt = Utils.FindChild(gameObject.transform, "leveltext").GetComponent<TMP_Text>().rectTransform;
                 txt.anchoredPosition = new Vector2(txt.anchoredPosition.x, txt.anchoredPosition.y + 2f);
                 // Remove currentlevel bar
-                UnityEngine.Object.Destroy(Utils.FindChild(gameObject.transform, "currentlevel").GetComponent<GuiBar>().gameObject);
+                Utils.FindChild(gameObject.transform, "currentlevel").GetComponent<GuiBar>().gameObject.SetActive(false);
 
                 dialog.m_elements.Add(gameObject);
             }
+
             float size = Mathf.Max(dialog.m_baseListSize, ((float)skillList.Count + paddingFix) * dialog.m_spacing);
             dialog.m_listRoot.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, size);
 

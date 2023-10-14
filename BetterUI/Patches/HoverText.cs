@@ -47,7 +47,7 @@ namespace BetterUI.Patches
         {
             int honeyLevel = beeHive.GetHoneyLevel();
 
-            var timeLeft = string.Empty;
+            string timeLeft = string.Empty;
 
             if (honeyLevel < beeHive.m_maxHoney)
             {

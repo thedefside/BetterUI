@@ -33,7 +33,7 @@ namespace BetterUI.Patches
                 fastBar = root.Find("fast").GetComponent<GuiBar>();
                 slowBar = root.Find("slow").GetComponent<GuiBar>();
 
-                var fastBarHealthText = fastBar.transform.Find("bar").Find("HealthText");
+                Transform fastBarHealthText = fastBar.transform.Find("bar").Find("HealthText");
                 fastBarHealthText.gameObject.SetActive(false);
                 barText = UnityEngine.Object.Instantiate(fastBarHealthText.GetComponent<TMP_Text>(), root);
                 barText.gameObject.AddComponent<TextScaler>();
@@ -339,7 +339,7 @@ namespace BetterUI.Patches
                 int rot = ((int)Main.customFoodBar.Value + 270) % 360;
                 foodPanel.localEulerAngles = new Vector3(0, 0, rot);
 
-                foreach (var item in foodTransforms)
+                foreach (Transform item in foodTransforms)
                 {
                     item.localEulerAngles = new Vector3(0, 0, -rot);
                 }
