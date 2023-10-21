@@ -224,8 +224,8 @@ namespace BetterUI.GameClasses
           if (Player.m_localPlayer
               && EnemyHud.m_instance
               && EnemyHud.m_instance.m_huds.TryGetValue(Player.m_localPlayer, out EnemyHud.HudData hudData)) {
-            UnityEngine.Object.Destroy(hudData.m_gui);
-            EnemyHud.m_instance.m_huds.Remove(Player.m_localPlayer);
+              UnityEngine.Object.Destroy(hudData.m_gui);
+              EnemyHud.m_instance.m_huds.Remove(Player.m_localPlayer);
           }
         }
   }

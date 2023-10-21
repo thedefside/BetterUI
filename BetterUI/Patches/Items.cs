@@ -88,6 +88,7 @@ namespace BetterUI.Patches
     public static void Draw(InventoryGrid.Element element, int quality_lvl)
     {
       string stars;
+      element.m_quality.textWrappingMode = TextWrappingModes.PreserveWhitespaceNoWrap;
       if(quality_lvl >= 5) // Fix for modded items...
       {
         stars = $"<color=#ffffffff><size=10>{quality_lvl}</size>x </color>\u2605"; // Could be ★x5 or ★x99999
@@ -101,7 +102,7 @@ namespace BetterUI.Patches
       }
 
       UnityEngine.Object.Destroy(element.m_quality.GetComponent<Outline>());
-      element.m_quality.text = $"<size=12>{stars}</size>";
+      element.m_quality.text = $"<size=10>{stars}</size>";
       element.m_quality.color = starColor;
 
       // Parent size = 64x64, quality size = 20x20, top-right (0,0) -> (-4f,-10f)
