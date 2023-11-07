@@ -1,4 +1,5 @@
 ﻿####v2.4.4
+####v2.4.4
   - Fix for game version 0.217.14 (JuniorAndria)
 ####v2.4.3
   - Required updates for Valheim version 0.216.9

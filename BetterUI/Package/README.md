@@ -58,8 +58,8 @@ or
 
 ## Changelog
 
-v2.5.3
-  - Fix issues with stars for item quality. Momma told me everything should be between the lines. It is now. I'm sorry momma.
+v2.5.4
+  - Update for Valheim 0.217.28
 
 Full Changelog can be found on the wiki tab for this mod here: [https://valheim.thunderstore.io/package/BetterUI_ForeverMaintained/BetterUI_ForeverMaintained/wiki/](https://valheim.thunderstore.io/package/BetterUI_ForeverMaintained/BetterUI_ForeverMaintained/wiki/)
 
