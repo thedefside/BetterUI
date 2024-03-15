@@ -6,19 +6,19 @@ You are able to edit and select what updates you want to use.
 
 
 # Support
-Want to report a bug or request a feature? Please post in any of the Valheim discords like this so I can see it via discord search:
 
-"BetterUI Forever Maintained: I found a bug! [insert bug here]"
-or
-"BetterUI Forever Maintained: I have a feature request! [insert feature here]"
+### Azumatt
+
+`DISCORD:` Azumatt#2625
+
+`STEAM:` https://steamcommunity.com/id/azumatt/
+
+For Questions or Comments, find me in my discord:
+
+<a href="https://discord.gg/pdHgy6Bsng"><img src="https://i.imgur.com/Xlcbmm9.png" href="https://discord.gg/pdHgy6Bsng" width="175" height="175"></a>
 
 ## Features
 
-#### Add stats to the character select screen
- - Kills (if IG ever starts counting these)
- - Deaths
- - Crafts
- - Builds
 
 #### Customizable Player HUD
  - Makes player HUD elements movemable
@@ -58,8 +58,8 @@ or
 
 ## Changelog
 
-v2.5.4
-  - Update for Valheim 0.217.28
+v2.5.5
+  - Fix the builds stat not being correct on the character selection screen.
 
 Full Changelog can be found on the wiki tab for this mod here: [https://valheim.thunderstore.io/package/BetterUI_ForeverMaintained/BetterUI_ForeverMaintained/wiki/](https://valheim.thunderstore.io/package/BetterUI_ForeverMaintained/BetterUI_ForeverMaintained/wiki/)
 
