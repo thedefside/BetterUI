@@ -193,10 +193,10 @@ namespace BetterUI.Patches
       sb.AppendFormat("\n$item_armor: <color=#ffa500ff>{0}</color>", Convert.ToInt32(player.GetBodyArmor()));
 
       sb.Append("\n" + new string('\u2500', 10) + "  Buffs  " + new string('\u2500', 10));
-      if (player.m_equipmentMovementModifier != 0f)
+      if (player.GetEquipmentMovementModifier() != 0f)
       {
-        string color = player.m_equipmentMovementModifier >= 0 ? "green" : "red";
-        sb.AppendFormat("\nMovement: <color={0}>{1}%</color>", color, player.m_equipmentMovementModifier * 100f);
+        string color = player.GetEquipmentMovementModifier() >= 0 ? "green" : "red";
+        sb.AppendFormat("\nMovement: <color={0}>{1}%</color>", color, player.GetEquipmentMovementModifier() * 100f);
       }
 
       /*
