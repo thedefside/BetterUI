@@ -69,7 +69,7 @@ namespace BetterUI.Patches
             if (_xp_bar != null)
             {
                 // maybe use 'is' syntax, but may not reliable be for unity components (just like ?. doesn't work on monobehaviours)
-                var xpRect = _xp_bar.transform as RectTransform;
+                RectTransform xpRect = _xp_bar.transform as RectTransform;
 
                 if(xpRect != null)
                 {
@@ -118,7 +118,7 @@ namespace BetterUI.Patches
                 UpdateUsedXP();       // updates private xp_used
 
                 RPG_Player.m_skillLevelupEffects.Create(RPG_Player.m_head.position, RPG_Player.m_head.rotation, RPG_Player.m_head, 1.5f);
-                RPG_Player.Message(MessageHud.MessageType.Center, $"<size=60><color=white>LEVEL UP</color></size>\n<size=30>You are now Lv. {level} </size>");
+                RPG_Player.Message(MessageHud.MessageType.Center, $"<size=60><color=#ffffffff>LEVEL UP</color></size>\n<size=30>You are now Lv. {level} </size>");
             }
 
         }

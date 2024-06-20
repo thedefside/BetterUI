@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,28 +19,28 @@ namespace BetterUI.Patches
         // In the future give users ability to add new elements?
         private static readonly Element[] supportedElements =
         {
-      new Element("HotKeyBar", Groups.HudRoot),
-      new Element("BuildHud", Groups.HudRoot, "BuildHud/SelectedInfo"),
-      new Element("MiniMap", Groups.HudRoot, "MiniMap/small"),
-      new Element("GuardianPower", Groups.HudRoot),
-      new Element("StatusEffects", Groups.HudRoot),
-      new Element("SaveIcon", Groups.HudRoot),
-      new Element("BadConnectionIcon", Groups.HudRoot),
-      new Element("BuildHints", Groups.HudRoot, "KeyHints/BuildHints"),
-      new Element("CombatHints", Groups.HudRoot, "KeyHints/CombatHints"),
-      new Element("Player", Groups.Inventory, "Player", "PlayerInventory"),
-      new Element("Container", Groups.Inventory, "Container", "ChestContainer"),
-      new Element("Info", Groups.Inventory, "Info", "UITab"),
-      new Element("Crafting", Groups.Inventory, "Crafting", "CraftingWindow"),
-      new Element(CustomBars.HealthBar.objectName, Groups.HudRoot, CustomBars.HealthBar.objectName, "HP Bar"),
-      new Element(CustomBars.FoodBar.objectName, Groups.HudRoot, CustomBars.FoodBar.objectName, "Food Bar"),
-      new Element(CustomBars.StaminaBar.objectName, Groups.HudRoot, CustomBars.StaminaBar.objectName, "Stamina Bar"),
-      new Element(CustomBars.EitrBar.objectName, Groups.HudRoot, CustomBars.EitrBar.objectName, "Eitr Bar"),
-      new Element("QuickSlots", Groups.HudRoot, "QuickSlotsHotkeyBar", "QuickSlots")
-      //new Element("QuickSlotsHotkeyBar", Groups.HudRoot, "healthpanel/Health/QuickSlotsHotkeyBar", "QuickSlotsHotkey"),
-      //new Element("QuickSlotGrid", Groups.Inventory, "Player/QuickSlotGrid", "QuickSlots"),
-      //new Element("EquipmentSlotGrid", Groups.Inventory, "Player/EquipmentSlotGrid", "EquipmentSlots"),
-    };
+            new Element("HotKeyBar", Groups.HudRoot),
+            new Element("BuildHud", Groups.HudRoot, "BuildHud/SelectedInfo"),
+            new Element("MiniMap", Groups.HudRoot, "MiniMap/small"),
+            new Element("GuardianPower", Groups.HudRoot),
+            new Element("StatusEffects", Groups.HudRoot),
+            new Element("SaveIcon", Groups.HudRoot),
+            new Element("BadConnectionIcon", Groups.HudRoot),
+            new Element("BuildHints", Groups.HudRoot, "KeyHints/BuildHints"),
+            new Element("CombatHints", Groups.HudRoot, "KeyHints/CombatHints"),
+            new Element("Player", Groups.Inventory, "Player", "PlayerInventory"),
+            new Element("Container", Groups.Inventory, "Container", "ChestContainer"),
+            new Element("Info", Groups.Inventory, "Info", "UITab"),
+            new Element("Crafting", Groups.Inventory, "Crafting", "CraftingWindow"),
+            new Element(CustomBars.HealthBar.objectName, Groups.HudRoot, CustomBars.HealthBar.objectName, "HP Bar"),
+            new Element(CustomBars.FoodBar.objectName, Groups.HudRoot, CustomBars.FoodBar.objectName, "Food Bar"),
+            new Element(CustomBars.StaminaBar.objectName, Groups.HudRoot, CustomBars.StaminaBar.objectName, "Stamina Bar"),
+            new Element(CustomBars.EitrBar.objectName, Groups.HudRoot, CustomBars.EitrBar.objectName, "Eitr Bar"),
+            new Element("QuickSlots", Groups.HudRoot, "QuickSlotsHotkeyBar", "QuickSlots")
+            //new Element("QuickSlotsHotkeyBar", Groups.HudRoot, "healthpanel/Health/QuickSlotsHotkeyBar", "QuickSlotsHotkey"),
+            //new Element("QuickSlotGrid", Groups.Inventory, "Player/QuickSlotGrid", "QuickSlots"),
+            //new Element("EquipmentSlotGrid", Groups.Inventory, "Player/EquipmentSlotGrid", "EquipmentSlots"),
+        };
 
         // If new items are added to mandatory items, check if user has them - if not add them.
         public static void Load(Hud hud)
@@ -71,7 +72,7 @@ namespace BetterUI.Patches
                         Helpers.DebugLine($"FAILED to DeSerialize uiData: {Main.uiData.Value}");
                     }
 
-                    foreach (var item in elements)
+                    foreach (HudElement item in elements)
                     {
                         item.OnAfterDeserialize();
                     }
@@ -160,7 +161,7 @@ namespace BetterUI.Patches
 
                 if (element.Group == Groups.Inventory)
                 {
-                    var newPos = (Vector2)Camera.main.ScreenToViewportPoint(posChange);
+                    Vector2 newPos = (Vector2)Camera.main.ScreenToViewportPoint(posChange);
 
                     element.AnchorMin += newPos;
                     element.AnchorMax += newPos;
@@ -202,9 +203,9 @@ namespace BetterUI.Patches
         {
             try
             {
-                RectTransform rt = LocateRectTransform(e.Group, e.Path);  // Original object
-                RectTransform tt = LocateTemplateRect(e.Name);   // Your generated template
-                                                                 //Helpers.DebugLine($"{rt} {rt.anchorMin} {e.GetPosition()}");
+                RectTransform rt = LocateRectTransform(e.Group, e.Path); // Original object
+                RectTransform tt = LocateTemplateRect(e.Name); // Your generated template
+                //Helpers.DebugLine($"{rt} {rt.anchorMin} {e.GetPosition()}");
                 if (rt)
                 {
                     if (e.Group == Groups.Inventory)
@@ -292,6 +293,7 @@ namespace BetterUI.Patches
                             e.Position = rt.anchoredPosition;
                         }
                     }
+
                     AddTemplateToHud(e, rt);
                 }
                 catch
@@ -299,6 +301,7 @@ namespace BetterUI.Patches
                     unusedElements.Add(e);
                 }
             }
+
             // Remove unused elements from main ElementList
             if (unusedElements.Count > 0)
             {
@@ -322,11 +325,11 @@ namespace BetterUI.Patches
             go.Find("selected_piece").gameObject.SetActive(false);
             go.Find("requirements").gameObject.SetActive(false);
 
-            Text t = go.gameObject.AddComponent<Text>();
+            TextMeshProUGUI t = go.gameObject.AddComponent<TextMeshProUGUI>();
             t.text = $"{element.DisplayName}";
-            t.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
+            t.font = Hud.instance.m_pieceDescription.font;
             t.fontSize = 20;
-            t.alignment = TextAnchor.MiddleCenter;
+            t.alignment = TextAlignmentOptions.CenterGeoAligned;
             go.gameObject.SetActive(false); // Have it hidden when added
 
             RectTransform templateRT = go.GetComponent<RectTransform>();
@@ -339,7 +342,7 @@ namespace BetterUI.Patches
             templateRT.anchoredPosition = rt.anchoredPosition;
             templateRT.position = rt.position;
             templateRT.localEulerAngles = rt.localEulerAngles;
-            t.resizeTextForBestFit = true;
+            t.enableAutoSizing = true;
         }
     }
 }

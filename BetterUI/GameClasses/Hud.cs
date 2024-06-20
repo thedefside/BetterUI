@@ -132,7 +132,7 @@ namespace BetterUI.GameClasses
                 }
             }
 
-            var mousePositionChange = (mousePos - lastMousePos) / gameScale;
+            Vector3 mousePositionChange = (mousePos - lastMousePos) / gameScale;
 
             if (Helpers.CheckHeldKey(Main.modKeyPrimary.Value) && rectList.Count > 0)
             {
@@ -140,7 +140,7 @@ namespace BetterUI.GameClasses
                 {
                     if (Helpers.CheckHeldKey(Main.modKeySecondary.Value))
                     {
-                        var scaledMousePositionChange = mousePositionChange / (new Vector2(Screen.currentResolution.width, Screen.currentResolution.height) / 10);
+                        Vector2 scaledMousePositionChange = mousePositionChange / (new Vector2(Screen.currentResolution.width, Screen.currentResolution.height) / 10);
 
                         CustomHud.UpdateScaleAndDimensions(currentlyDragging, scaledMousePositionChange, scrollPos);
                     }
@@ -187,7 +187,7 @@ namespace BetterUI.GameClasses
                 }
                 else
                 {
-                    foreach (var item in rectList)
+                    foreach (KeyValuePair<string, RectTransform> item in rectList)
                     {
                         if (RectTransformUtility.RectangleContainsScreenPoint(item.Value, mousePos))
                         {
