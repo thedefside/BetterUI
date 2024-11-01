@@ -11,10 +11,11 @@
     <RootNamespace>BetterUI</RootNamespace>
     <AssemblyName>BetterUI</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <LangVersion>9</LangVersion>
+    <LangVersion>12</LangVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
+    <Nullable>enable</Nullable>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -375,6 +376,6 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy "$(TargetDir)" "$(GameDir)\BepInEx\plugins\$(ProjectName)\" /q /s /y /i</PostBuildEvent>
-    <PostBuildEvent>xcopy "$(TargetDir)" "C:\Users\crypt\AppData\Roaming\r2modmanPlus-local\Valheim\profiles\PTB 0.217.22\BepInEx\plugins\$(ProjectName)\" /q /s /y /i</PostBuildEvent>
+    <PostBuildEvent>xcopy "$(TargetDir)" "C:\Users\crypt\AppData\Roaming\r2modmanPlus-local\Valheim\profiles\Bog witch mod updates\BepInEx\plugins\$(ProjectName)\" /q /s /y /i</PostBuildEvent>
   </PropertyGroup>
 </Project>

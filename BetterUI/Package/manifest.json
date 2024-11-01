@@ -1,7 +1,7 @@
 {
   "name": "BetterUI_ForeverMaintained",
   "description": "BetterUI once again fixed up for the masses. This time, it won't be abandoned.",
-  "version_number": "2.5.6",
+  "version_number": "2.5.7",
   "website_url": "https://valheim.thunderstore.io/package/BetterUI_ForeverMaintained/BetterUI_ForeverMaintained/source/",
   "dependencies": [
     "denikson-BepInExPack_Valheim-5.4.2202"

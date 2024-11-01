@@ -21,7 +21,7 @@ namespace BetterUI
           MODNAME = "BetterUI",
           AUTHOR = "MK",
           GUID = AUTHOR + "_" + MODNAME,
-          VERSION = "2.5.6";
+          VERSION = "2.5.7";
 
         internal static ManualLogSource log;
         internal readonly Harmony harmony;
@@ -177,7 +177,7 @@ namespace BetterUI
 
             showCustomCharInfo = Config.Bind(sectionName, nameof(showCustomCharInfo), true, "Show Deaths, Builds, and Crafts stats on character selection screen. Also shows the Kills stat if something increases it (the base game doesn't).");
 
-            showCustomTooltips = Config.Bind(sectionName, nameof(showCustomTooltips), true, "Show more info on inventory item tooltips. Disable this if using Epic Loot.");
+            showCustomTooltips = Config.Bind(sectionName, nameof(showCustomTooltips), true, "Show more info on inventory item tooltips. Automatically disabled this if using Epic Loot for compatibility.");
 
             showCombinedItemStats = Config.Bind(sectionName, nameof(showCombinedItemStats), true, "Show all item stats when mouse is hovered over armor amount.");
 
@@ -415,7 +415,7 @@ namespace BetterUI
             }
             catch (Exception e)
             {
-                Debug.LogWarning($"Error getting orphaned entry: {e.StackTrace}");
+                BetterUI.Main.log.LogWarning($"Error getting orphaned entry: {e.StackTrace}");
             }
 
             return false;
@@ -435,17 +435,17 @@ namespace BetterUI
 
                 lock (iolock)
                 {
-                    Debug.Log("printing orphaned config values");
+                    BetterUI.Main.log.LogInfo("printing orphaned config values");
 
                     foreach (KeyValuePair<ConfigDefinition, string> item in orphanedEntries)
                     {
-                        Debug.Log($"{item.Key.Section},{item.Key.Key}: {item.Value}");
+                        BetterUI.Main.log.LogInfo($"{item.Key.Section},{item.Key.Key}: {item.Value}");
                     }
                 }
             }
             catch (Exception e)
             {
-                Debug.LogWarning($"Error logging orphaned entries: {e.StackTrace}");
+                BetterUI.Main.log.LogWarning($"Error logging orphaned entries: {e.StackTrace}");
             }
         }
 

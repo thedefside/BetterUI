@@ -58,8 +58,8 @@ For Questions or Comments, find me in my discord:
 
 ## Changelog
 
-v2.5.5
-  - Fix the builds stat not being correct on the character selection screen.
+- Updated for Bog Witch.
+- Automatically disable custom tooltips if Epic Loot is found. Change the description of the config option to match this.
 
 Full Changelog can be found on the wiki tab for this mod here: [https://valheim.thunderstore.io/package/BetterUI_ForeverMaintained/BetterUI_ForeverMaintained/wiki/](https://valheim.thunderstore.io/package/BetterUI_ForeverMaintained/BetterUI_ForeverMaintained/wiki/)
 
