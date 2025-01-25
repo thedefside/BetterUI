@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BepInEx.Bootstrap;
 using HarmonyLib;
 
 namespace BetterUI.GameClasses
@@ -20,7 +21,7 @@ namespace BetterUI.GameClasses
         text = string.Concat(new object[]
         {
           text,
-          " (<color=yellow>",
+          " (<color=#ffff00ff>",
           Patches.Stars.HoverText(__instance.m_itemData.m_quality),
           "</color>) "
         });
@@ -29,7 +30,7 @@ namespace BetterUI.GameClasses
       {
         text = text + " x" + __instance.m_itemData.m_stack.ToString();
       }
-      __result = Localization.instance.Localize(text + "\n[<color=yellow><b>$KEY_Use</b></color>] $inventory_pickup");
+      __result = Localization.instance.Localize(text + "\n[<color=#ffff00ff><b>$KEY_Use</b></color>] $inventory_pickup");
       return false;
     }
 
@@ -37,12 +38,13 @@ namespace BetterUI.GameClasses
     static class ItemData
     {
       [HarmonyPrefix]
-      [HarmonyPatch(typeof(ItemDrop.ItemData), "GetTooltip", new Type[] { typeof(ItemDrop.ItemData), typeof(int), typeof(bool), typeof(float) })]
+      [HarmonyPatch(typeof(ItemDrop.ItemData), nameof(ItemDrop.ItemData.GetTooltip), new Type[] { typeof(ItemDrop.ItemData), typeof(int), typeof(bool), typeof(float), typeof(int) })]
       public static bool PatchTooltip(ref string __result, ItemDrop.ItemData item, int qualityLevel, bool crafting)
       {
-        if (!Main.showCustomTooltips.Value) return true;
+        if (!Main.showCustomTooltips.Value || Chainloader.PluginInfos.ContainsKey("randyknapp.mods.epicloot")) return true;
         __result = Patches.BetterTooltip.Create(item, qualityLevel, crafting);
         return false; // https://harmony.pardeike.net/articles/patching-prefix.html#changing-the-result-and-skipping-the-original
+
       }
     }
   }

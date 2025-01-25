@@ -21,7 +21,7 @@ namespace BetterUI
           MODNAME = "BetterUI",
           AUTHOR = "MK",
           GUID = AUTHOR + "_" + MODNAME,
-          VERSION = "2.4.4";
+          VERSION = "2.5.7";
 
         internal static ManualLogSource log;
         internal readonly Harmony harmony;
@@ -131,24 +131,24 @@ namespace BetterUI
             // Player HUD RESTART
             sectionName = "1 - Player HUD (Requires Logout)";
 
-            var editingDefault = GetOldOrDefaultConfigValue(new ConfigDefinition("1 - Player HUD", nameof(enablePlayerHudEditing)), true);
+            bool editingDefault = GetOldOrDefaultConfigValue(new ConfigDefinition("1 - Player HUD", nameof(enablePlayerHudEditing)), true);
             enablePlayerHudEditing = Config.Bind(sectionName, nameof(enablePlayerHudEditing), editingDefault, "Enable the ability to edit the player HUD by pressing a hotkey.");
 
-            var healthDefault = GetOldOrDefaultConfigValue(new ConfigDefinition("1 - Player HUD", "useCustomHealthBar"), false);
+            bool healthDefault = GetOldOrDefaultConfigValue(new ConfigDefinition("1 - Player HUD", "useCustomHealthBar"), false);
             healthDefault |= GetOldOrDefaultConfigValue(new ConfigDefinition("1 - Player HUD (Requires Logout)", "useCustomHealthBar"), false);
             customHealthBar = Config.Bind(sectionName, nameof(customHealthBar), healthDefault ? CustomBarState.on0Degrees : CustomBarState.off, $"Resizable, rotatable HP bar. This bar will always be the same size and will not get longer when you eat. Will also disable the default food bar, so {nameof(customFoodBar)} will be enabled automatically.");
             customHealthBar.SettingChanged += (_, _) => CustomHealthBar_SettingChanged();
             RemoveOldConfigValue<int>(new ConfigDefinition("1 - Player HUD", "healthBarRotation"));
             RemoveOldConfigValue<int>(new ConfigDefinition(sectionName, "customHealthBarRotation"));
 
-            var staminaDefault = GetOldOrDefaultConfigValue(new ConfigDefinition("1 - Player HUD", "useCustomStaminaBar"), false);
+            bool staminaDefault = GetOldOrDefaultConfigValue(new ConfigDefinition("1 - Player HUD", "useCustomStaminaBar"), false);
             staminaDefault |= GetOldOrDefaultConfigValue(new ConfigDefinition(sectionName, "useCustomStaminaBar"), false);
             customStaminaBar = Config.Bind(sectionName, nameof(customStaminaBar), staminaDefault ? CustomBarState.on0Degrees : CustomBarState.off, "Resizable, rotatable stamina bar. This bar will always be visible and will not get longer when you eat.");
             customStaminaBar.SettingChanged += (_, _) => CustomStaminaBar_SettingChanged();
             RemoveOldConfigValue<int>(new ConfigDefinition("1 - Player HUD", "staminaBarRotation"));
             RemoveOldConfigValue<int>(new ConfigDefinition(sectionName, "customStaminaBarRotation"));
 
-            var foodDefault = GetOldOrDefaultConfigValue(new ConfigDefinition("1 - Player HUD", "useCustomFoodBar"), false);
+            bool foodDefault = GetOldOrDefaultConfigValue(new ConfigDefinition("1 - Player HUD", "useCustomFoodBar"), false);
             foodDefault |= GetOldOrDefaultConfigValue(new ConfigDefinition(sectionName, "useCustomFoodBar"), false);
             customFoodBar = Config.Bind(sectionName, nameof(customFoodBar), foodDefault ? CustomBarState.on0Degrees : CustomBarState.off, $"Resizable, rotatable food bar. Requires {nameof(customHealthBar)}.");
             // if the customHealthBar is enabled the vanilla food bar is removed. If the customeFoodBAr is disabled, enable it so the user doesn't end up with no food bar.
@@ -160,7 +160,7 @@ namespace BetterUI
             RemoveOldConfigValue<int>(new ConfigDefinition("1 - Player HUD", "foodBarRotation"));
             RemoveOldConfigValue<int>(new ConfigDefinition(sectionName, "customFoodBarRotation"));
 
-            var eitrDefault = GetOldOrDefaultConfigValue(new ConfigDefinition("1 - Player HUD", "useCustomEitrBar"), false);
+            bool eitrDefault = GetOldOrDefaultConfigValue(new ConfigDefinition("1 - Player HUD", "useCustomEitrBar"), false);
             customEitrBar = Config.Bind(sectionName, nameof(customEitrBar), eitrDefault ? CustomBarState.on0Degrees : CustomBarState.off, "Resizable, rotatable eitr bar. If you don't know what this is yet, just keep it disabled. This bar will always be visible and will not get longer when you eat.");
             customEitrBar.SettingChanged += (_, _) => CustomEitrBar_SettingChanged();
             RemoveOldConfigValue<int>(new ConfigDefinition(sectionName, "customSpoilerBarRotation"));
@@ -169,15 +169,15 @@ namespace BetterUI
             // Character Inventory
             sectionName = "2 - Character Inventory";
 
-            var wasColorOnDefault = GetOldOrDefaultConfigValue(new ConfigDefinition(sectionName, "showDurabilityColor"), true);
-            var colorDefault = GetOldOrDefaultConfigValue(new ConfigDefinition(sectionName, "durabilityColorPalette"), 0);
+            bool wasColorOnDefault = GetOldOrDefaultConfigValue(new ConfigDefinition(sectionName, "showDurabilityColor"), true);
+            int colorDefault = GetOldOrDefaultConfigValue(new ConfigDefinition(sectionName, "durabilityColorPalette"), 0);
             durabilityBarColorPalette = Config.Bind(sectionName, nameof(durabilityBarColorPalette), IntToDurabilityBarStyle(wasColorOnDefault, colorDefault), "Change durability bar colors. Options: 0 = Green, Yellow, Orange, Red, 1 = White, Light Yellow, Light Cyan, Blue.");
 
             showItemStars = Config.Bind(sectionName, nameof(showItemStars), true, "Show item quality as stars.");
 
             showCustomCharInfo = Config.Bind(sectionName, nameof(showCustomCharInfo), true, "Show Deaths, Builds, and Crafts stats on character selection screen. Also shows the Kills stat if something increases it (the base game doesn't).");
 
-            showCustomTooltips = Config.Bind(sectionName, nameof(showCustomTooltips), true, "Show more info on inventory item tooltips. Disable this if using Epic Loot.");
+            showCustomTooltips = Config.Bind(sectionName, nameof(showCustomTooltips), true, "Show more info on inventory item tooltips. Automatically disabled this if using Epic Loot for compatibility.");
 
             showCombinedItemStats = Config.Bind(sectionName, nameof(showCombinedItemStats), true, "Show all item stats when mouse is hovered over armor amount.");
 
@@ -207,7 +207,7 @@ namespace BetterUI
 
             timeLeftHoverTextBeeHive = Config.Bind(sectionName, nameof(timeLeftHoverTextBeeHive), TimeLeftStyle.MinutesSecondsLeft, "Select duration display. Disabled = Default, PercentageDone = % Done, MinutesSecondsLeft = min:sec left.");
 
-            var chestStyleDefault = GetOldOrDefaultConfigValue(new ConfigDefinition(sectionName, "chestHasRoomStyle"), 2);
+            int chestStyleDefault = GetOldOrDefaultConfigValue(new ConfigDefinition(sectionName, "chestHasRoomStyle"), 2);
             chestHasRoomHoverText = Config.Bind(sectionName, nameof(chestHasRoomHoverText), IntToChestHasRoomStyle(chestStyleDefault), "Select how chest emptiness is displayed. Disabled = Default | Percentage = % | ItemsSlashMaxRoom= used / total slots. | AmountOfFreeSlots = count of free slots.");
 
             //
@@ -227,7 +227,7 @@ namespace BetterUI
             // Character XP RESTART
             sectionName = "5 - Character XP (Requires Logout)";
 
-            var expBarDefault = GetOldOrDefaultConfigValue(new ConfigDefinition("5 - Character XP", nameof(showCharacterXpBar)), true);
+            bool expBarDefault = GetOldOrDefaultConfigValue(new ConfigDefinition("5 - Character XP", nameof(showCharacterXpBar)), true);
             showCharacterXpBar = Config.Bind(sectionName, nameof(showCharacterXpBar), expBarDefault, "Show Character XP bar on the bottom of the screen. Character XP must be enabled.");
 
             //
@@ -240,7 +240,7 @@ namespace BetterUI
 
             showEnemyHPText = Config.Bind(sectionName, nameof(showEnemyHPText), true, "Show the text with HP amount on enemy health bars.");
 
-            var enemyLevelStyleDefault = GetOldOrDefaultConfigValue(new ConfigDefinition(sectionName, "enemyLvlStyle"), 0);
+            int enemyLevelStyleDefault = GetOldOrDefaultConfigValue(new ConfigDefinition(sectionName, "enemyLvlStyle"), 0);
             enemyLevelStyle = Config.Bind(sectionName, nameof(enemyLevelStyle), IntToEnemyLevelStyle(enemyLevelStyleDefault), "Choose how enemy level is shown.");
 
             enemyNameTextSize = Config.Bind(sectionName, nameof(enemyNameTextSize), 14, "Font size of the name on the enemy.");
@@ -281,6 +281,8 @@ namespace BetterUI
             {
                 PrintOrphanedEntries();
             }
+            
+            this.Logger.LogInfo("BetterUI (Forever Maintained Version) loaded");
         }
 
         private DurabilityBarStyle IntToDurabilityBarStyle(bool wasColorPaletteOn, int selectedColorPalette)
@@ -388,13 +390,13 @@ namespace BetterUI
         {
             if (!TomlTypeConverter.CanConvert(typeof(T)))
             {
-                throw new ArgumentException(string.Format("Type {0} is not supported by the config system. Supported types: {1}", typeof(T), string.Join(", ", (from x in TomlTypeConverter.GetSupportedTypes() select x.Name).ToArray())));
+                throw new ArgumentException($"Type {typeof(T)} is not supported by the config system. Supported types: {string.Join(", ", (from x in TomlTypeConverter.GetSupportedTypes() select x.Name).ToArray())}");
             }
 
             try
             {
-                var iolock = AccessTools.FieldRefAccess<ConfigFile, object>("_ioLock").Invoke(Config);
-                var orphanedEntries = (Dictionary<ConfigDefinition, string>)AccessTools.PropertyGetter(typeof(ConfigFile), "OrphanedEntries").Invoke(Config, new object[0]);
+                object iolock = AccessTools.FieldRefAccess<ConfigFile, object>("_ioLock").Invoke(Config);
+                Dictionary<ConfigDefinition, string> orphanedEntries = (Dictionary<ConfigDefinition, string>)AccessTools.PropertyGetter(typeof(ConfigFile), "OrphanedEntries").Invoke(Config, new object[0]);
 
                 lock (iolock)
                 {
@@ -413,7 +415,7 @@ namespace BetterUI
             }
             catch (Exception e)
             {
-                Debug.LogWarning($"Error getting orphaned entry: {e.StackTrace}");
+                BetterUI.Main.log.LogWarning($"Error getting orphaned entry: {e.StackTrace}");
             }
 
             return false;
@@ -423,8 +425,8 @@ namespace BetterUI
         {
             try
             {
-                var iolock = AccessTools.FieldRefAccess<ConfigFile, object>("_ioLock").Invoke(Config);
-                var orphanedEntries = (Dictionary<ConfigDefinition, string>)AccessTools.PropertyGetter(typeof(ConfigFile), "OrphanedEntries").Invoke(Config, new object[0]);
+                object iolock = AccessTools.FieldRefAccess<ConfigFile, object>("_ioLock").Invoke(Config);
+                Dictionary<ConfigDefinition, string> orphanedEntries = (Dictionary<ConfigDefinition, string>)AccessTools.PropertyGetter(typeof(ConfigFile), "OrphanedEntries").Invoke(Config, new object[0]);
 
                 if (orphanedEntries.Count == 0)
                 {
@@ -433,17 +435,17 @@ namespace BetterUI
 
                 lock (iolock)
                 {
-                    Debug.Log("printing orphaned config values");
+                    BetterUI.Main.log.LogInfo("printing orphaned config values");
 
-                    foreach (var item in orphanedEntries)
+                    foreach (KeyValuePair<ConfigDefinition, string> item in orphanedEntries)
                     {
-                        Debug.Log($"{item.Key.Section},{item.Key.Key}: {item.Value}");
+                        BetterUI.Main.log.LogInfo($"{item.Key.Section},{item.Key.Key}: {item.Value}");
                     }
                 }
             }
             catch (Exception e)
             {
-                Debug.LogWarning($"Error logging orphaned entries: {e.StackTrace}");
+                BetterUI.Main.log.LogWarning($"Error logging orphaned entries: {e.StackTrace}");
             }
         }
 

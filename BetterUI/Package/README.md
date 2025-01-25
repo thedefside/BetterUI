@@ -1,27 +1,24 @@
-[<p align="center"><img width="600" src="https://i.imgur.com/TvcCtRJ.png"></p>](https://valheim.thunderstore.io/package/thedefside/BetterUI_Reforged)
+[<p align="center"><img width="600" src="https://i.imgur.com/uo5x73K.png"></p>](https://valheim.thunderstore.io/package/BetterUI_ForeverMaintained/BetterUI_ForeverMaintained/)
 
-# BetterUI: Reforged for Valheim
+# BetterUI: Forever Maintained for Valheim
 This mod updates the game UI with few subtle edits.  
 You are able to edit and select what updates you want to use. 
 
 
 # Support
-Join our Discord! https://discord.gg/vSEjCNF48K
 
-## Table of Contents
-1. [Features](#Features)
-2. [Changelog](#Changelog)
-3. [Installation](#Installation)
-4. [FAQ](#FAQ)
-5. [Thanks](#Thanks)  
+### Azumatt
+
+`DISCORD:` Azumatt#2625
+
+`STEAM:` https://steamcommunity.com/id/azumatt/
+
+For Questions or Comments, find me in my discord:
+
+<a href="https://discord.gg/pdHgy6Bsng"><img src="https://i.imgur.com/Xlcbmm9.png" href="https://discord.gg/pdHgy6Bsng" width="175" height="175"></a>
 
 ## Features
 
-#### Add stats to the character select screen
- - Kills (if IG ever starts counting these)
- - Deaths
- - Crafts
- - Builds
 
 #### Customizable Player HUD
  - Makes player HUD elements movemable
@@ -61,10 +58,10 @@ Join our Discord! https://discord.gg/vSEjCNF48K
 
 ## Changelog
 
-v2.4.4
-  - Fix for game version 0.217.14 (JuniorAndria)
+- Updated for Bog Witch.
+- Automatically disable custom tooltips if Epic Loot is found. Change the description of the config option to match this.
 
-Full Changelog: https://github.com/thedefside/BetterUI/blob/main/BetterUI/Changelog.txt
+Full Changelog can be found on the wiki tab for this mod here: [https://valheim.thunderstore.io/package/BetterUI_ForeverMaintained/BetterUI_ForeverMaintained/wiki/](https://valheim.thunderstore.io/package/BetterUI_ForeverMaintained/BetterUI_ForeverMaintained/wiki/)
 
 ## Installation
 
